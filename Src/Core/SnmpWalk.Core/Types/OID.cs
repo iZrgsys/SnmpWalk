@@ -1,4 +1,4 @@
-﻿namespace SnmpWalk.Core.Types
+﻿namespace SnmpWalk.Engines.SnmpEngine.Types
 {
     public class OID
     {

@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Net.NetworkInformation;
-using SnmpWalk.Core.DiscoveryEngine.Exceptions;
+using SnmpWalk.Engines.DiscoveryEngine.Exceptions;
 
-namespace SnmpWalk.Core.DiscoveryEngine
+namespace SnmpWalk.Engines.DiscoveryEngine
 {
-    public class DiscoveryEngine : IDiscoveryEngine
+    public class DiscoveryEngineService : IDiscoveryEngine
     {
         private static ILog _log = LogManager.GetLogger("snmpWalk.log");
         private readonly List<IPAddress> _ipAddresses;
         private readonly Ping _pingSender;
-        private static readonly Lazy<DiscoveryEngine> _instance = new Lazy<DiscoveryEngine>(() => new DiscoveryEngine());
+        private static readonly Lazy<DiscoveryEngineService> _instance = new Lazy<DiscoveryEngineService>(() => new DiscoveryEngineService());
 
 
         public static IDiscoveryEngine Instance
@@ -25,9 +25,14 @@ namespace SnmpWalk.Core.DiscoveryEngine
         }
 
 
-        public IEnumerable<IPAddress> PerformDiscovery(params string[] ipAddresses)
+        public List<IPAddress> PerformDiscovery(params string[] ipAddresses)
         {
-            _log.Debug("DiscoveryEngine: DiscoveryEngine.PerformDiscovery() - Started");
+            return _ipAddresses;
+        }
+
+        public List<IPAddress> PerformPinging(params string[] ipAddresses)
+        {
+            _log.Debug("DiscoveryEngineService: DiscoveryEngineService.PerformPinging() - Started");
             try
             {
                 Parallel.ForEach(ipAddresses, address =>
@@ -43,18 +48,18 @@ namespace SnmpWalk.Core.DiscoveryEngine
             }
             catch (Exception e)
             {
-                _log.Error(string.Concat("DiscoveryEngine: DiscoveryEngine.PerformDiscovery() exception caught -", e.Message));
+                _log.Error(string.Concat("DiscoveryEngineService: DiscoveryEngineService.PerformPinging(): exception caught - ", e));
                 throw new DiscoveryEngineException(e.Message);
             }
             finally
             {
-                _log.Debug("DiscoveryEngine: DiscoveryEngine.PerformDiscovery() - Finished");
+                _log.Debug("DiscoveryEngineService: DiscoveryEngineService.PerformPinging() - Finished");
             }
 
             return _ipAddresses;
         }
 
-        private DiscoveryEngine()
+        private DiscoveryEngineService()
         {
             _ipAddresses = new List<IPAddress>();
             _pingSender = new Ping();

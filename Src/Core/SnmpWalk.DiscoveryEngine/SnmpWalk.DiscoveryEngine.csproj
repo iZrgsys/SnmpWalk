@@ -7,7 +7,7 @@
     <ProjectGuid>{FCA8DFFF-C5CA-4D70-8FA8-EC27936E7CC6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SnmpWalk.Core.DiscoveryEngine</RootNamespace>
+    <RootNamespace>SnmpWalk.Engines.DiscoveryEngine</RootNamespace>
     <AssemblyName>SnmpWalk.DiscoveryEngine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DiscoveryEngine.cs" />
+    <Compile Include="DiscoveryEngineService.cs" />
     <Compile Include="Exceptions\DiscoveryEngineException.cs" />
     <Compile Include="IDiscoveryEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

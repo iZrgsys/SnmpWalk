@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SnmpWalk.Core.DiscoveryEngine.Exceptions
+namespace SnmpWalk.Engines.DiscoveryEngine.Exceptions
 {
     class DiscoveryEngineException : Exception
     {

@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using Lextm.SharpSnmpLib;
 using Lextm.SharpSnmpLib.Messaging;
 using System.Net;
-using SnmpWalk.Core.Types;
+using SnmpWalk.Engines.DiscoveryEngine;
+using SnmpWalk.Engines.SnmpEngine.Types;
 
-namespace SnmpWalk.Core
+namespace SnmpWalk.Engines.SnmpEngine
 {
-    public class CoreService : ICoreService
+    public class SnmpEngineService : ISnmpEngine
     {
+        private IDiscoveryEngine _discoveryEngine = DiscoveryEngineService.Instance;
+
         public IEnumerable<Variable> GetBulkOperation(string snmpVersion, IpAddress ipAddress, string octetString)
         {
             throw new NotImplementedException();

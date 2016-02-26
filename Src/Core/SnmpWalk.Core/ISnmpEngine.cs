@@ -1,10 +1,10 @@
 ﻿using Lextm.SharpSnmpLib;
-using SnmpWalk.Core.Types;
 using System.Collections.Generic;
+using SnmpWalk.Engines.SnmpEngine.Types;
 
-namespace SnmpWalk.Core
+namespace SnmpWalk.Engines.SnmpEngine
 {
-    public interface ICoreService
+    public interface ISnmpEngine
     {
         IEnumerable<Variable> GetOperation(string snmpVersion, IpAddress ipAddress, string octetString);
 

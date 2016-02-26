@@ -12,9 +12,3 @@ D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.csproj.GenerateResource.Cache
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.exe
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.pdb
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.Core.dll
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SharpSnmpLib.Portable.dll
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SharpSnmpLib.Full.dll
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.Core.pdb
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SharpSnmpLib.Portable.xml
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SharpSnmpLib.Full.xml
