@@ -12,10 +12,6 @@ D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.csproj.GenerateResource.Cache
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.exe
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.pdb
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.DiscoveryEngine.dll
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\log4net.dll
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.DiscoveryEngine.pdb
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\log4net.xml
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\MahApps.Metro.dll
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\System.Windows.Interactivity.dll
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\MahApps.Metro.pdb

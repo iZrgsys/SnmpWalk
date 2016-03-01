@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<oid-tree>
+  <iso oid ="1">
+    <org oid="1.3">
+      <dod oid="1.3.6">
+        <internet oid="1.3.6.1" minValue="1" maxValue="8">
+          <directory oid="1.3.6.1.1" minValue="1" maxValue="21"/>
+          <mgmt oid="1.3.6.1.2" minValue="1" maxValue="2">
+            <mib-2 oid="1.3.6.1.2.1">
+              <ifType oid="1.3.6.1.2.1.2.2.1.3"/>
+              <transmission oid="1.3.6.1.2.1.10">
+                <transmissionppp oid="1.3.6.1.2.1.10.23"/>
+              </transmission>
+              <application oid="1.3.6.1.2.1.27"/>
+              <mta oid="1.3.6.1.2.1.28"/>
+            </mib-2>
+            <pib oid="1.3.6.1.2.2"/>
+          </mgmt>
+          <experimental oid="1.3.6.1.3"/>
+          <private oid="1.3.6.1.4">
+            <enterprise oid="1.3.6.1.4.1"/>
+          </private>
+          <security oid="1.3.6.1.5"/>
+          <SNMPv2 oid="1.3.6.1.6">
+            <snmpDomains oid="1.3.6.1.6.1"/>
+            <snmpProxys oid="1.3.6.1.6.2"/>
+            <snmpModules oid="1.3.6.1.6.3"/>
+          </SNMPv2>
+          <mail oid="1.3.6.1.7"/>
+          <features oid="1.3.6.1.8"/>
+        </internet>
+      </dod>
+    </org>
+  </iso>
+</oid-tree>

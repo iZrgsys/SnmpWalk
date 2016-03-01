@@ -7,10 +7,10 @@
         xmlns:local="clr-namespace:SnmpWalk.Client.Views"
         mc:Ignorable="d"
         Title="MainWindow" 
-        Height="400" 
-        Width="550"
-        MinHeight="400"
-        MinWidth="550"
+        Height="500" 
+        Width="750"
+        MinHeight="500"
+        MinWidth="750"
         ShowIconOnTitleBar="True"
         WindowStartupLocation="CenterScreen"
         GlowBrush="{DynamicResource AccentColorBrush}">
@@ -37,15 +37,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <DataGrid Margin="0,5,5,5" 
+            <DataGrid Margin="0,5,5,5"
                       Grid.Column="1"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
-
-
-
-
             </DataGrid>
+            <Grid Grid.Column="0">
+            </Grid>
         </Grid>
     </Grid>
 </controls:MetroWindow>

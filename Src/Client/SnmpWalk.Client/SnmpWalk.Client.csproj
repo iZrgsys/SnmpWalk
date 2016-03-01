@@ -115,12 +115,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engines\SnmpWalk.DiscoveryEngine\SnmpWalk.DiscoveryEngine.csproj">
-      <Project>{fca8dfff-c5ca-4d70-8fa8-ec27936e7cc6}</Project>
-      <Name>SnmpWalk.DiscoveryEngine</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
   <ItemGroup>

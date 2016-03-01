@@ -67,7 +67,7 @@
     <Compile Include="Types\WalkingMode.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="conf\oid-tree.xml" />
+    <Content Include="conf\oids.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
