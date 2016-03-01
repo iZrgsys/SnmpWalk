@@ -1,44 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using log4net;
 using Lextm.SharpSnmpLib;
 using Lextm.SharpSnmpLib.Messaging;
-using System.Net;
 using SnmpWalk.Engines.DiscoveryEngine;
+using SnmpWalk.Engines.SnmpEngine.Exceptions;
 using SnmpWalk.Engines.SnmpEngine.Types;
+using TimeoutException = Lextm.SharpSnmpLib.Messaging.TimeoutException;
 
 namespace SnmpWalk.Engines.SnmpEngine
 {
     public class SnmpEngineService : ISnmpEngine
     {
+        private static ILog _log = LogManager.GetLogger("snmpWalk.log");
         private IDiscoveryEngine _discoveryEngine = DiscoveryEngineService.Instance;
+        private int _timeOut = 0;
 
-        public IEnumerable<Variable> GetBulkOperation(string snmpVersion, IpAddress ipAddress, string octetString)
+        public int TimeOut
+        {
+            get { return _timeOut; }
+            set { _timeOut = value; }
+        }
+
+        public IEnumerable<Variable> GetBulkOperation(SnmpVersion version, IpAddress ipAddress, string octetString)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Variable> GetNextOperation(string snmpVersion, IpAddress ipAddress, string octetString)
+        public IEnumerable<Variable> GetNextOperation(SnmpVersion version, IpAddress ipAddress, string octetString)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Variable> GetOperation(string snmpVersion, IpAddress ipAddress, string octetString)
+        public IEnumerable<Variable> GetOperation(SnmpVersion version, IpAddress ipAddress, string octetString)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Variable> WalkBulkOperation(string snmpVersion, IpAddress ipAddress, string octetString, OID oid, WalkingMode walkMode)
+        public IEnumerable<Variable> WalkBulkOperation(SnmpVersion version, IpAddress ipAddress, string octetString, OID oid, WalkingMode walkMode)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Variable> WalkOperation(string snmpVersion, IpAddress ipAddress, string octetString, OID oid, WalkingMode walkMode)
+        public IEnumerable<Variable> WalkOperation(SnmpVersion version, IpAddress ipAddress, string octetString, OID oid, WalkingMode walkMode)
         {
-            //IList<Variable> list = new List<Variable>();
+            _log.Debug("SnmpEngine.WalkOperation(): Started");
+            var list = new List<Variable>();
 
-            //var res = Messenger.Walk(VersionCode.V2, new IPEndPoint(IPAddress.Parse("192.168.50.55"), 161 ), new OctetString("public"), new ObjectIdentifier("1.3.6.1"), list, 100000, WalkMode.WithinSubtree);
+            try
+            {
+                if (_timeOut == 0)
+                {
+                    _timeOut = SnmpHelper.DefaultTimeOut;                  
+                }
 
-            throw new NotImplementedException();
+                Messenger.Walk(VersionCode.V2, new IPEndPoint(IPAddress.Parse(ipAddress.Value), SnmpHelper.SnmpServerPort), new OctetString(SnmpHelper.DefaultOctetString), new ObjectIdentifier(oid.Value), list, _timeOut, WalkMode.WithinSubtree);
+            }
+            catch (Exception e)
+            {
+                if (e is TimeoutException)
+                {
+                    _log.Error("SnmpEngine.WalkOperation():Timeout Exception caught:", e);
+                    throw new SnmpTimeOutException(e.Message);
+                }
+                else
+                {
+                    _log.Error("SnmpEngine.WalkOperation():Exception caught:", e);
+                    throw new SnmpEngineException(e.Message);
+                }
+            }
+            finally
+            {
+                _log.Debug("SnmpEngine.WalkOperation(): Finished");
+            }
+
+            return list;
         }
     }
 }

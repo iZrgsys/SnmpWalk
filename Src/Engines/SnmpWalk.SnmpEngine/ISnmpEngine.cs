@@ -6,14 +6,14 @@ namespace SnmpWalk.Engines.SnmpEngine
 {
     public interface ISnmpEngine
     {
-        IEnumerable<Variable> GetOperation(string snmpVersion, IpAddress ipAddress, string octetString);
+        IEnumerable<Variable> GetOperation(SnmpVersion version, IpAddress ipAddress, string octetString);
 
-        IEnumerable<Variable> GetNextOperation(string snmpVersion, IpAddress ipAddress, string octetString);
+        IEnumerable<Variable> GetNextOperation(SnmpVersion version, IpAddress ipAddress, string octetString);
 
-        IEnumerable<Variable> GetBulkOperation(string snmpVersion, IpAddress ipAddress, string octetString);
+        IEnumerable<Variable> GetBulkOperation(SnmpVersion version, IpAddress ipAddress, string octetString);
 
-        IEnumerable<Variable> WalkOperation(string snmpVersion, IpAddress ipAddress, string octetString, OID oid, WalkingMode walkMode);
+        IEnumerable<Variable> WalkOperation(SnmpVersion version, IpAddress ipAddress, string octetString, OID oid, WalkingMode walkMode);
 
-        IEnumerable<Variable> WalkBulkOperation(string snmpVersion, IpAddress ipAddress, string octetString, OID oid, WalkingMode walkMode);
+        IEnumerable<Variable> WalkBulkOperation(SnmpVersion version, IpAddress ipAddress, string octetString, OID oid, WalkingMode walkMode);
     }
 }

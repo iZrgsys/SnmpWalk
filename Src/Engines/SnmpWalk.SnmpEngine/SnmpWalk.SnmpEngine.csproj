@@ -34,12 +34,12 @@
       <HintPath>..\..\..\Sln\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SharpSnmpLib.Full, Version=8.5.10222.9, Culture=neutral, PublicKeyToken=4c00852d3788e005, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Sln\packages\Lextm.SharpSnmpLib.8.5.0.0\lib\net40\SharpSnmpLib.Full.dll</HintPath>
+    <Reference Include="SharpSnmpLib.Full, Version=9.0.20212.1, Culture=neutral, PublicKeyToken=4c00852d3788e005, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Sln\packages\Lextm.SharpSnmpLib.9.0.0\lib\net45\SharpSnmpLib.Full.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SharpSnmpLib.Portable, Version=8.5.10222.9, Culture=neutral, PublicKeyToken=4c00852d3788e005, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Sln\packages\Lextm.SharpSnmpLib.8.5.0.0\lib\net40\SharpSnmpLib.Portable.dll</HintPath>
+    <Reference Include="SharpSnmpLib.Portable, Version=9.0.20212.1, Culture=neutral, PublicKeyToken=4c00852d3788e005, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Sln\packages\Lextm.SharpSnmpLib.9.0.0\lib\net45\SharpSnmpLib.Portable.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convertor\SnmpEngineConverter.cs" />
+    <Compile Include="Exceptions\SnmpEngineException.cs" />
+    <Compile Include="Exceptions\SnmpTimeOutException.cs" />
     <Compile Include="SnmpHelper.cs" />
     <Compile Include="SnmpEngineService.cs" />
     <Compile Include="ISnmpEngine.cs" />
@@ -59,6 +62,8 @@
     <Compile Include="Types\IPAddress.cs" />
     <Compile Include="Types\IpVersion.cs" />
     <Compile Include="Types\OID.cs" />
+    <Compile Include="Types\SnmpResult.cs" />
+    <Compile Include="Types\SnmpVersion.cs" />
     <Compile Include="Types\WalkingMode.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,9 +78,7 @@
       <Name>SnmpWalk.DiscoveryEngine</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Convertor\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
