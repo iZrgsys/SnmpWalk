@@ -1,4 +1,4 @@
-﻿namespace SnmpWalk.Engines.SnmpEngine.Types
+﻿namespace SnmpWalk.Engines.SnmpEngine.Types.Enums
 {
     public enum WalkingMode
     {

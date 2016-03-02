@@ -44,3 +44,5 @@ D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.Proper
 D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.csproj.GenerateResource.Cache
 D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.exe
 D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.pdb
+D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.Resources.Resources.resources
+D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Simple Styles.baml

@@ -5,15 +5,18 @@ using System.Net;
 using log4net;
 using Lextm.SharpSnmpLib;
 using Lextm.SharpSnmpLib.Messaging;
+using SnmpWalk.Engines.SnmpEngine.Convertor;
 using SnmpWalk.Engines.SnmpEngine.Exceptions;
 using SnmpWalk.Engines.SnmpEngine.Types;
+using SnmpWalk.Engines.SnmpEngine.Types.Enums;
 using TimeoutException = Lextm.SharpSnmpLib.Messaging.TimeoutException;
 
-namespace SnmpWalk.Engines.SnmpEngine
+namespace SnmpWalk.Engines.SnmpEngine.Service
 {
     public class SnmpEngineService : ISnmpEngine
     {
         private static ILog _log = LogManager.GetLogger("snmpWalk.log");
+        private SnmpEngineConverter _converter = new SnmpEngineConverter();
         private int _timeOut;
 
         public int TimeOut
@@ -61,7 +64,7 @@ namespace SnmpWalk.Engines.SnmpEngine
                     octetString = SnmpHelper.DefaultOctetString;
                 }
 
-                Messenger.Walk(VersionCode.V1, new IPEndPoint(IPAddress.Parse(ipAddress.Value), SnmpHelper.SnmpServerPort), new OctetString(octetString), new ObjectIdentifier(oid.Value), list, _timeOut, WalkMode.WithinSubtree);
+                Messenger.Walk(_converter.ToVersionCodeConverter(version), new IPEndPoint(IPAddress.Parse(ipAddress.Value), SnmpHelper.SnmpServerPort), new OctetString(octetString), new ObjectIdentifier(oid.Value), list, _timeOut, _converter.ToWalkModeConverter(walkMode));
 
                 result = list.Select(var => new SnmpResult(var)).ToList();
             }
@@ -71,6 +74,11 @@ namespace SnmpWalk.Engines.SnmpEngine
                 {
                     _log.Error("SnmpEngine.WalkOperation():Timeout Exception caught:", e);
                     throw new SnmpTimeOutException(e.Message, _timeOut);
+                }
+                else if (e is ArgumentOutOfRangeException)
+                {
+                    _log.Error("SnmpEngine.WalkOperation():Argument Out Of Range Exception caught:", e);
+                    throw new SnmpEngineConvertorException((ArgumentOutOfRangeException)e);
                 }
                 else
                 {
