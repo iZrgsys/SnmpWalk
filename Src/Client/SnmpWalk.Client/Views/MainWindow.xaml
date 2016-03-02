@@ -6,7 +6,6 @@
 		xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 		xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 		xmlns:behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
-		xmlns:local="clr-namespace:SnmpWalk.Client.Views"
 		mc:Ignorable="d"
 		Title="Snmp Walk" 
 		Height="500" 
@@ -15,32 +14,33 @@
 		MinWidth="750"
 		ShowIconOnTitleBar="True"
 		WindowStartupLocation="CenterScreen"
-		GlowBrush="{DynamicResource AccentColorBrush}">
-	<i:Interaction.Behaviors>
+		GlowBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="2">
+    <i:Interaction.Behaviors>
         <behaviours:BorderlessWindowBehavior/>
-	</i:Interaction.Behaviors>
-	<DockPanel>
-		<Menu DockPanel.Dock="Top">
-			<MenuItem Header="_File"/>
-			<MenuItem Header="_Edit"/>
-			<MenuItem Header="_View"/>
-			<MenuItem Header="_Help"/>
-		</Menu>
-		<Grid>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="30"/>
-				<RowDefinition Height="*"/>
-			</Grid.RowDefinitions>
-			<ToolBar Grid.Row="0">
-			</ToolBar>
-			<Grid Grid.Row="1">
-				<TabControl
+    </i:Interaction.Behaviors>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File"/>
+            <MenuItem Header="_Edit"/>
+            <MenuItem Header="_View"/>
+            <MenuItem Header="_Help"/>
+        </Menu>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ToolBar Grid.Row="0">
+            </ToolBar>
+            <Grid Grid.Row="1">
+                <TabControl
                     Margin="10,0,10,10"
                     Visibility="Hidden"
                     Name="main_tab_control" 
                     Style="{DynamicResource SimpleTabControl}">
-				</TabControl>
-			</Grid>
-		</Grid>
-	</DockPanel>
+                </TabControl>
+            </Grid>
+        </Grid>
+    </DockPanel>
 </controls:MetroWindow>
