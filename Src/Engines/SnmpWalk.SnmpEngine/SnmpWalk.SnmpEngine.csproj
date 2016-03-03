@@ -60,27 +60,21 @@
     <Compile Include="Service\SnmpEngineService.cs" />
     <Compile Include="ISnmpEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\Enums\SnmpDataType.cs" />
-    <Compile Include="Types\IPAddress.cs" />
-    <Compile Include="Types\Enums\IpVersion.cs" />
-    <Compile Include="Types\OID.cs" />
     <Compile Include="Types\SnmpResult.cs" />
-    <Compile Include="Types\Enums\SnmpVersion.cs" />
-    <Compile Include="Types\Enums\WalkingMode.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="conf\oids-common.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SnmpWalk.DiscoveryEngine\SnmpWalk.DiscoveryEngine.csproj">
-      <Project>{fca8dfff-c5ca-4d70-8fa8-ec27936e7cc6}</Project>
-      <Name>SnmpWalk.DiscoveryEngine</Name>
+    <ProjectReference Include="..\..\Common\SnmpWalk.Common\SnmpWalk.Common.csproj">
+      <Project>{45C70660-B3A5-48CB-9243-781C8DA159D3}</Project>
+      <Name>SnmpWalk.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\SnmpWalk.Core\SnmpWalk.Core.csproj">
+      <Project>{fe48c1e1-1a63-4e7e-99be-34db38af8b3a}</Project>
+      <Name>SnmpWalk.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

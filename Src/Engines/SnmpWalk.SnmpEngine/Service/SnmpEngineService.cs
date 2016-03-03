@@ -5,10 +5,12 @@ using System.Net;
 using log4net;
 using Lextm.SharpSnmpLib;
 using Lextm.SharpSnmpLib.Messaging;
+using SnmpWalk.Common.DataModel.Connection;
+using SnmpWalk.Common.DataModel.Enums;
+using SnmpWalk.Common.DataModel.Snmp;
 using SnmpWalk.Engines.SnmpEngine.Convertor;
 using SnmpWalk.Engines.SnmpEngine.Exceptions;
 using SnmpWalk.Engines.SnmpEngine.Types;
-using SnmpWalk.Engines.SnmpEngine.Types.Enums;
 using TimeoutException = Lextm.SharpSnmpLib.Messaging.TimeoutException;
 
 namespace SnmpWalk.Engines.SnmpEngine.Service
@@ -66,7 +68,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
 
                 Messenger.Walk(_converter.ToVersionCodeConverter(version), new IPEndPoint(IPAddress.Parse(ipAddress.Value), SnmpHelper.SnmpServerPort), new OctetString(octetString), new ObjectIdentifier(oid.Value), list, _timeOut, _converter.ToWalkModeConverter(walkMode));
 
-                result = list.Select(var => new SnmpResult(var)).ToList();
+                result = list.Select(var => new SnmpResult(new OID {Value = var.Id.ToString()}, var.Data, _converter.ToSnmpDataType(var.Data.TypeCode))).ToList();
             }
             catch (Exception e)
             {

@@ -1,4 +1,4 @@
-﻿namespace SnmpWalk.Engines.SnmpEngine.Types.Enums
+﻿namespace SnmpWalk.Common.DataModel.Snmp
 {
     public enum SnmpDataType
     {

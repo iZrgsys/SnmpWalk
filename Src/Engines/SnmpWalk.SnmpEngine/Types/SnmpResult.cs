@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Globalization;
-using Lextm.SharpSnmpLib;
-using SnmpWalk.Engines.SnmpEngine.Convertor;
-using SnmpWalk.Engines.SnmpEngine.Types.Enums;
+using SnmpWalk.Common.DataModel.Enums;
+using SnmpWalk.Common.DataModel.Snmp;
 
 namespace SnmpWalk.Engines.SnmpEngine.Types
 {
@@ -40,17 +39,6 @@ namespace SnmpWalk.Engines.SnmpEngine.Types
             _oid = oid;
             _data = data;
             _dataType = dataType;
-        }
-
-        public SnmpResult(Variable variable)
-        {
-            _oid = new OID
-            {
-                Value = variable.Id.ToString()
-            };
-
-            _data = variable.Data;
-            _dataType = SnmpEngineConverter.ToSnmpDataType(variable.Data.TypeCode);
         }
 
         public override string ToString()

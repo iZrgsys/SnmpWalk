@@ -1,8 +1,8 @@
 ﻿using System;
 using Lextm.SharpSnmpLib;
 using Lextm.SharpSnmpLib.Messaging;
-using SnmpWalk.Engines.SnmpEngine.Types;
-using SnmpWalk.Engines.SnmpEngine.Types.Enums;
+using SnmpWalk.Common.DataModel.Enums;
+using SnmpWalk.Common.DataModel.Snmp;
 
 namespace SnmpWalk.Engines.SnmpEngine.Convertor
 {
@@ -36,7 +36,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Convertor
             }
         }
 
-        public static SnmpDataType ToSnmpDataType(SnmpType snmpType)
+        public SnmpDataType ToSnmpDataType(SnmpType snmpType)
         {
             switch (snmpType)
             {

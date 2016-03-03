@@ -1,7 +1,9 @@
 ﻿using Lextm.SharpSnmpLib;
 using System.Collections.Generic;
+using SnmpWalk.Common.DataModel.Connection;
+using SnmpWalk.Common.DataModel.Enums;
+using SnmpWalk.Common.DataModel.Snmp;
 using SnmpWalk.Engines.SnmpEngine.Types;
-using SnmpWalk.Engines.SnmpEngine.Types.Enums;
 
 namespace SnmpWalk.Engines.SnmpEngine
 {

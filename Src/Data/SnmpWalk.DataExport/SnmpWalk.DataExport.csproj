@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FCA8DFFF-C5CA-4D70-8FA8-EC27936E7CC6}</ProjectGuid>
+    <ProjectGuid>{0C3CA0E3-DAAF-4FEE-AA85-5A4FB3124472}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SnmpWalk.Engines.DiscoveryEngine</RootNamespace>
-    <AssemblyName>SnmpWalk.DiscoveryEngine</AssemblyName>
+    <RootNamespace>SnmpWalk.DataExport</RootNamespace>
+    <AssemblyName>SnmpWalk.DataExport</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Sln\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,19 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DiscoveryEngineService.cs" />
-    <Compile Include="Exceptions\DiscoveryEngineException.cs" />
-    <Compile Include="IDiscoveryEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\SnmpWalk.Core\SnmpWalk.Core.csproj">
-      <Project>{fe48c1e1-1a63-4e7e-99be-34db38af8b3a}</Project>
-      <Name>SnmpWalk.Core</Name>
+    <ProjectReference Include="..\..\Common\SnmpWalk.Common\SnmpWalk.Common.csproj">
+      <Project>{45c70660-b3a5-48cb-9243-781c8da159d3}</Project>
+      <Name>SnmpWalk.Common</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

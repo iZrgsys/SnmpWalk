@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SnmpWalk.Core")]
+[assembly: AssemblyTitle("SnmpWalk.Common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SnmpWalk.Core")]
+[assembly: AssemblyProduct("SnmpWalk.Common")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("18e5ea1b-722c-4c83-ba6a-b94a73a76e12")]
+[assembly: Guid("45c70660-b3a5-48cb-9243-781c8da159d3")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -135,6 +135,24 @@
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\SnmpWalk.Common\SnmpWalk.Common.csproj">
+      <Project>{45c70660-b3a5-48cb-9243-781c8da159d3}</Project>
+      <Name>SnmpWalk.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\SnmpWalk.DataExport\SnmpWalk.DataExport.csproj">
+      <Project>{0c3ca0e3-daaf-4fee-aa85-5a4fb3124472}</Project>
+      <Name>SnmpWalk.DataExport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engines\SnmpWalk.DiscoveryEngine\SnmpWalk.DiscoveryEngine.csproj">
+      <Project>{fca8dfff-c5ca-4d70-8fa8-ec27936e7cc6}</Project>
+      <Name>SnmpWalk.DiscoveryEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engines\SnmpWalk.SnmpEngine\SnmpWalk.SnmpEngine.csproj">
+      <Project>{18e5ea1b-722c-4c83-ba6a-b94a73a76e12}</Project>
+      <Name>SnmpWalk.SnmpEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
