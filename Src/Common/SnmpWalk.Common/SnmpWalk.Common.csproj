@@ -40,8 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationLoader\XmlCodesLoader.cs" />
+    <Compile Include="ConfigurationLoader\XmlConfigurationLoader.cs" />
     <Compile Include="DataModel\Device.cs" />
-    <Compile Include="DataModel\Snmp\OidTree.cs" />
     <Compile Include="NotificationObject.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -53,8 +54,17 @@
     <Compile Include="DataModel\Snmp\OID.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="conf\oids-common.xml" />
+    <Content Include="conf\codes\codes_mgmt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="conf\codes\codes_mib-2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="conf\oids_common.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

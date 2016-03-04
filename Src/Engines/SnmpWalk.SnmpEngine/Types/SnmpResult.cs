@@ -7,7 +7,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Types
 {
     public class SnmpResult
     {
-        private OID _oid;
+        private Oid _oid;
         private SnmpDataType _dataType;
         private object _data;
 
@@ -23,7 +23,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Types
             set { _dataType = value; }
         }
 
-        public OID Oid
+        public Oid Oid
         {
             get { return _oid; }
             set { _oid = value; }
@@ -34,7 +34,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Types
         {
         }
 
-        public SnmpResult(OID oid, object data, SnmpDataType dataType)
+        public SnmpResult(Oid oid, object data, SnmpDataType dataType)
         {
             _oid = oid;
             _data = data;

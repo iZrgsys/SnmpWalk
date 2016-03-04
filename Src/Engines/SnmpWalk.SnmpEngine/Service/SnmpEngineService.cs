@@ -42,12 +42,12 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             throw new NotImplementedException();
         }
 
-        public IEnumerable<SnmpResult> WalkBulkOperation(SnmpVersion version, IpAddress ipAddress, string octetString, OID oid, WalkingMode walkMode)
+        public IEnumerable<SnmpResult> WalkBulkOperation(SnmpVersion version, IpAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<SnmpResult> WalkOperation(SnmpVersion version, IpAddress ipAddress, string octetString, OID oid, WalkingMode walkMode)
+        public IEnumerable<SnmpResult> WalkOperation(SnmpVersion version, IpAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
         {
             _log.Debug("SnmpEngine.WalkOperation(): Started");
 
@@ -68,7 +68,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
 
                 Messenger.Walk(_converter.ToVersionCodeConverter(version), new IPEndPoint(IPAddress.Parse(ipAddress.Value), SnmpHelper.SnmpServerPort), new OctetString(octetString), new ObjectIdentifier(oid.Value), list, _timeOut, _converter.ToWalkModeConverter(walkMode));
 
-                result = list.Select(var => new SnmpResult(new OID {Value = var.Id.ToString()}, var.Data, _converter.ToSnmpDataType(var.Data.TypeCode))).ToList();
+                result = list.Select(var => new SnmpResult(new Oid {Value = var.Id.ToString()}, var.Data, _converter.ToSnmpDataType(var.Data.TypeCode))).ToList();
             }
             catch (Exception e)
             {

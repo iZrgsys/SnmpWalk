@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<codes>
+  <code>
+    <Decimal>0</Decimal>
+    <Name>Reserved</Name>
+    <Description>Reserved</Description>
+  </code>
+  <code>
+    <Decimal>1</Decimal>
+    <Name>mib-2</Name>
+    <Description>MIB</Description>
+  </code>
+  <code>
+    <Decimal>2</Decimal>
+    <Name>pib</Name>
+    <Description>PIB</Description>
+  </code>
+</codes>
