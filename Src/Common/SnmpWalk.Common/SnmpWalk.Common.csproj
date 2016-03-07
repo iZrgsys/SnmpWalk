@@ -40,8 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationLoader\XmlCodesLoader.cs" />
-    <Compile Include="ConfigurationLoader\XmlConfigurationLoader.cs" />
+    <Compile Include="ConfigurationLoader\XmlCommonLoader.cs" />
     <Compile Include="DataModel\Device.cs" />
     <Compile Include="NotificationObject.cs" />
     <Compile Include="Properties\Annotations.cs" />
