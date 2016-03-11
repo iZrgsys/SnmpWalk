@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationLoader\XmlCommonLoader.cs" />
     <Compile Include="Convertor\SnmpEngineConverter.cs" />
     <Compile Include="Exceptions\SnmpEngineConvertorException.cs" />
     <Compile Include="Exceptions\SnmpEngineException.cs" />
@@ -70,10 +71,17 @@
       <Project>{45C70660-B3A5-48CB-9243-781C8DA159D3}</Project>
       <Name>SnmpWalk.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Core\SnmpWalk.Core\SnmpWalk.Core.csproj">
-      <Project>{fe48c1e1-1a63-4e7e-99be-34db38af8b3a}</Project>
-      <Name>SnmpWalk.Core</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="conf\codes\codes_mgmt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="conf\codes\codes_mib-2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="conf\oids_common.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

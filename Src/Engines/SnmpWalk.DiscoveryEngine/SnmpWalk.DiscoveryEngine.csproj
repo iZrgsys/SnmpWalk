@@ -44,16 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DiscoveryEngineService.cs" />
+    <Compile Include="Service\DiscoveryEngineService.cs" />
     <Compile Include="Exceptions\DiscoveryEngineException.cs" />
     <Compile Include="IDiscoveryEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\SnmpWalk.Core\SnmpWalk.Core.csproj">
-      <Project>{fe48c1e1-1a63-4e7e-99be-34db38af8b3a}</Project>
-      <Name>SnmpWalk.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

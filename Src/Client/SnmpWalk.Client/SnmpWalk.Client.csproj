@@ -67,12 +67,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\DeviceModel.cs" />
+    <Compile Include="Models\OidModel.cs" />
+    <Compile Include="Models\OidTreeModel.cs" />
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SnmpTabViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -112,7 +115,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\" />
     <Folder Include="Controls\" />
+    <Folder Include="Resources\Icons\" />
     <Folder Include="ViewModels\Enums\" />
   </ItemGroup>
   <ItemGroup>

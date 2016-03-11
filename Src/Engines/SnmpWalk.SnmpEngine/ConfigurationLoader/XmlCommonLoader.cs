@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using SnmpWalk.Common.DataModel.Snmp;
 
-namespace SnmpWalk.Common.ConfigurationLoader
+namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
 {
     internal class XmlCommonLoader
     {
@@ -20,14 +20,14 @@ namespace SnmpWalk.Common.ConfigurationLoader
         private const string NameAttr = "Name";
         private const string DescAttr = "Description";
 
-        private List<FileInfo> _commoInfos;
-        private List<FileInfo> _codesInfo;
+        private static List<FileInfo> _commoInfos;
+        private static List<FileInfo> _codesInfo;
 
-        private readonly string _currentDir = Directory.GetCurrentDirectory();
+        private static readonly string CurrentDir = Directory.GetCurrentDirectory();
         private static readonly Lazy<XmlCommonLoader> CommonInstance = new Lazy<XmlCommonLoader>(() => new XmlCommonLoader());
-        private readonly List<Oid> _oids = new List<Oid>();
+        private static readonly List<Oid> ConfOids = new List<Oid>();
 
-        public XmlCommonLoader Instance
+        public static XmlCommonLoader Instance
         {
             get
             {
@@ -38,13 +38,13 @@ namespace SnmpWalk.Common.ConfigurationLoader
 
         public List<Oid> Oids
         {
-            get { return _oids; }
+            get { return ConfOids; }
         }
 
-        private void Initialize()
+        private static void Initialize()
         {
-            var confPath = Path.Combine(_currentDir, ConfDir);
-            var codesPath = Path.Combine(_currentDir, ConfDir, CodesDir);
+            var confPath = Path.Combine(CurrentDir, ConfDir);
+            var codesPath = Path.Combine(CurrentDir, ConfDir, CodesDir);
 
             if (!Directory.Exists(confPath) && !Directory.Exists(codesPath)) return;
 
@@ -54,7 +54,7 @@ namespace SnmpWalk.Common.ConfigurationLoader
             var codesDirInfo = new DirectoryInfo(codesPath);
             _codesInfo = codesDirInfo.GetFiles("*.xml").Where(file => file.Name.Contains(CodesFileIdentifier)).ToList();
 
-            if (!_commoInfos.Any() || _commoInfos.All(file => file.Name != ConfMain)) return;
+            if (!_commoInfos.Any() || !_commoInfos.All(file => file.Name.Contains(ConfMain))) return;
 
             foreach (var file in _commoInfos)
             {
@@ -77,7 +77,7 @@ namespace SnmpWalk.Common.ConfigurationLoader
 
                 rootOid.ChildOids = InitializeCodes(childOids);
 
-                _oids.Add(rootOid);
+                ConfOids.Add(rootOid);
             }
         }
 
@@ -86,12 +86,12 @@ namespace SnmpWalk.Common.ConfigurationLoader
             return rootNode.Name.LocalName.Equals(RootNodename);
         }
 
-        private bool ValidateCodeFile(XElement rootNode)
+        private static bool ValidateCodeFile(XElement rootNode)
         {
             return rootNode.Name.LocalName.Equals(CodesDir);
         }
 
-        private List<Oid> InitializeCodes(List<Oid> oids)
+        private static List<Oid> InitializeCodes(List<Oid> oids)
         {
             for (var i = 0; i < oids.Count; i++)
             {
@@ -104,7 +104,7 @@ namespace SnmpWalk.Common.ConfigurationLoader
             return oids;
         }
 
-        private Oid InitializeCode(Oid oid, FileInfo file)
+        private static Oid InitializeCode(Oid oid, FileInfo file)
         {
             var childoids = new List<Oid>();
             var xml = XDocument.Load(file.OpenRead());
@@ -135,7 +135,7 @@ namespace SnmpWalk.Common.ConfigurationLoader
                 if (nameElement != null)
                 {
                     name = nameElement.Value;
-                    fullName = CreateOid(oid.Name, name);
+                    fullName = CreateOid(oid.FullName, name);
                 }
 
                 var descriptionElement = element.Element(DescAttr);
@@ -156,7 +156,7 @@ namespace SnmpWalk.Common.ConfigurationLoader
             return oid;
         }
 
-        private string CreateOid(string oid, string index)
+        private static string CreateOid(string oid, string index)
         {
             return string.Concat(oid, ".", index);
         }
