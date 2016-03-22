@@ -1,22 +1,14 @@
-﻿using SnmpWalk.Client.ViewModels;
+﻿using System.Windows;
 
 namespace SnmpWalk.Client.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : Window
     {
-        private MainViewModel _mainViewModel;
-
         public MainWindow()
         {
-            InitializeComponent();
-        }
-
-        public MainWindow(MainViewModel mainViewModel)
-        {
-            _mainViewModel = mainViewModel;
             InitializeComponent();
         }
     }
