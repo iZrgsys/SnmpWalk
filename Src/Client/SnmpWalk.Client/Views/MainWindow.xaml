@@ -26,7 +26,15 @@
 
                 </MenuItem>
                 <MenuItem Header="_Help">
-
+                    <MenuItem Header="View _Help">
+                        <MenuItem.Icon>
+                            <Rectangle Style="{DynamicResource MenuIconStyle}">
+                                <Rectangle.Fill>
+                                    <VisualBrush Visual="{StaticResource appbar_page_question}" Stretch="Fill"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
             </Menu>
         </WrapPanel>
