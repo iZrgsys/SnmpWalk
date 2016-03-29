@@ -3,10 +3,40 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SnmpWalk.Client"
+        xmlns:viewModels ="clr-namespace:SnmpWalk.Client.ViewModel"
+        xmlns:resx ="clr-namespace:SnmpWalk.Client.Resources"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title= "{x:Static resx:StringResources.app_name}" 
+        Height="550" Width="720" 
+        MinHeight="550" MinWidth="550">
+    <Window.DataContext>
+        <viewModels:MainViewModel/>
+    </Window.DataContext>
+    <DockPanel>
+        <WrapPanel DockPanel.Dock="Top" 
+                   Background= "{StaticResource WrapPanelFill}">
+            <Menu>
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New" />
+                    <MenuItem Header="_Open" />
+                    <Separator/>
+                    <MenuItem Header="_Exit"/>
+                </MenuItem>
+                <MenuItem Header="_Edit">
+
+                </MenuItem>
+                <MenuItem Header="_Help">
+
+                </MenuItem>
+            </Menu>
+        </WrapPanel>
+        <DockPanel>
+            <ToolBar DockPanel.Dock="Top">
+
+            </ToolBar>
+            <DockPanel>
+
+            </DockPanel>
+        </DockPanel>
+    </DockPanel>
 </Window>
