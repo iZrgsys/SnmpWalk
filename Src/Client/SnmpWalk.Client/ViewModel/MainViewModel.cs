@@ -1,6 +1,9 @@
 using System;
+using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using SnmpWalk.Client.Assets;
+using SnmpWalk.Client.Assets.Enums;
 
 namespace SnmpWalk.Client.ViewModel
 {
@@ -18,6 +21,37 @@ namespace SnmpWalk.Client.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        private SnmpOperationType _currertEnumerationMemberSnmpOperation = SnmpOperationType.Get;
+        private SnmpVersion _currentSnmpVersion = SnmpVersion.V1;
+
+        public object CurrertEnumerationMemberSnmpOperation
+        {
+            get {return _currertEnumerationMemberSnmpOperation; }
+            set
+            {
+                var val = (EnumerationExtension.EnumerationMember)value;
+                if (val != null)
+                {
+                    _currertEnumerationMemberSnmpOperation = (SnmpOperationType)val.Value;
+                }
+                RaisePropertyChanged();
+            }
+        }
+
+        public object CurrertSnmpVersion
+        {
+            get { return _currentSnmpVersion; }
+            set
+            {
+                var val = (EnumerationExtension.EnumerationMember)value;
+                if (val != null)
+                {
+                    _currentSnmpVersion = (SnmpVersion)val.Value;
+                }
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>

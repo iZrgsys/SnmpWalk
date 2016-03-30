@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>sw_ShareIt_ico.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.2.0.37222, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\..\..\Sln\packages\MvvmLightLibs.5.2.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
@@ -78,10 +81,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -90,6 +89,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Assets\EnumerationExtension.cs" />
+    <Compile Include="Assets\Enums\SnmpOperationType.cs" />
+    <Compile Include="Assets\Enums\SnmpVersion.cs" />
     <Compile Include="Resources\StringResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -130,7 +132,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -138,7 +139,7 @@
   <ItemGroup>
     <Folder Include="Assets\Commands\" />
     <Folder Include="Assets\Controls\" />
-    <Folder Include="Resources\Images\" />
+    <Folder Include="Assets\Convertors\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\SnmpWalk.Common\SnmpWalk.Common.csproj">
@@ -163,7 +164,32 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Entypo-license.txt" />
+    <Resource Include="Resources\Images\circle-arrow-left.png" />
+    <Resource Include="Resources\Images\circle-arrow-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\question-sign.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\sw_ShareIt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="sw_ShareIt_ico.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\plus-sign.png" />
+    <Resource Include="Resources\Images\save.png" />
+    <Resource Include="Resources\Images\save_all.png" />
+    <Resource Include="Resources\Images\sw_ShareIt_ico.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\folder-open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\import.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\start.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

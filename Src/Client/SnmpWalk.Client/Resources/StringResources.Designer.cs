@@ -68,5 +68,230 @@ namespace SnmpWalk.Client.Resources {
                 return ResourceManager.GetString("app_name", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get-Bulk.
+        /// </summary>
+        public static string get_bulk_operation {
+            get {
+                return ResourceManager.GetString("get_bulk_operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get-Next.
+        /// </summary>
+        public static string get_next_operation {
+            get {
+                return ResourceManager.GetString("get_next_operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get.
+        /// </summary>
+        public static string get_operation {
+            get {
+                return ResourceManager.GetString("get_operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Edit.
+        /// </summary>
+        public static string menu_edit {
+            get {
+                return ResourceManager.GetString("menu_edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _File.
+        /// </summary>
+        public static string menu_file {
+            get {
+                return ResourceManager.GetString("menu_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Help.
+        /// </summary>
+        public static string menu_help {
+            get {
+                return ResourceManager.GetString("menu_help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Exit.
+        /// </summary>
+        public static string menu_item_exit {
+            get {
+                return ResourceManager.GetString("menu_item_exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View _Help.
+        /// </summary>
+        public static string menu_item_help {
+            get {
+                return ResourceManager.GetString("menu_item_help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _New.
+        /// </summary>
+        public static string menu_item_new {
+            get {
+                return ResourceManager.GetString("menu_item_new", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Open.
+        /// </summary>
+        public static string menu_item_open {
+            get {
+                return ResourceManager.GetString("menu_item_open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set.
+        /// </summary>
+        public static string set_operation {
+            get {
+                return ResourceManager.GetString("set_operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Navigate Backward.
+        /// </summary>
+        public static string tool_bar_nav_backward {
+            get {
+                return ResourceManager.GetString("tool_bar_nav_backward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Navigate Forward.
+        /// </summary>
+        public static string tool_bar_nav_frwrd {
+            get {
+                return ResourceManager.GetString("tool_bar_nav_frwrd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Device.
+        /// </summary>
+        public static string tool_bar_new_dev {
+            get {
+                return ResourceManager.GetString("tool_bar_new_dev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import Device Data.
+        /// </summary>
+        public static string tool_bar_open_file {
+            get {
+                return ResourceManager.GetString("tool_bar_open_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string tool_bar_save {
+            get {
+                return ResourceManager.GetString("tool_bar_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save All.
+        /// </summary>
+        public static string tool_bar_save_all {
+            get {
+                return ResourceManager.GetString("tool_bar_save_all", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string tool_btn_start {
+            get {
+                return ResourceManager.GetString("tool_btn_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Snmp Request Configuration.
+        /// </summary>
+        public static string tool_cb_snmp_req_types {
+            get {
+                return ResourceManager.GetString("tool_cb_snmp_req_types", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Snmp Version.
+        /// </summary>
+        public static string tool_cb_snmp_ver {
+            get {
+                return ResourceManager.GetString("tool_cb_snmp_ver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to v1.
+        /// </summary>
+        public static string v_1 {
+            get {
+                return ResourceManager.GetString("v_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to v2.
+        /// </summary>
+        public static string v_2 {
+            get {
+                return ResourceManager.GetString("v_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to v3.
+        /// </summary>
+        public static string v_3 {
+            get {
+                return ResourceManager.GetString("v_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Walk-Bulk.
+        /// </summary>
+        public static string walk_bulk_operation {
+            get {
+                return ResourceManager.GetString("walk_bulk_operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Walk.
+        /// </summary>
+        public static string walk_operation {
+            get {
+                return ResourceManager.GetString("walk_operation", resourceCulture);
+            }
+        }
     }
 }

@@ -120,4 +120,79 @@
   <data name="app_name" xml:space="preserve">
     <value>SnmpWalk</value>
   </data>
+  <data name="get_bulk_operation" xml:space="preserve">
+    <value>Get-Bulk</value>
+  </data>
+  <data name="get_next_operation" xml:space="preserve">
+    <value>Get-Next</value>
+  </data>
+  <data name="get_operation" xml:space="preserve">
+    <value>Get</value>
+  </data>
+  <data name="menu_edit" xml:space="preserve">
+    <value>_Edit</value>
+  </data>
+  <data name="menu_file" xml:space="preserve">
+    <value>_File</value>
+  </data>
+  <data name="menu_help" xml:space="preserve">
+    <value>_Help</value>
+  </data>
+  <data name="menu_item_exit" xml:space="preserve">
+    <value>_Exit</value>
+  </data>
+  <data name="menu_item_help" xml:space="preserve">
+    <value>View _Help</value>
+  </data>
+  <data name="menu_item_new" xml:space="preserve">
+    <value>_New</value>
+  </data>
+  <data name="menu_item_open" xml:space="preserve">
+    <value>_Open</value>
+  </data>
+  <data name="set_operation" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="tool_bar_nav_backward" xml:space="preserve">
+    <value>Navigate Backward</value>
+  </data>
+  <data name="tool_bar_nav_frwrd" xml:space="preserve">
+    <value>Navigate Forward</value>
+  </data>
+  <data name="tool_bar_new_dev" xml:space="preserve">
+    <value>Add Device</value>
+  </data>
+  <data name="tool_bar_open_file" xml:space="preserve">
+    <value>Import Device Data</value>
+  </data>
+  <data name="tool_bar_save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="tool_bar_save_all" xml:space="preserve">
+    <value>Save All</value>
+  </data>
+  <data name="tool_btn_start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="tool_cb_snmp_req_types" xml:space="preserve">
+    <value>Snmp Request Configuration</value>
+  </data>
+  <data name="tool_cb_snmp_ver" xml:space="preserve">
+    <value>Snmp Version</value>
+  </data>
+  <data name="v_1" xml:space="preserve">
+    <value>v1</value>
+  </data>
+  <data name="v_2" xml:space="preserve">
+    <value>v2</value>
+  </data>
+  <data name="v_3" xml:space="preserve">
+    <value>v3</value>
+  </data>
+  <data name="walk_bulk_operation" xml:space="preserve">
+    <value>Walk-Bulk</value>
+  </data>
+  <data name="walk_operation" xml:space="preserve">
+    <value>Walk</value>
+  </data>
 </root>

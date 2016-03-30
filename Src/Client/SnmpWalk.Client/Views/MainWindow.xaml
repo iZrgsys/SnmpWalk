@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels ="clr-namespace:SnmpWalk.Client.ViewModel"
         xmlns:resx ="clr-namespace:SnmpWalk.Client.Resources"
+        xmlns:assets ="clr-namespace:SnmpWalk.Client.Assets"
+        xmlns:enums ="clr-namespace:SnmpWalk.Client.Assets.Enums"
         mc:Ignorable="d"
         Title= "{x:Static resx:StringResources.app_name}" 
         Height="550" Width="720" 
-        MinHeight="550" MinWidth="550">
+        MinHeight="550" MinWidth="550"
+        Icon="../Resources/Images/sw_ShareIt.png">
     <Window.DataContext>
         <viewModels:MainViewModel/>
     </Window.DataContext>
@@ -16,35 +19,84 @@
         <WrapPanel DockPanel.Dock="Top" 
                    Background= "{StaticResource WrapPanelFill}">
             <Menu>
-                <MenuItem Header="_File">
-                    <MenuItem Header="_New" />
-                    <MenuItem Header="_Open" />
+                <MenuItem Header="{x:Static resx:StringResources.menu_file}">
+                    <MenuItem Header="{x:Static resx:StringResources.menu_item_new}" />
+                    <MenuItem Header="{x:Static resx:StringResources.menu_item_open}" />
                     <Separator/>
-                    <MenuItem Header="_Exit"/>
+                    <MenuItem Header="{x:Static resx:StringResources.menu_item_exit}"/>
                 </MenuItem>
-                <MenuItem Header="_Edit">
+                <MenuItem Header="{x:Static resx:StringResources.menu_edit}">
 
                 </MenuItem>
-                <MenuItem Header="_Help">
-                    <MenuItem Header="View _Help">
+                <MenuItem Header="{x:Static resx:StringResources.menu_help}">
+                    <MenuItem Header="{x:Static resx:StringResources.menu_item_help}">
                         <MenuItem.Icon>
-                            <Rectangle Style="{DynamicResource MenuIconStyle}">
-                                <Rectangle.Fill>
-                                    <VisualBrush Visual="{StaticResource appbar_page_question}" Stretch="Fill"/>
-                                </Rectangle.Fill>
-                            </Rectangle>
+                            <Image Source="../Resources/Images/question-sign.png" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
             </Menu>
         </WrapPanel>
-        <DockPanel>
-            <ToolBar DockPanel.Dock="Top">
-
-            </ToolBar>
-            <DockPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ToolBarTray Grid.Row="0">
+                <ToolBar Height="30">
+                    <Button Name="NavBackbtn" 
+                            ToolTip="{x:Static resx:StringResources.tool_bar_nav_backward}"
+                            ContextMenuService.IsEnabled="True">
+                        <Image Source="../Resources/Images/circle-arrow-left.png" />
+                    </Button>
+                    <Button Name="NavForwbtn" 
+                            ToolTip="{x:Static resx:StringResources.tool_bar_nav_frwrd}">
+                        <Image Source="../Resources/Images/circle-arrow-right.png" />
+                    </Button>
+                    <Separator/>
+                    <Button Name="NavNewbtn"
+                            ToolTip="{x:Static resx:StringResources.tool_bar_new_dev}">
+                        <Image Source="../Resources/Images/plus-sign.png" />
+                    </Button>
+                    <Button Name="NavOpenbtn"
+                            ToolTip="{x:Static resx:StringResources.tool_bar_open_file}">
+                        <Image Source="../Resources/Images/import.png" />
+                    </Button>
+                    <Button Name="NavSavebtn"
+                            ToolTip="{x:Static resx:StringResources.tool_bar_save}">
+                        <Image Source="../Resources/Images/save.png" />
+                    </Button>
+                    <Button Name="NavSaveAsbtn"
+                            ToolTip="{x:Static resx:StringResources.tool_bar_save_all}">
+                        <Image Source="../Resources/Images/save_all.png" />
+                    </Button>
+                    <Separator/>
+                    <ComboBox Style="{StaticResource CbxOperationTypeStyle}"
+                              ItemsSource="{Binding Source={assets:Enumeration {x:Type enums:SnmpOperationType}}}"
+                              DisplayMemberPath="Description"
+                              SelectedItem="{Binding CurrertEnumerationMemberSnmpOperation, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedValuePath="Value"
+                              SelectedIndex="0"
+                              ToolTip="{x:Static resx:StringResources.tool_cb_snmp_req_types}"/>
+                    <ComboBox Style="{StaticResource CbxVersionStyle}"
+                              ItemsSource="{Binding Source={assets:Enumeration {x:Type enums:SnmpVersion}}}"
+                              DisplayMemberPath="Description"
+                              SelectedItem="{Binding CurrertSnmpVersion, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedValuePath="Value"
+                              SelectedIndex="0"
+                              ToolTip="{x:Static resx:StringResources.tool_cb_snmp_ver}"/>
+                    <Button Name="NavStartbtn"
+                            ToolTip="{x:Static resx:StringResources.tool_btn_start}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="../Resources/Images/start.png" />
+                            <TextBlock Margin="3,0,0,0" Text="{x:Static resx:StringResources.tool_btn_start}"/>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+            <DockPanel Grid.Row="1">
 
             </DockPanel>
-        </DockPanel>
+        </Grid>
     </DockPanel>
 </Window>

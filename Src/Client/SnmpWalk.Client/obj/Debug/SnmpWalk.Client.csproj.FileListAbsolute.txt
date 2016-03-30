@@ -47,5 +47,4 @@ D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\Microsoft.Practi
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\GeneratedInternalTypeHelper.g.cs
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\App.baml
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Resources\Styles\WindowStyles.baml
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Resources\Icons.baml
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.Resources.StringResources.resources
