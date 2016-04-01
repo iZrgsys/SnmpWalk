@@ -121,13 +121,25 @@
     <value>SnmpWalk</value>
   </data>
   <data name="get_bulk_operation" xml:space="preserve">
-    <value>Get-Bulk</value>
+    <value>Get-Bulk(v2/v3 only)</value>
   </data>
   <data name="get_next_operation" xml:space="preserve">
     <value>Get-Next</value>
   </data>
   <data name="get_operation" xml:space="preserve">
     <value>Get</value>
+  </data>
+  <data name="ip_v4" xml:space="preserve">
+    <value>IPv4</value>
+  </data>
+  <data name="ip_v6" xml:space="preserve">
+    <value>IPv6</value>
+  </data>
+  <data name="label_target_address_ip_v4" xml:space="preserve">
+    <value>Target HostName or IPv4 Address</value>
+  </data>
+  <data name="label_target_address_ip_v6" xml:space="preserve">
+    <value>Target HostName or IPv6 Address</value>
   </data>
   <data name="menu_edit" xml:space="preserve">
     <value>_Edit</value>
@@ -172,7 +184,7 @@
     <value>Save All</value>
   </data>
   <data name="tool_btn_start" xml:space="preserve">
-    <value>Start</value>
+    <value>Perform Action</value>
   </data>
   <data name="tool_cb_snmp_req_types" xml:space="preserve">
     <value>Snmp Request Configuration</value>
@@ -190,7 +202,7 @@
     <value>v3</value>
   </data>
   <data name="walk_bulk_operation" xml:space="preserve">
-    <value>Walk-Bulk</value>
+    <value>Walk-Bulk(v2/v3 only)</value>
   </data>
   <data name="walk_operation" xml:space="preserve">
     <value>Walk</value>

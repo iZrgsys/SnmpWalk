@@ -70,7 +70,7 @@ namespace SnmpWalk.Client.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get-Bulk.
+        ///   Looks up a localized string similar to Get-Bulk(v2/v3 only).
         /// </summary>
         public static string get_bulk_operation {
             get {
@@ -93,6 +93,42 @@ namespace SnmpWalk.Client.Resources {
         public static string get_operation {
             get {
                 return ResourceManager.GetString("get_operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IPv4.
+        /// </summary>
+        public static string ip_v4 {
+            get {
+                return ResourceManager.GetString("ip_v4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IPv6.
+        /// </summary>
+        public static string ip_v6 {
+            get {
+                return ResourceManager.GetString("ip_v6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target HostName or IPv4 Address.
+        /// </summary>
+        public static string label_target_address_ip_v4 {
+            get {
+                return ResourceManager.GetString("label_target_address_ip_v4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target HostName or IPv6 Address.
+        /// </summary>
+        public static string label_target_address_ip_v6 {
+            get {
+                return ResourceManager.GetString("label_target_address_ip_v6", resourceCulture);
             }
         }
         
@@ -223,7 +259,7 @@ namespace SnmpWalk.Client.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start.
+        ///   Looks up a localized string similar to Perform Action.
         /// </summary>
         public static string tool_btn_start {
             get {
@@ -277,7 +313,7 @@ namespace SnmpWalk.Client.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Walk-Bulk.
+        ///   Looks up a localized string similar to Walk-Bulk(v2/v3 only).
         /// </summary>
         public static string walk_bulk_operation {
             get {

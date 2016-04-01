@@ -77,6 +77,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Assets\Enums\IpVersions.cs" />
+    <Compile Include="Views\OidsWindow.xaml.cs">
+      <DependentUpon>OidsWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Resources\Styles\WindowStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -98,11 +102,16 @@
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\OidTreeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\OidsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -138,7 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Commands\" />
-    <Folder Include="Assets\Controls\" />
     <Folder Include="Assets\Convertors\" />
   </ItemGroup>
   <ItemGroup>

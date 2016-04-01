@@ -26,7 +26,7 @@ namespace SnmpWalk.Client.ViewModel
 
         public object CurrertEnumerationMemberSnmpOperation
         {
-            get {return _currertEnumerationMemberSnmpOperation; }
+            get { return _currertEnumerationMemberSnmpOperation; }
             set
             {
                 var val = (EnumerationExtension.EnumerationMember)value;

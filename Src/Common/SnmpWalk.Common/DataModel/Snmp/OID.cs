@@ -5,7 +5,7 @@ namespace SnmpWalk.Common.DataModel.Snmp
 {
     public class Oid
     {
-        private readonly string _oid;
+        private string _oid;
         private readonly string _name;
         private readonly string _fullName;
         private List<Oid> _childOids;
@@ -36,6 +36,7 @@ namespace SnmpWalk.Common.DataModel.Snmp
         public string Value
         {
             get { return _oid; }
+            set { _oid = value; }
         }
 
         public string Name
