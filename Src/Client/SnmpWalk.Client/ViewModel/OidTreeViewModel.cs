@@ -39,6 +39,11 @@ namespace SnmpWalk.Client.ViewModel
             }
         }
 
+        public List<Oid> Oids
+        {
+            get { return _oids; }
+        } 
+
         static OidTreeViewModel()
         {
             _oids = SnmpEngineService.InitializeOids;

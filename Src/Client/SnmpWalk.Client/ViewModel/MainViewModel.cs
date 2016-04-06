@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using SnmpWalk.Client.Assets;
 using SnmpWalk.Client.Assets.Enums;
+using SnmpWalk.Common.DataModel.Snmp;
+using SnmpVersion = SnmpWalk.Client.Assets.Enums.SnmpVersion;
 
 namespace SnmpWalk.Client.ViewModel
 {
@@ -23,6 +26,7 @@ namespace SnmpWalk.Client.ViewModel
     {
         private SnmpOperationType _currertEnumerationMemberSnmpOperation = SnmpOperationType.Get;
         private SnmpVersion _currentSnmpVersion = SnmpVersion.V1;
+        private OidTreeViewModel _oidTreeViewModel;
 
         public object CurrertEnumerationMemberSnmpOperation
         {
@@ -52,11 +56,18 @@ namespace SnmpWalk.Client.ViewModel
             }
         }
 
+        public OidTreeViewModel OidTree
+        {
+            get { return _oidTreeViewModel; }
+        }
+
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         public MainViewModel()
         {
+            _oidTreeViewModel = new OidTreeViewModel();
+
             ////if (IsInDesignMode)
             ////{
             ////    // Code runs in Blend --> create design time data.

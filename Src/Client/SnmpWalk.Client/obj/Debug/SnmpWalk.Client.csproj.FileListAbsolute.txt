@@ -12,7 +12,6 @@ D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.csproj.GenerateResource.Cache
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.exe
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.pdb
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.ClientWindow.dll
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.Common.dll
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.DataExport.dll
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.DiscoveryEngine.dll
@@ -24,7 +23,6 @@ D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.Common.
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.DataExport.pdb
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.DiscoveryEngine.pdb
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.SnmpEngine.pdb
-D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SnmpWalk.ClientWindow.pdb
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\log4net.xml
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SharpSnmpLib.Portable.xml
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\SharpSnmpLib.Full.xml
