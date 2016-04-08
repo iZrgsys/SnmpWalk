@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using SnmpWalk.Common.DataModel.Snmp;
 
 namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
@@ -19,6 +21,7 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
         private const string DecimalAttr = "Decimal";
         private const string NameAttr = "Name";
         private const string DescAttr = "Description";
+        private const string Additions = "Additional";
 
         private static List<FileInfo> _commoInfos;
         private static List<FileInfo> _codesInfo;
@@ -26,6 +29,7 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
         private static readonly string CurrentDir = Directory.GetCurrentDirectory();
         private static readonly Lazy<XmlCommonLoader> CommonInstance = new Lazy<XmlCommonLoader>(() => new XmlCommonLoader());
         private static readonly List<Oid> ConfOids = new List<Oid>();
+        private static readonly Hashtable CodesTable = new Hashtable();
 
         public static XmlCommonLoader Instance
         {
@@ -39,6 +43,11 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
         public List<Oid> Oids
         {
             get { return ConfOids; }
+        }
+
+        public Hashtable AdditionalCodeTable
+        {
+            get { return CodesTable; }
         }
 
         private static void Initialize()
@@ -95,18 +104,43 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
         {
             for (var i = 0; i < oids.Count; i++)
             {
-                if (_codesInfo.Any(file => file.Name.Contains(oids[i].Name)))
+                if (_codesInfo.Any(file => file.Name.Contains(oids[i].Name)) && !_codesInfo.Any(file => file.Name.Contains(oids[i].Name+Additions)))
                 {
                     oids[i] = InitializeCode(oids[i], _codesInfo.First(file => file.Name.Contains(oids[i].Name)));
+                }
+
+                if (_codesInfo.Any(file => file.Name.Contains(oids[i].Name + Additions)))
+                {
+                    if (!CodesTable.ContainsKey(oids[i].Name))
+                    {
+                        var value = DeserializeCodes(_codesInfo.First(file => file.Name.Contains(oids[i].Name + Additions)));
+                        CodesTable.Add(oids[i].Name, value);
+                        oids[i].HasAdditionalCodes = true;
+                    }
                 }
             }
 
             return oids;
         }
 
+        private static Codes DeserializeCodes(FileInfo fileInfo)
+        {
+            Codes codes = null;
+
+            var serializer = new XmlSerializer(typeof(Codes));
+
+            using (var reader = new StreamReader(fileInfo.OpenRead()))
+            {
+                codes = (Codes) serializer.Deserialize(reader);
+            }
+
+            return codes;
+        }
+
         private static Oid InitializeCode(Oid oid, FileInfo file)
         {
             var childoids = new List<Oid>();
+
             var xml = XDocument.Load(file.OpenRead());
 
             if (xml.Root == null) return oid;

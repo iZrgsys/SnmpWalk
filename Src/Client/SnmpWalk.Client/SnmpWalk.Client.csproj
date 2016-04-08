@@ -77,8 +77,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Assets\BindableSelectedItemBehavior.cs" />
     <Compile Include="Assets\Controls\BtnTextBox.cs" />
     <Compile Include="Assets\Enums\IpVersions.cs" />
+    <Compile Include="Assets\VisualTreeExtensions.cs" />
     <Compile Include="Views\OidsWindow.xaml.cs">
       <DependentUpon>OidsWindow.xaml</DependentUpon>
     </Compile>
@@ -147,8 +149,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Commands\" />
     <Folder Include="Assets\Convertors\" />
+    <Folder Include="Assets\Validators\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\SnmpWalk.Common\SnmpWalk.Common.csproj">

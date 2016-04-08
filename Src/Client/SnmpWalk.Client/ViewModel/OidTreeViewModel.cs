@@ -7,7 +7,7 @@ namespace SnmpWalk.Client.ViewModel
 {
     public class OidTreeViewModel:ViewModelBase
     {
-        private static List<Oid> _oids;
+        private static readonly List<Oid> _oids;
         private Oid _oidCurrent = new Oid();
         private bool _showMode;
 
@@ -15,6 +15,20 @@ namespace SnmpWalk.Client.ViewModel
         {
             get { return _showMode; }
             set { _showMode = value; }
+        }
+
+        public Oid OidSelected
+        {
+            get { return _oidCurrent; }
+            set
+            {
+                var oid = value as Oid;
+                if (oid != null)
+                {
+                    _oidCurrent = oid;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         public string OidCurrent
@@ -39,14 +53,24 @@ namespace SnmpWalk.Client.ViewModel
             }
         }
 
+        static OidTreeViewModel()
+        {
+            _oids = SnmpEngineService.InitializeOids;
+        }
+
+        private void ChangeSelection(object context)
+        {
+            if (context is Oid)
+            {
+                _oidCurrent = (Oid)context;
+            }
+        }
+
         public List<Oid> Oids
         {
             get { return _oids; }
         } 
 
-        static OidTreeViewModel()
-        {
-            _oids = SnmpEngineService.InitializeOids;
-        }
+
     }
 }

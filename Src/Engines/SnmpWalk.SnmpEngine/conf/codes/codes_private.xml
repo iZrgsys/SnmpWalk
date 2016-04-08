@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<codes>
+  <code>
+    <Decimal>0</Decimal>
+    <Name>Reserved</Name>
+    <Description>Reserved</Description>
+  </code>
+  <code>
+    <Decimal>1</Decimal>
+    <Name>enterprise</Name>
+    <Description>private enterprises</Description>
+  </code>
+</codes>

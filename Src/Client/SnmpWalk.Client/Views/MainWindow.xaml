@@ -7,6 +7,7 @@
         xmlns:assets ="clr-namespace:SnmpWalk.Client.Assets"
         xmlns:enums ="clr-namespace:SnmpWalk.Client.Assets.Enums"
         xmlns:ctrls ="clr-namespace:SnmpWalk.Client.Assets.Controls"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:commonSnmp ="clr-namespace:SnmpWalk.Common.DataModel.Snmp;assembly=SnmpWalk.Common"
         mc:Ignorable="d"
         Title= "{x:Static resx:StringResources.app_name}" 
@@ -97,9 +98,9 @@
                 <Grid Name="LeftGrid" 
                       Grid.Column="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition MinHeight="110" MaxHeight="150"/>
+                        <RowDefinition MinHeight="250"/>
+                        <RowDefinition Height="100"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
@@ -113,14 +114,46 @@
                             <RowDefinition Height="41"/>
                             <RowDefinition  Height="20"/>
                             <RowDefinition Height="40"/>
-                            <RowDefinition  Height="4*"/>
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Content="Target HostName or IPv4 Address" Margin="5,10,0,0"/>
-                        <TextBox Grid.Row="1" Style="{StaticResource WorkingGridTxtBoxStyle}"/>
+                        <TextBox Grid.Row="1"
+                                 Text="{Binding IpAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource WorkingGridTxtBoxStyle}"/>
                         <Button Content="Check if device avaliable" 
                                 Grid.Row="2" 
-                                Margin="10,10"/>
+                                Margin="10,10"
+                                Command="{Binding IfDeviceAvaliableCommand}"/>
                     </Grid>
+                    <Label Grid.Row="0" 
+                           Grid.Column="1" 
+                           Content=". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . " 
+                           Foreground="Gray"
+                           FontSize="10" 
+                           IsHitTestVisible="False"
+                           VerticalAlignment="Bottom"/>
+                    <GridSplitter Grid.Row="0" 
+                                  Grid.Column="1"
+                                  Height="5" 
+                                    HorizontalAlignment="Stretch" 
+                              VerticalAlignment="Bottom" 
+                              ResizeBehavior="CurrentAndNext"
+                               ResizeDirection="Rows"
+                                Background="White"/>
+                    <GridSplitter Grid.Row="0" Grid.Column="0"
+                                  Height="5" 
+                              HorizontalAlignment="Stretch" 
+                              VerticalAlignment="Bottom" 
+                              ResizeBehavior="CurrentAndNext"
+                               ResizeDirection="Rows"
+                                  Background="White"/>
+                    <GridSplitter Grid.Row="0"
+                                  Grid.Column="2"
+                                  Height="5" 
+                              HorizontalAlignment="Stretch" 
+                              VerticalAlignment="Bottom" 
+                              ResizeBehavior="CurrentAndNext"
+                               ResizeDirection="Rows"
+                                  Background="White"/>
                     <Grid Grid.Row="1"
                           Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -130,19 +163,33 @@
                         </Grid.RowDefinitions>
                         <TreeView Grid.Row="0" 
                                   Margin="10,0,10,10"
-                                  ItemsSource="{Binding OidTree.Oids}"
-                                  SelectedValuePath="">
-                            <TreeView.ItemTemplate>
+                                  ItemsSource="{Binding OidTree.Oids}">
+                            <TreeView.ItemContainerStyle>
+                                <Style TargetType="{x:Type TreeViewItem}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="BorderBrush" Value="#FF7DA2CE" />
+                                            <Setter Property="Background" Value="#FFCCE2FC" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TreeView.ItemContainerStyle>
+                            <i:Interaction.Behaviors>
+                                <assets:BindableSelectedItemBehavior SelectedItem="{Binding SelectedOid, Mode=TwoWay}"/>
+                            </i:Interaction.Behaviors>
+                                <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding ChildOids, Mode=OneWay}" DataType="{x:Type commonSnmp:Oid}">
-                                    <StackPanel Orientation="Horizontal" ToolTip="{Binding Value}" >
+                                    <StackPanel Orientation="Horizontal" ToolTip="{Binding Description}" >
                                         <Image Source="../Resources/Images/pin.png" Style="{StaticResource SmallImageStyle}"/>
                                         <TextBlock Text="{Binding Name}"/>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                         </TreeView>
-                        <TextBox Grid.Row="1" Style="{StaticResource WorkingGridTxtBoxStyle}"/>
-                        <Button Content="Select OID" 
+                        <TextBox Grid.Row="1" 
+                                 Text="{Binding OidTree.OidSelected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                 
+                                 Style="{StaticResource WorkingGridTxtBoxStyle}"/>
+                        <Button Content="Add OID" 
                                 Grid.Row="2" 
                                 Margin="10,10"/>
                     </Grid>
@@ -153,7 +200,7 @@
                               VerticalAlignment="Stretch" 
                               ResizeBehavior="CurrentAndNext"/>
                 <Grid Name="RightGrid" Grid.Column="1">
-                    <RichTextBox VerticalScrollBarVisibility="Auto"/>
+                    <RichTextBox VerticalScrollBarVisibility="Auto" Margin="0,0,2,2"/>
                 </Grid>
             </Grid>
         </Grid>

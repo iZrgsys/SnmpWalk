@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using SnmpWalk.Client.Assets;
 using SnmpWalk.Client.Assets.Enums;
 using SnmpWalk.Common.DataModel.Snmp;
+using RelayCommand = GalaSoft.MvvmLight.Command.RelayCommand;
 using SnmpVersion = SnmpWalk.Client.Assets.Enums.SnmpVersion;
 
 namespace SnmpWalk.Client.ViewModel
@@ -15,18 +12,65 @@ namespace SnmpWalk.Client.ViewModel
     /// <para>
     /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
     /// </para>
-    /// <para>
     /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
         private SnmpOperationType _currertEnumerationMemberSnmpOperation = SnmpOperationType.Get;
         private SnmpVersion _currentSnmpVersion = SnmpVersion.V1;
-        private OidTreeViewModel _oidTreeViewModel;
+        private readonly OidTreeViewModel _oidTreeViewModel;
+        private string _ipAddress;
+        private bool _isSelected;
+        private bool _isExpanded;
+
+        public RelayCommand IfDeviceAvaliableCommand { get; private set; }
+        public RelayCommand PerformActionCommand { get; private set; }
+
+        public string IpAddress
+        {
+            get { return _ipAddress; }
+            set
+            {
+                _ipAddress = value;
+                RaisePropertyChanged();
+                IfDeviceAvaliableCommand.RaiseCanExecuteChanged();
+            }
+            
+        }
+
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                _isExpanded = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public object SelectedOid
+        {
+            get { return _oidTreeViewModel.OidSelected; }
+            set
+            {
+                var oid = value as Oid;
+                if (oid != null)
+                {
+                    _oidTreeViewModel.OidSelected = oid;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
         public object CurrertEnumerationMemberSnmpOperation
         {
@@ -61,12 +105,23 @@ namespace SnmpWalk.Client.ViewModel
             get { return _oidTreeViewModel; }
         }
 
+        public bool CanCheckDevice()
+        {
+            return !string.IsNullOrEmpty(IpAddress);
+        }
+
+        public void CheckDevice()
+        {
+            
+        }
+
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         public MainViewModel()
         {
             _oidTreeViewModel = new OidTreeViewModel();
+            IfDeviceAvaliableCommand = new RelayCommand(CheckDevice, CanCheckDevice);
 
             ////if (IsInDesignMode)
             ////{

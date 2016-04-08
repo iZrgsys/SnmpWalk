@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Resources;
-using System.Windows;
 using System.Windows.Markup;
 
 namespace SnmpWalk.Client.Assets

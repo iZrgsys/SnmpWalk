@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using SnmpWalk.Common.DataModel.Enums;
 using SnmpWalk.Common.DataModel.Snmp;
 
 namespace SnmpWalk.Engines.SnmpEngine.Types

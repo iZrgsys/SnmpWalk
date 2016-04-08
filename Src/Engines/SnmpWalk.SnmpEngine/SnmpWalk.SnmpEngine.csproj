@@ -73,10 +73,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="conf\codes\codes_mgmt.xml">
+    <Content Include="conf\codes\codes_enterpriseAdditional.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="conf\codes\codes_mgmt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="conf\codes\codes_mib-2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="conf\codes\codes_private.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="conf\oids_common.xml">

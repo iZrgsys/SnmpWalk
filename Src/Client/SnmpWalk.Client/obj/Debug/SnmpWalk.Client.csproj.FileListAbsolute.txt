@@ -48,3 +48,5 @@ D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Resources\Styles
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.Resources.StringResources.resources
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Views\OidsWindow.g.cs
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Views\OidsWindow.baml
+D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\conf\codes\codes_private.xml
+D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\bin\Debug\conf\codes\codes_enterpriseAdditional.xml
