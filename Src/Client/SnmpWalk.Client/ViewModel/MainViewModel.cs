@@ -5,13 +5,17 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using GalaSoft.MvvmLight;
 using SnmpWalk.Client.Assets;
 using SnmpWalk.Client.Assets.Enums;
 using SnmpWalk.Common.DataModel.Enums;
+using SnmpWalk.Engines.DiscoveryEngine;
+using SnmpWalk.Engines.DiscoveryEngine.Service;
 using SnmpWalk.Engines.SnmpEngine;
 using SnmpWalk.Engines.SnmpEngine.Service;
 using SnmpWalk.Engines.SnmpEngine.Types;
+using static System.String;
 using RelayCommand = GalaSoft.MvvmLight.Command.RelayCommand;
 using SnmpVersion = SnmpWalk.Client.Assets.Enums.SnmpVersion;
 
@@ -28,14 +32,14 @@ namespace SnmpWalk.Client.ViewModel
     {
         private SnmpOperationType _currertSnmpOperation = SnmpOperationType.Get;
         private SnmpVersion _currentSnmpVersion = SnmpVersion.V1;
+        private IDiscoveryEngine _discoveryEngine;
         private readonly OidTreeViewModel _oidTreeViewModel;
         private readonly ISnmpEngine _snmpEngine;
         private string _results;
-        private List<SnmpResult> _snmpResults;  
+        private List<SnmpResult> _snmpResults;
         private string _ipAddress;
-        private bool _isSelected;
-        private bool _isExpanded;
-        private bool _canStart = false;
+        private bool _performActionEnabled = true;
+        private bool _isLoading = false;
 
         public RelayCommand IfDeviceAvaliableCommand { get; private set; }
         public RelayCommand PerformActionCommand { get; private set; }
@@ -53,11 +57,35 @@ namespace SnmpWalk.Client.ViewModel
 
         }
 
-        public bool CanStart
+        public bool IsLoading
         {
-            get { return _canStart; }
-
+            get { return _isLoading; }
+            set
+            {
+                _isLoading = value;
+                RaisePropertyChanged();
+            }
         }
+
+        public bool PerformActionEnabled
+        {
+            get { return _performActionEnabled; }
+            set
+            {
+                _performActionEnabled = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public List<SnmpResult> SnmpResults
+        {
+            get { return _snmpResults; }
+            set
+            {
+                _snmpResults = value;
+                RaisePropertyChanged();
+            }
+        } 
 
         public string Result
         {
@@ -104,11 +132,17 @@ namespace SnmpWalk.Client.ViewModel
 
         public bool CanCheckDevice()
         {
-            return !string.IsNullOrEmpty(IpAddress);
+            return !IsNullOrEmpty(IpAddress);
         }
 
         public void CheckDevice()
         {
+            var devices = _discoveryEngine.PerformPinging(_ipAddress);
+
+            if (devices.Any())
+            {
+
+            }
 
         }
 
@@ -117,26 +151,53 @@ namespace SnmpWalk.Client.ViewModel
             return true;
         }
 
-        public void PerformAction()
+        public async void PerformActionAsync()
         {
             if (_currertSnmpOperation == SnmpOperationType.Walk)
             {
-                //ThreadPool.QueueUserWorkItem(Walk);
-                _snmpResults = _snmpEngine.WalkOperation(Common.DataModel.Snmp.SnmpVersion.V1, IPAddress.Parse(_ipAddress), null, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree).ToList();
-                var sb = new StringBuilder();
+                PerformActionEnabled = false;
+                IsLoading = true;
+                SnmpResults = null;
 
-                Parallel.ForEach(_snmpResults, result =>
+                try
                 {
-                    sb.AppendLine(result.ToString());
-                });
+                    SnmpResults = await WalkAsync();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
 
-                Result = sb.ToString();
+
+                PerformActionEnabled = true;
+                IsLoading = false;
+
             }
         }
 
-        private void Walk(object state)
+        private Task<List<SnmpResult>> WalkAsync()
         {
-            _snmpResults = _snmpEngine.WalkOperation(Common.DataModel.Snmp.SnmpVersion.V1, IPAddress.Parse(_ipAddress), null, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree).ToList();
+            return Task.Run(() => Walk());
+        }
+
+        private List<SnmpResult> Walk()
+        {
+            return _snmpEngine.WalkOperation(ConvertToCommonVersion(_currentSnmpVersion), IPAddress.Parse(_ipAddress), null, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree).ToList();
+        }
+
+        private Common.DataModel.Snmp.SnmpVersion ConvertToCommonVersion(SnmpVersion snmpVersion)
+        {
+            switch (snmpVersion)
+            {
+                case SnmpVersion.V1:
+                    return Common.DataModel.Snmp.SnmpVersion.V1;
+                case SnmpVersion.V2:
+                    return Common.DataModel.Snmp.SnmpVersion.V2;
+                case SnmpVersion.V3:
+                    return Common.DataModel.Snmp.SnmpVersion.V3;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(snmpVersion), snmpVersion, null);
+            }
         }
 
         /// <summary>
@@ -146,9 +207,9 @@ namespace SnmpWalk.Client.ViewModel
         {
             _oidTreeViewModel = new OidTreeViewModel();
             IfDeviceAvaliableCommand = new RelayCommand(CheckDevice, CanCheckDevice);
-            PerformActionCommand = new RelayCommand(PerformAction, CanPerformAction);
-            _snmpResults = new List<SnmpResult>();
+            PerformActionCommand = new RelayCommand(PerformActionAsync, CanPerformAction);
             _snmpEngine = new SnmpEngineService();
+            _discoveryEngine = DiscoveryEngineService.Instance;
             ////if (IsInDesignMode)
             ////{
             ////    // Code runs in Blend --> create design time data.

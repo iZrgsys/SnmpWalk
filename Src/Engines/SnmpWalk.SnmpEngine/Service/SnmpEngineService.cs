@@ -73,7 +73,17 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             {
                 foreach (var code in codes.Code)
                 {
-                    Messenger.Walk(_converter.ToVersionCodeConverter(version), new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort), new OctetString(octetString), new ObjectIdentifier(string.Concat(oid.Value, ".", code.Decimal)), list, _timeOut, _converter.ToWalkModeConverter(walkMode));
+                    try
+                    {
+                        Messenger.Walk(_converter.ToVersionCodeConverter(version),
+                            new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort), new OctetString(octetString),
+                            new ObjectIdentifier(string.Concat(oid.Value, ".", code.Decimal)), list, _timeOut,
+                            _converter.ToWalkModeConverter(walkMode));
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
 
                     if (list.Any())
                     {

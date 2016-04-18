@@ -16,6 +16,11 @@ namespace SnmpWalk.Engines.SnmpEngine.Types
             set { _data = value; }
         }
 
+        public string OidValue
+        {
+            get { return _oid.Value; }
+        }
+
         public SnmpDataType DataType
         {
             get { return _dataType; }
@@ -42,7 +47,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Types
 
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "oid: {0} - {1}:{2}", _oid, Enum.GetName(typeof(SnmpDataType), _dataType), _data);
+            return string.Format(CultureInfo.InvariantCulture, "{0} - {1} : {2}", _oid.Value, Enum.GetName(typeof(SnmpDataType), _dataType), _data);
         }
     }
 }

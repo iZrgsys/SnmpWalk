@@ -53,6 +53,7 @@
       <HintPath>..\..\..\Sln\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationFramework.Classic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -79,11 +80,27 @@
     </ApplicationDefinition>
     <Compile Include="Assets\BindableSelectedItemBehavior.cs" />
     <Compile Include="Assets\Controls\BtnTextBox.cs" />
+    <Compile Include="Assets\Controls\CircularProgressBar.xaml.cs">
+      <DependentUpon>CircularProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Assets\Controls\LoadingPanel.xaml.cs">
+      <DependentUpon>LoadingPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Assets\Enums\IpVersions.cs" />
+    <Compile Include="Assets\HelperClasses\CommandManagerHelper.cs" />
+    <Compile Include="Assets\HelperClasses\DelegateCommand.cs" />
     <Compile Include="Assets\VisualTreeExtensions.cs" />
     <Compile Include="Views\OidsWindow.xaml.cs">
       <DependentUpon>OidsWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Assets\Controls\CircularProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\Controls\LoadingPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Styles\WindowStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

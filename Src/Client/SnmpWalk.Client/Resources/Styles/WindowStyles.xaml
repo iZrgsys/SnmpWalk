@@ -50,7 +50,13 @@
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
     <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
     <SolidColorBrush x:Key="IconTextBox_LabelTextColor" Color="Gray" />
-    <Style x:Key="CbxOperationTypeStyle" TargetType="ComboBox">
+    <Style x:Key="DataGridStyle" TargetType="DataGrid">
+        <Setter Property="HorizontalGridLinesBrush" Value="Gainsboro"/>
+        <Setter Property="VerticalGridLinesBrush" Value="Gainsboro"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Margin" Value="0,0,2,2"/>
+    </Style>
+        <Style x:Key="CbxOperationTypeStyle" TargetType="ComboBox">
         <Setter Property="Width" Value="125"/>
         <Setter Property="Margin" Value="7,0,0,0"/>
     </Style>

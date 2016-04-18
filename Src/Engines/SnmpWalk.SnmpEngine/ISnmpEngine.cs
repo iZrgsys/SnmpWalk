@@ -9,6 +9,8 @@ namespace SnmpWalk.Engines.SnmpEngine
 {
     public interface ISnmpEngine
     {
+        int TimeOut { get; set; }
+
         IEnumerable<Variable> GetOperation(SnmpVersion version, IPAddress ipAddress, string octetString);
 
         IEnumerable<Variable> GetNextOperation(SnmpVersion version, IPAddress ipAddress, string octetString);

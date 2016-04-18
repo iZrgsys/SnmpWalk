@@ -102,3 +102,7 @@ D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.Resour
 D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.csproj.GenerateResource.Cache
 D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.exe
 D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.Client.pdb
+D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Assets\Controls\CircularProgressBar.baml
+D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Assets\Controls\CircularProgressBar.g.cs
+D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Assets\Controls\LoadingPanel.g.cs
+D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Assets\Controls\LoadingPanel.baml

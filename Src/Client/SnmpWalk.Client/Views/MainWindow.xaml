@@ -8,12 +8,14 @@
         xmlns:enums ="clr-namespace:SnmpWalk.Client.Assets.Enums"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:commonSnmp ="clr-namespace:SnmpWalk.Common.DataModel.Snmp;assembly=SnmpWalk.Common"
+        xmlns:ctr ="clr-namespace:SnmpWalk.Client.Assets.Controls"
         mc:Ignorable="d"
         Title= "{x:Static resx:StringResources.app_name}" 
         Height="550" Width="720" 
-        MinHeight="550" MinWidth="550"
+        MinHeight="550" MinWidth="720"
         Icon="../Resources/Images/sw_ShareIt.png"
-        DataContext="{Binding Main, Source={StaticResource ViewModelLocator}}">
+        DataContext="{Binding Main, Source={StaticResource ViewModelLocator}}"
+        WindowStartupLocation="CenterScreen">
     <DockPanel>
         <!--Main menu-->
         <WrapPanel DockPanel.Dock="Top" 
@@ -81,7 +83,8 @@
                               ToolTip="{x:Static resx:StringResources.tool_cb_snmp_req_types}"/>
                     <Button Name="NavStartbtn"
                             ToolTip="{x:Static resx:StringResources.tool_btn_start}"
-                            Command="{Binding PerformActionCommand}">
+                            Command="{Binding PerformActionCommand}"
+                            IsEnabled="{Binding PerformActionEnabled}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="../Resources/Images/start.png" />
                             <TextBlock Margin="3,0,0,0" Text="{x:Static resx:StringResources.tool_btn_start}"/>
@@ -118,7 +121,8 @@
                         <Label Grid.Row="0" Content="{x:Static resx:StringResources.label_target_address_ip_v4}" Margin="5,10,0,0"/>
                         <TextBox Grid.Row="1"
                                  Text="{Binding IpAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 Style="{StaticResource WorkingGridTxtBoxStyle}"/>
+                                 Style="{StaticResource WorkingGridTxtBoxStyle}"
+                                 IsEnabled="{Binding PerformActionEnabled}"/>
                         <Button Content="{x:Static resx:StringResources.check_btn}" 
                                 Grid.Row="2" 
                                 Margin="10,10"
@@ -163,7 +167,8 @@
                         </Grid.RowDefinitions>
                         <TreeView Grid.Row="0" 
                                   Margin="10,0,10,10"
-                                  ItemsSource="{Binding OidTree.Oids}">
+                                  ItemsSource="{Binding OidTree.Oids}"
+                                  IsEnabled="{Binding PerformActionEnabled}">
                             <TreeView.ItemContainerStyle>
                                 <Style TargetType="{x:Type TreeViewItem}">
                                     <Style.Triggers>
@@ -188,10 +193,15 @@
                         </TreeView>
                         <TextBox Grid.Row="1" 
                                  Text="{Binding OidTree.OidCurrent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                 
-                                 Style="{StaticResource WorkingGridTxtBoxStyle}"/>
+                                 Style="{StaticResource WorkingGridTxtBoxStyle}"
+                                 IsEnabled="{Binding PerformActionEnabled}"/>
                         <Button Content="Add OID" 
                                 Grid.Row="2" 
                                 Margin="10,10"/>
+                    </Grid>
+                    <Grid Grid.Row="2"
+                          Grid.Column="1">
+                        
                     </Grid>
                 </Grid>
                 <GridSplitter Grid.Column="0" 
@@ -200,9 +210,23 @@
                               VerticalAlignment="Stretch" 
                               ResizeBehavior="CurrentAndNext"/>
                 <Grid Name="RightGrid" Grid.Column="1">
-                    <TextBox VerticalScrollBarVisibility="Auto" 
-                                 Margin="0,0,2,2"
-                                 Text="{Binding Result, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ctr:LoadingPanel Canvas.ZIndex="2"
+                                      MinHeight="75"
+                                      MinWidth="75"
+                                      MaxHeight="200"
+                                      MaxWidth="200"
+                                      Margin="150"
+                                      IsLoading="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGrid Canvas.ZIndex ="1"  
+                              ItemsSource="{Binding SnmpResults, UpdateSourceTrigger=PropertyChanged}"
+                              AutoGenerateColumns="False"
+                              Style="{StaticResource DataGridStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Oid" Binding="{Binding Path=OidValue}" MinWidth="150"/>
+                            <DataGridTextColumn Header="Data Type" Binding="{Binding Path=DataType}" MinWidth="100"/>
+                            <DataGridTextColumn Header="Data" Binding="{Binding Path=Data}" MinWidth="250"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </Grid>
         </Grid>
