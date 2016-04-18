@@ -111,12 +111,10 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
 
                 if (_codesInfo.Any(file => file.Name.Contains(oids[i].Name + Additions)))
                 {
-                    if (!CodesTable.ContainsKey(oids[i].Name))
-                    {
-                        var value = DeserializeCodes(_codesInfo.First(file => file.Name.Contains(oids[i].Name + Additions)));
-                        CodesTable.Add(oids[i].Name, value);
-                        oids[i].HasAdditionalCodes = true;
-                    }
+                    if (CodesTable.ContainsKey(oids[i].Name)) continue;
+                    var value = DeserializeCodes(_codesInfo.First(file => file.Name.Contains(oids[i].Name + Additions)));
+                    CodesTable.Add(oids[i].Name, value);
+                    oids[i].HasAdditionalCodes = true;
                 }
             }
 

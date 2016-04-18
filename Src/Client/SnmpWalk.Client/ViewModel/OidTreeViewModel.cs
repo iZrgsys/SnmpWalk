@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using SnmpWalk.Common.DataModel.Snmp;
+using SnmpWalk.Engines.SnmpEngine;
 using SnmpWalk.Engines.SnmpEngine.Service;
 
 namespace SnmpWalk.Client.ViewModel
@@ -26,6 +27,7 @@ namespace SnmpWalk.Client.ViewModel
                 if (oid != null)
                 {
                     _oidCurrent = oid;
+                    OidCurrent = oid.Value;
                     RaisePropertyChanged();
                 }
             }
@@ -69,8 +71,11 @@ namespace SnmpWalk.Client.ViewModel
         public List<Oid> Oids
         {
             get { return _oids; }
-        } 
+        }
 
-
+        public OidTreeViewModel()
+        {
+           
+        }
     }
 }

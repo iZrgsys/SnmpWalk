@@ -31,7 +31,7 @@ namespace SnmpWalk.Common.DataModel.Snmp
 
         public bool HasChildOids
         {
-            get { return _childOids == null || _childOids.Any(); }
+            get { return _childOids != null; }
         }
 
         public string Value

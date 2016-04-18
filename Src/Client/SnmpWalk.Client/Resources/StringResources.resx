@@ -120,6 +120,12 @@
   <data name="app_name" xml:space="preserve">
     <value>SnmpWalk</value>
   </data>
+  <data name="check_btn" xml:space="preserve">
+    <value>Check if device avaliable</value>
+  </data>
+  <data name="dots" xml:space="preserve">
+    <value>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</value>
+  </data>
   <data name="get_bulk_operation" xml:space="preserve">
     <value>Get-Bulk(v2/v3 only)</value>
   </data>

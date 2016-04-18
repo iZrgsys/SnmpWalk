@@ -42,6 +42,7 @@ namespace SnmpWalk.Client.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
+            //SimpleIoc.Default.Register<OidTreeViewModel>();
         }
 
         public MainViewModel Main
@@ -51,6 +52,11 @@ namespace SnmpWalk.Client.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
+
+        //public OidTreeViewModel OidTree
+        //{
+        //    get { return ServiceLocator.Current.GetInstance<OidTreeViewModel>(); }
+        //}
 
         public static void Cleanup()
         {

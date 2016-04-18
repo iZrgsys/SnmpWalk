@@ -70,6 +70,24 @@ namespace SnmpWalk.Client.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check if device avaliable.
+        /// </summary>
+        public static string check_btn {
+            get {
+                return ResourceManager.GetString("check_btn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
+        /// </summary>
+        public static string dots {
+            get {
+                return ResourceManager.GetString("dots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Get-Bulk(v2/v3 only).
         /// </summary>
         public static string get_bulk_operation {

@@ -6,7 +6,6 @@
         xmlns:resx ="clr-namespace:SnmpWalk.Client.Resources"
         xmlns:assets ="clr-namespace:SnmpWalk.Client.Assets"
         xmlns:enums ="clr-namespace:SnmpWalk.Client.Assets.Enums"
-        xmlns:ctrls ="clr-namespace:SnmpWalk.Client.Assets.Controls"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:commonSnmp ="clr-namespace:SnmpWalk.Common.DataModel.Snmp;assembly=SnmpWalk.Common"
         mc:Ignorable="d"
@@ -76,12 +75,13 @@
                     <ComboBox Style="{StaticResource CbxOperationTypeStyle}"
                               ItemsSource="{Binding Source={assets:Enumeration {x:Type enums:SnmpOperationType}}}"
                               DisplayMemberPath="Description"
-                              SelectedItem="{Binding CurrertEnumerationMemberSnmpOperation, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding CurrertSnmpOperation, UpdateSourceTrigger=PropertyChanged}"
                               SelectedValuePath="Value"
                               SelectedIndex="0"
                               ToolTip="{x:Static resx:StringResources.tool_cb_snmp_req_types}"/>
                     <Button Name="NavStartbtn"
-                            ToolTip="{x:Static resx:StringResources.tool_btn_start}">
+                            ToolTip="{x:Static resx:StringResources.tool_btn_start}"
+                            Command="{Binding PerformActionCommand}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="../Resources/Images/start.png" />
                             <TextBlock Margin="3,0,0,0" Text="{x:Static resx:StringResources.tool_btn_start}"/>
@@ -115,18 +115,18 @@
                             <RowDefinition  Height="20"/>
                             <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Content="Target HostName or IPv4 Address" Margin="5,10,0,0"/>
+                        <Label Grid.Row="0" Content="{x:Static resx:StringResources.label_target_address_ip_v4}" Margin="5,10,0,0"/>
                         <TextBox Grid.Row="1"
                                  Text="{Binding IpAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource WorkingGridTxtBoxStyle}"/>
-                        <Button Content="Check if device avaliable" 
+                        <Button Content="{x:Static resx:StringResources.check_btn}" 
                                 Grid.Row="2" 
                                 Margin="10,10"
                                 Command="{Binding IfDeviceAvaliableCommand}"/>
                     </Grid>
                     <Label Grid.Row="0" 
                            Grid.Column="1" 
-                           Content=". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . " 
+                           Content="{x:Static resx:StringResources.dots}" 
                            Foreground="Gray"
                            FontSize="10" 
                            IsHitTestVisible="False"
@@ -175,9 +175,9 @@
                                 </Style>
                             </TreeView.ItemContainerStyle>
                             <i:Interaction.Behaviors>
-                                <assets:BindableSelectedItemBehavior SelectedItem="{Binding SelectedOid, Mode=TwoWay}"/>
+                                <assets:BindableSelectedItemBehavior SelectedItem="{Binding OidTree.OidSelected, Mode=TwoWay}"/>
                             </i:Interaction.Behaviors>
-                                <TreeView.ItemTemplate>
+                            <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding ChildOids, Mode=OneWay}" DataType="{x:Type commonSnmp:Oid}">
                                     <StackPanel Orientation="Horizontal" ToolTip="{Binding Description}" >
                                         <Image Source="../Resources/Images/pin.png" Style="{StaticResource SmallImageStyle}"/>
@@ -187,7 +187,7 @@
                             </TreeView.ItemTemplate>
                         </TreeView>
                         <TextBox Grid.Row="1" 
-                                 Text="{Binding OidTree.OidSelected.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                 
+                                 Text="{Binding OidTree.OidCurrent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                 
                                  Style="{StaticResource WorkingGridTxtBoxStyle}"/>
                         <Button Content="Add OID" 
                                 Grid.Row="2" 
@@ -200,7 +200,9 @@
                               VerticalAlignment="Stretch" 
                               ResizeBehavior="CurrentAndNext"/>
                 <Grid Name="RightGrid" Grid.Column="1">
-                    <RichTextBox VerticalScrollBarVisibility="Auto" Margin="0,0,2,2"/>
+                    <TextBox VerticalScrollBarVisibility="Auto" 
+                                 Margin="0,0,2,2"
+                                 Text="{Binding Result, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </Grid>
         </Grid>

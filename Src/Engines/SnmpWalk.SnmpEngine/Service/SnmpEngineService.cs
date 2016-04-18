@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -19,6 +20,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
     {
         private static readonly ILog Log = LogManager.GetLogger("snmpWalk.log");
         private readonly SnmpEngineConverter _converter = new SnmpEngineConverter();
+        private static XmlCommonLoader _xmlCommonLoader = XmlCommonLoader.Instance;
         private int _timeOut;
 
         public int TimeOut
@@ -29,7 +31,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
 
         public static List<Oid> InitializeOids
         {
-            get { return XmlCommonLoader.Instance.Oids; }
+            get { return _xmlCommonLoader.Oids; }
         }
 
         private IEnumerable<SnmpResult> Walk(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
@@ -50,9 +52,37 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
         {
             var list = new List<Variable>();
 
+            if (oid.HasAdditionalCodes)
+            {
+                return WalkWithAdditionalCodes(version, ipAddress, octetString, oid, walkMode);
+            }
+
             Messenger.Walk(_converter.ToVersionCodeConverter(version), new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort), new OctetString(octetString), new ObjectIdentifier(oid.Value), list, _timeOut, _converter.ToWalkModeConverter(walkMode));
 
             return list.Select(var => new SnmpResult(new Oid(var.Id.ToString()), var.Data, _converter.ToSnmpDataType(var.Data.TypeCode)));
+        }
+
+        private IEnumerable<SnmpResult> WalkWithAdditionalCodes(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
+        {
+            var list = new List<Variable>();
+            var results = new List<SnmpResult>();
+            var codesTable = _xmlCommonLoader.AdditionalCodeTable;
+            var codes = (Codes)codesTable[oid.Name];
+
+            if (codes != null)
+            {
+                foreach (var code in codes.Code)
+                {
+                    Messenger.Walk(_converter.ToVersionCodeConverter(version), new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort), new OctetString(octetString), new ObjectIdentifier(string.Concat(oid.Value, ".", code.Decimal)), list, _timeOut, _converter.ToWalkModeConverter(walkMode));
+
+                    if (list.Any())
+                    {
+                        results.AddRange(list.Select(var => new SnmpResult(new Oid(string.Concat(oid.Value, ".", code.Decimal), code.Name, string.Concat(oid.FullName, ".", code.Name)), var.Data, _converter.ToSnmpDataType(var.Data.TypeCode))));
+                    }
+                }
+            }
+
+            return results;
         }
 
         private IPAddress GetIpEndPointFromHostName(string hostName)
@@ -153,7 +183,8 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
                     octetString = SnmpHelper.DefaultOctetString;
                 }
 
-                result = Walk(version, ipAddress, octetString, oid, walkMode).ToList();
+                result = oid.HasChildOids ? Walk(version, ipAddress, octetString, oid, walkMode).ToList() : WalkSingle(version, ipAddress, octetString, oid, walkMode).ToList();
+
             }
             catch (Exception e)
             {
