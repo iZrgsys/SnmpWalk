@@ -7,6 +7,7 @@
     <SolidColorBrush x:Key="WrapPanelFill" Color="{StaticResource WrapPanelColor}"/>
     <SolidColorBrush x:Key="IconTextBox_Background" Color="White" />
     <SolidColorBrush x:Key="IconTextBox_Foreground" Color="Black" />
+    <SolidColorBrush x:Key="panelGridBackground" Color="Black" Opacity="0.3"/>
     <LinearGradientBrush x:Key="IconTextBox_Border" StartPoint="0,0" EndPoint="0,1">
         <GradientStop Color="#FFABADB3" Offset="0.05" />
         <GradientStop Color="#FFE2E3EA" Offset="0.07" />

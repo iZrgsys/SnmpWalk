@@ -23,8 +23,8 @@
               Unloaded="OnCanvasUnloaded">
 
         <Ellipse x:Name="_circle0"
-                 Width="20"
-                 Height="20"
+                 Width="18"
+                 Height="18"
                  Canvas.Left="0"
                  Canvas.Top="0"
                  Stretch="Fill"
@@ -32,8 +32,8 @@
                  Opacity="1.0" />
 
         <Ellipse x:Name="_circle1"
-                 Width="20"
-                 Height="20"
+                 Width="17"
+                 Height="17"
                  Canvas.Left="0"
                  Canvas.Top="0"
                  Stretch="Fill"
@@ -41,8 +41,8 @@
                  Opacity="0.9" />
 
         <Ellipse x:Name="_circle2"
-                 Width="20"
-                 Height="20"
+                 Width="16"
+                 Height="16"
                  Canvas.Left="0"
                  Canvas.Top="0"
                  Stretch="Fill"
@@ -50,8 +50,8 @@
                  Opacity="0.8" />
 
         <Ellipse x:Name="_circle3"
-                 Width="20"
-                 Height="20"
+                 Width="15"
+                 Height="15"
                  Canvas.Left="0"
                  Canvas.Top="0"
                  Stretch="Fill"
@@ -59,8 +59,8 @@
                  Opacity="0.7" />
 
         <Ellipse x:Name="_circle4"
-                 Width="20"
-                 Height="20"
+                 Width="14"
+                 Height="14"
                  Canvas.Left="0"
                  Canvas.Top="0"
                  Stretch="Fill"
@@ -68,8 +68,8 @@
                  Opacity="0.6" />
 
         <Ellipse x:Name="_circle5"
-                 Width="20"
-                 Height="20"
+                 Width="13"
+                 Height="13"
                  Canvas.Left="0"
                  Canvas.Top="0"
                  Stretch="Fill"
@@ -77,8 +77,8 @@
                  Opacity="0.5" />
 
         <Ellipse x:Name="_circle6"
-                 Width="20"
-                 Height="20"
+                 Width="12"
+                 Height="12"
                  Canvas.Left="0"
                  Canvas.Top="0"
                  Stretch="Fill"
@@ -86,8 +86,8 @@
                  Opacity="0.4" />
 
         <Ellipse x:Name="_circle7"
-                 Width="20"
-                 Height="20"
+                 Width="11"
+                 Height="11"
                  Canvas.Left="0"
                  Canvas.Top="0"
                  Stretch="Fill"
@@ -95,8 +95,8 @@
                  Opacity="0.3" />
 
         <Ellipse x:Name="_circle8"
-                 Width="20"
-                 Height="20"
+                 Width="10"
+                 Height="10"
                  Canvas.Left="0"
                  Canvas.Top="0"
                  Stretch="Fill"

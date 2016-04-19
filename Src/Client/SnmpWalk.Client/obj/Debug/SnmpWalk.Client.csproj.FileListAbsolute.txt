@@ -106,3 +106,12 @@ D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Assets\Controls\
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Assets\Controls\CircularProgressBar.g.cs
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Assets\Controls\LoadingPanel.g.cs
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Assets\Controls\LoadingPanel.baml
+D:\MyFiles\MyProj\SnmpWalk\Build\SnmpWalk.Client.exe.config
+D:\MyFiles\MyProj\SnmpWalk\Build\Debug\SnmpWalk.Client.exe.config
+D:\MyFiles\MyProj\SnmpWalk\Build\Debug\conf\codes\codes_enterpriseAdditional.xml
+D:\MyFiles\MyProj\SnmpWalk\Build\Debug\conf\codes\codes_mgmt.xml
+D:\MyFiles\MyProj\SnmpWalk\Build\Debug\conf\codes\codes_mib-2.xml
+D:\MyFiles\MyProj\SnmpWalk\Build\Debug\conf\codes\codes_private.xml
+D:\MyFiles\MyProj\SnmpWalk\Build\Debug\conf\oids_common.xml
+D:\MyFiles\MyProj\SnmpWalk\Build\Debug\SnmpWalk.Client.exe
+D:\MyFiles\MyProj\SnmpWalk\Build\Debug\SnmpWalk.Client.pdb

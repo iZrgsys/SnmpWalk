@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using GalaSoft.MvvmLight;
 using SnmpWalk.Common.DataModel.Snmp;
-using SnmpWalk.Engines.SnmpEngine;
 using SnmpWalk.Engines.SnmpEngine.Service;
 
 namespace SnmpWalk.Client.ViewModel

@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight;
@@ -30,14 +28,18 @@ namespace SnmpWalk.Client.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private SnmpOperationType _currertSnmpOperation = SnmpOperationType.Get;
-        private SnmpVersion _currentSnmpVersion = SnmpVersion.V1;
-        private IDiscoveryEngine _discoveryEngine;
         private readonly OidTreeViewModel _oidTreeViewModel;
         private readonly ISnmpEngine _snmpEngine;
-        private string _results;
+        private IDiscoveryEngine _discoveryEngine;
+
+        private SnmpOperationType _currertSnmpOperation = SnmpOperationType.Get;
+        private SnmpVersion _currentSnmpVersion = SnmpVersion.V1;
         private List<SnmpResult> _snmpResults;
+
         private string _ipAddress;
+        private string _results;
+        private string _readCommunity = "public";
+        private string _writeCommunity = "public";
         private bool _performActionEnabled = true;
         private bool _isLoading = false;
 
@@ -55,6 +57,26 @@ namespace SnmpWalk.Client.ViewModel
                 IfDeviceAvaliableCommand.RaiseCanExecuteChanged();
             }
 
+        }
+
+        public string WriteCommunity
+        {
+            get { return _writeCommunity; }
+            set
+            {
+                _writeCommunity = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string ReadCommunity
+        {
+            get { return _readCommunity; }
+            set
+            {
+                _readCommunity = value;
+                RaisePropertyChanged();
+            }
         }
 
         public bool IsLoading
@@ -182,7 +204,7 @@ namespace SnmpWalk.Client.ViewModel
 
         private List<SnmpResult> Walk()
         {
-            return _snmpEngine.WalkOperation(ConvertToCommonVersion(_currentSnmpVersion), IPAddress.Parse(_ipAddress), null, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree).ToList();
+            return _snmpEngine.WalkOperation(ConvertToCommonVersion(_currentSnmpVersion), IPAddress.Parse(_ipAddress), _readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree).ToList();
         }
 
         private Common.DataModel.Snmp.SnmpVersion ConvertToCommonVersion(SnmpVersion snmpVersion)
