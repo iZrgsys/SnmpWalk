@@ -21,6 +21,6 @@ namespace SnmpWalk.Engines.SnmpEngine
 
         IEnumerable<SnmpResult> WalkOperation(SnmpVersion version,string hostName, string octetString, Oid oid, WalkingMode walkMode);
 
-        IEnumerable<SnmpResult> WalkBulkOperation(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode);
+        IEnumerable<SnmpResult> WalkBulkOperation(SnmpVersion version, IPAddress ipAddress, int maxBulkRepetiotions, string octetString, Oid oid, WalkingMode walkMode);
     }
 }

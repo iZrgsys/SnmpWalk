@@ -17,9 +17,9 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
 {
     public class SnmpEngineService : ISnmpEngine
     {
-        private static readonly ILog Log = LogManager.GetLogger("snmpWalk.log");
+        private static readonly ILog Log = LogManager.GetLogger("application.log");
         private readonly SnmpEngineConverter _converter = new SnmpEngineConverter();
-        private static XmlCommonLoader _xmlCommonLoader = XmlCommonLoader.Instance;
+        private static readonly XmlCommonLoader XmlLoader = XmlCommonLoader.Instance;
         private int _timeOut;
 
         public int TimeOut
@@ -30,11 +30,12 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
 
         public static List<Oid> InitializeOids
         {
-            get { return _xmlCommonLoader.Oids; }
+            get { return XmlLoader.Oids; }
         }
 
         private IEnumerable<SnmpResult> Walk(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
         {
+            Log.Info("SnmpEngine.Walk(): Started");
             var result = new List<SnmpResult>();
 
             foreach (var childOid in oid.ChildOids)
@@ -44,11 +45,56 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
                     : Walk(version, ipAddress, octetString, childOid, walkMode));
             }
 
+            Log.Info("SnmpEngine.Walk(): Finished");
             return result;
+        }
+
+        private IEnumerable<SnmpResult> WalkBulk(SnmpVersion version, IPAddress ipAddress, int maxBulkRepetitions, string octetString, Oid oid, WalkingMode walkMode)
+        {
+            Log.Info("SnmpEngine.WalkBulk(): Started");
+            var result = new List<SnmpResult>();
+
+            foreach (var childOid in oid.ChildOids)
+            {
+                result.AddRange(!childOid.HasChildOids ? WalkBulkSingle(version, ipAddress, maxBulkRepetitions, octetString, childOid, walkMode)
+                    : WalkBulk(version, ipAddress, maxBulkRepetitions, octetString, childOid, walkMode));
+            }
+
+            Log.Info("SnmpEngine.WalkBulk(): Finished");
+            return result;
+        }
+
+        private IEnumerable<SnmpResult> WalkBulkSingle(SnmpVersion version, IPAddress ipAddress, int maxBulkRepetitions, string octetString, Oid oid, WalkingMode walkMode)
+        {
+            Log.Info("SnmpEngine.WalkBulkSingle(): Started");
+            var list = new List<Variable>();
+
+            try
+            {
+                Messenger.BulkWalk(_converter.ToVersionCodeConverter(version),
+                new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort),
+                new OctetString(octetString),
+                new ObjectIdentifier(oid.Value),
+                list,
+                _timeOut,
+                maxBulkRepetitions,
+                _converter.ToWalkModeConverter(walkMode),
+                null,
+                null);
+            }
+            catch (Exception e)
+            {
+                Log.Error("SnmpEngine.WalkBulkSingle(): Exception caught :", e);
+                Log.Error("SnmpEngine.WalkBulkSingle(): Exception - Oid: "+oid.Value);
+            }
+
+            Log.Info("SnmpEngine.WalkBulkSingle(): Finished");
+            return list.Select(var => new SnmpResult(new Oid(var.Id.ToString()), var.Data, _converter.ToSnmpDataType(var.Data.TypeCode)));
         }
 
         private IEnumerable<SnmpResult> WalkSingle(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
         {
+            Log.Info("SnmpEngine.WalkSingle(): Started");
             var list = new List<Variable>();
 
             if (oid.HasAdditionalCodes)
@@ -56,16 +102,25 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
                 return WalkWithAdditionalCodes(version, ipAddress, octetString, oid, walkMode);
             }
 
-            Messenger.Walk(_converter.ToVersionCodeConverter(version), new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort), new OctetString(octetString), new ObjectIdentifier(oid.Value), list, _timeOut, _converter.ToWalkModeConverter(walkMode));
+            Messenger.Walk(
+                _converter.ToVersionCodeConverter(version),
+                new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort),
+                new OctetString(octetString),
+                new ObjectIdentifier(oid.Value),
+                list,
+                _timeOut,
+                _converter.ToWalkModeConverter(walkMode));
+            Log.Info("SnmpEngine.WalkSingle(): Finished");
 
             return list.Select(var => new SnmpResult(new Oid(var.Id.ToString()), var.Data, _converter.ToSnmpDataType(var.Data.TypeCode)));
         }
 
         private IEnumerable<SnmpResult> WalkWithAdditionalCodes(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
         {
+            Log.Info("SnmpEngine.WalkWithAdditionalCodes(): Started");
             var list = new List<Variable>();
             var results = new List<SnmpResult>();
-            var codesTable = _xmlCommonLoader.AdditionalCodeTable;
+            var codesTable = XmlLoader.AdditionalCodeTable;
             var codes = (Codes)codesTable[oid.Name];
 
             if (codes != null)
@@ -86,11 +141,14 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
 
                     if (list.Any())
                     {
-                        results.AddRange(list.Select(var => new SnmpResult(new Oid(string.Concat(oid.Value, ".", code.Decimal), code.Name, string.Concat(oid.FullName, ".", code.Name)), var.Data, _converter.ToSnmpDataType(var.Data.TypeCode))));
+                        results.AddRange(list.Select(var => new SnmpResult(new Oid(string.Concat(oid.Value, ".", code.Decimal),
+                            code.Name, string.Concat(oid.FullName, ".", code.Name)),
+                            var.Data, _converter.ToSnmpDataType(var.Data.TypeCode))));
                     }
                 }
             }
 
+            Log.Info("SnmpEngine.WalkWithAdditionalCodes(): Finished");
             return results;
         }
 
@@ -99,10 +157,12 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             var addresses = Dns.GetHostAddresses(hostName);
             if (addresses.Length == 0)
             {
+                Log.Error("Unable to retrieve address from specified host name.");
                 throw new ArgumentException("Unable to retrieve address from specified host name.", nameof(hostName));
             }
             if (addresses.Length > 1)
             {
+                Log.Error("There is more that one IP address to the specified host.");
                 throw new ArgumentException("There is more that one IP address to the specified host.", nameof(hostName));
             }
             return addresses[0];
@@ -125,7 +185,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
 
         public IEnumerable<SnmpResult> WalkOperation(SnmpVersion version, string hostName, string octetString, Oid oid, WalkingMode walkMode)
         {
-            Log.Debug("SnmpEngine.WalkOperation(): Started");
+            Log.Info("SnmpEngine.WalkOperation(): Started");
 
             List<SnmpResult> result;
 
@@ -163,20 +223,61 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             }
             finally
             {
-                Log.Debug("SnmpEngine.WalkOperation(): Finished");
+                Log.Info("SnmpEngine.WalkOperation(): Finished");
             }
 
             return result;
         }
 
-        public IEnumerable<SnmpResult> WalkBulkOperation(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
+        public IEnumerable<SnmpResult> WalkBulkOperation(SnmpVersion version, IPAddress ipAddress, int maxBulkRepetiotions, string octetString, Oid oid, WalkingMode walkMode)
         {
-            throw new NotImplementedException();
+            Log.Info("SnmpEngine.WalkBulkOperation(): Started");
+            List<SnmpResult> results;
+
+            try
+            {
+                if (_timeOut == 0)
+                {
+                    _timeOut = SnmpHelper.DefaultTimeOut;
+                }
+
+                if (string.IsNullOrEmpty(octetString))
+                {
+                    octetString = SnmpHelper.DefaultOctetString;
+                }
+
+                results = oid.HasChildOids ? WalkBulk(version, ipAddress, maxBulkRepetiotions, octetString, oid, walkMode).ToList() : WalkBulkSingle(version, ipAddress, maxBulkRepetiotions, octetString, oid, walkMode).ToList();
+
+            }
+            catch (Exception e)
+            {
+                if (e is TimeoutException)
+                {
+                    Log.Error("SnmpEngine.WalkBulkOperation():Timeout Exception caught:", e);
+                    throw new SnmpTimeOutException(e.Message, _timeOut);
+                }
+                else if (e is ArgumentOutOfRangeException)
+                {
+                    Log.Error("SnmpEngine.WalkBulkOperation():Argument Out Of Range Exception caught:", e);
+                    throw new SnmpEngineConvertorException((ArgumentOutOfRangeException)e);
+                }
+                else
+                {
+                    Log.Error("SnmpEngine.WalkBulkOperation():Exception caught:", e);
+                    throw new SnmpEngineException(e.Message);
+                }
+            }
+            finally
+            {
+                Log.Info("SnmpEngine.WalkBulkOperation(): Finished");
+            }
+
+            return results;
         }
 
         public IEnumerable<SnmpResult> WalkOperation(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
         {
-            Log.Debug("SnmpEngine.WalkOperation(): Started");
+            Log.Info("SnmpEngine.WalkOperation(): Started");
 
             List<SnmpResult> result;
 
@@ -215,7 +316,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             }
             finally
             {
-                Log.Debug("SnmpEngine.WalkOperation(): Finished");
+                Log.Info("SnmpEngine.WalkOperation(): Finished");
             }
 
             return result;

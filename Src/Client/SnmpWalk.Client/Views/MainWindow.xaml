@@ -80,7 +80,12 @@
                               SelectedValuePath="Value"
                               SelectedIndex="0"
                               ToolTip="{x:Static resx:StringResources.tool_cb_snmp_req_types}"/>
-                    <Button Name="NavStartbtn"
+
+                    <TextBox Width="30"
+                             Margin="5,0,5,0"
+                             ToolTip="Max Bulk Repetitions"
+                             Text="{Binding MaxBulkRept, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Name="NavStartbtn"
                             ToolTip="{x:Static resx:StringResources.tool_btn_start}"
                             Command="{Binding PerformActionCommand}"
                             IsEnabled="{Binding PerformActionEnabled}">

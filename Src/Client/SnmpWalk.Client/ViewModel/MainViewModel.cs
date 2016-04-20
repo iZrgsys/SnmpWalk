@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight;
+using log4net;
 using SnmpWalk.Client.Assets;
 using SnmpWalk.Client.Assets.Enums;
 using SnmpWalk.Common.DataModel.Enums;
@@ -13,7 +14,6 @@ using SnmpWalk.Engines.DiscoveryEngine.Service;
 using SnmpWalk.Engines.SnmpEngine;
 using SnmpWalk.Engines.SnmpEngine.Service;
 using SnmpWalk.Engines.SnmpEngine.Types;
-using static System.String;
 using RelayCommand = GalaSoft.MvvmLight.Command.RelayCommand;
 using SnmpVersion = SnmpWalk.Client.Assets.Enums.SnmpVersion;
 
@@ -31,6 +31,7 @@ namespace SnmpWalk.Client.ViewModel
         private readonly OidTreeViewModel _oidTreeViewModel;
         private readonly ISnmpEngine _snmpEngine;
         private IDiscoveryEngine _discoveryEngine;
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private SnmpOperationType _currertSnmpOperation = SnmpOperationType.Get;
         private SnmpVersion _currentSnmpVersion = SnmpVersion.V1;
@@ -42,6 +43,7 @@ namespace SnmpWalk.Client.ViewModel
         private string _writeCommunity = "public";
         private bool _performActionEnabled = true;
         private bool _isLoading = false;
+        private int _maxBulkReps;
 
         public RelayCommand IfDeviceAvaliableCommand { get; private set; }
         public RelayCommand PerformActionCommand { get; private set; }
@@ -57,6 +59,16 @@ namespace SnmpWalk.Client.ViewModel
                 IfDeviceAvaliableCommand.RaiseCanExecuteChanged();
             }
 
+        }
+
+        public int MaxBulkRept
+        {
+            get { return _maxBulkReps; }
+            set
+            {
+                _maxBulkReps = value;
+                RaisePropertyChanged();
+            }
         }
 
         public string WriteCommunity
@@ -154,7 +166,7 @@ namespace SnmpWalk.Client.ViewModel
 
         public bool CanCheckDevice()
         {
-            return !IsNullOrEmpty(IpAddress);
+            return !string.IsNullOrEmpty(IpAddress);
         }
 
         public void CheckDevice()
@@ -175,12 +187,12 @@ namespace SnmpWalk.Client.ViewModel
 
         public async void PerformActionAsync()
         {
+            PerformActionEnabled = false;
+            IsLoading = true;
+            SnmpResults = null;
+
             if (_currertSnmpOperation == SnmpOperationType.Walk)
             {
-                PerformActionEnabled = false;
-                IsLoading = true;
-                SnmpResults = null;
-
                 try
                 {
                     SnmpResults = await WalkAsync();
@@ -189,12 +201,22 @@ namespace SnmpWalk.Client.ViewModel
                 {
                     MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
-
-                PerformActionEnabled = true;
-                IsLoading = false;
-
             }
+
+            if (_currertSnmpOperation == SnmpOperationType.WalkBulk && (_currentSnmpVersion == SnmpVersion.V2 || _currentSnmpVersion == SnmpVersion.V3))
+            {
+                try
+                {
+                    SnmpResults = await WalkBulkAsync();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+
+            PerformActionEnabled = true;
+            IsLoading = false;
         }
 
         private Task<List<SnmpResult>> WalkAsync()
@@ -202,8 +224,20 @@ namespace SnmpWalk.Client.ViewModel
             return Task.Run(() => Walk());
         }
 
+        private Task<List<SnmpResult>> WalkBulkAsync()
+        {
+            return Task.Run(() => WalkBulk());
+        }
+
+        private List<SnmpResult> WalkBulk()
+        {
+            Log.Info("Client:Walk operation started");
+            return _snmpEngine.WalkBulkOperation(ConvertToCommonVersion(_currentSnmpVersion), IPAddress.Parse(_ipAddress),_maxBulkReps ,_readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree).ToList();
+        }
+
         private List<SnmpResult> Walk()
         {
+            Log.Info("Client:Walk operation started");
             return _snmpEngine.WalkOperation(ConvertToCommonVersion(_currentSnmpVersion), IPAddress.Parse(_ipAddress), _readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree).ToList();
         }
 

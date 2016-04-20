@@ -13,8 +13,8 @@ namespace SnmpWalk.Client.Assets.Enums
         [Description("get_bulk_operation")]
         GetBulk = 2,
 
-        [Description("set_operation")]
-        Set = 3,
+        //[Description("set_operation")]
+        //Set = 3,
 
         [Description("walk_operation")]
         Walk = 4,
