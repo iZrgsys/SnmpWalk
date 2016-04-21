@@ -30,7 +30,7 @@ namespace SnmpWalk.Client.ViewModel
     {
         private readonly OidTreeViewModel _oidTreeViewModel;
         private readonly ISnmpEngine _snmpEngine;
-        private IDiscoveryEngine _discoveryEngine;
+        private readonly IDiscoveryEngine _discoveryEngine;
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private SnmpOperationType _currertSnmpOperation = SnmpOperationType.Get;
@@ -38,16 +38,15 @@ namespace SnmpWalk.Client.ViewModel
         private List<SnmpResult> _snmpResults;
 
         private string _ipAddress;
-        private string _results;
         private string _readCommunity = "public";
         private string _writeCommunity = "public";
         private bool _performActionEnabled = true;
-        private bool _isLoading = false;
+        private bool _isLoading;
         private int _maxBulkReps;
 
         public RelayCommand IfDeviceAvaliableCommand { get; private set; }
         public RelayCommand PerformActionCommand { get; private set; }
-        public RelayCommand CancelActionCommand { get; private set; }
+        //public RelayCommand CancelActionCommand { get; private set; }
 
         public string IpAddress
         {
@@ -121,16 +120,6 @@ namespace SnmpWalk.Client.ViewModel
             }
         } 
 
-        public string Result
-        {
-            get { return _results; }
-            set
-            {
-                _results = value;
-                RaisePropertyChanged();
-            }
-        }
-
         public object CurrertSnmpOperation
         {
             get { return _currertSnmpOperation; }
@@ -203,6 +192,18 @@ namespace SnmpWalk.Client.ViewModel
                 }
             }
 
+            if (_currertSnmpOperation == SnmpOperationType.Get)
+            {
+                try
+                {
+                    SnmpResults = await GetAsync();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+
             if (_currertSnmpOperation == SnmpOperationType.WalkBulk && (_currentSnmpVersion == SnmpVersion.V2 || _currentSnmpVersion == SnmpVersion.V3))
             {
                 try
@@ -229,16 +230,27 @@ namespace SnmpWalk.Client.ViewModel
             return Task.Run(() => WalkBulk());
         }
 
+        private Task<List<SnmpResult>> GetAsync()
+        {
+            return Task.Run(() => Get());
+        } 
+
         private List<SnmpResult> WalkBulk()
         {
-            Log.Info("Client:Walk operation started");
+            Log.Info("Client:Walk operation started!...");
             return _snmpEngine.WalkBulkOperation(ConvertToCommonVersion(_currentSnmpVersion), IPAddress.Parse(_ipAddress),_maxBulkReps ,_readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree).ToList();
         }
 
         private List<SnmpResult> Walk()
         {
-            Log.Info("Client:Walk operation started");
+            Log.Info("Client:Walk operation started!...");
             return _snmpEngine.WalkOperation(ConvertToCommonVersion(_currentSnmpVersion), IPAddress.Parse(_ipAddress), _readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree).ToList();
+        }
+
+        private List<SnmpResult> Get()
+        {
+            Log.Info("Client:Get operation started!...");
+            return _snmpEngine.GetOperation(ConvertToCommonVersion(_currentSnmpVersion), IPAddress.Parse(_ipAddress), _readCommunity, _oidTreeViewModel.OidSelected).ToList();
         }
 
         private Common.DataModel.Snmp.SnmpVersion ConvertToCommonVersion(SnmpVersion snmpVersion)
@@ -261,6 +273,7 @@ namespace SnmpWalk.Client.ViewModel
         /// </summary>
         public MainViewModel()
         {
+            Log.Info("Client: Main View Model initializing...");
             _oidTreeViewModel = new OidTreeViewModel();
             IfDeviceAvaliableCommand = new RelayCommand(CheckDevice, CanCheckDevice);
             PerformActionCommand = new RelayCommand(PerformActionAsync, CanPerformAction);

@@ -11,15 +11,17 @@ namespace SnmpWalk.Engines.SnmpEngine
     {
         int TimeOut { get; set; }
 
-        IEnumerable<Variable> GetOperation(SnmpVersion version, IPAddress ipAddress, string octetString);
+        IEnumerable<SnmpResult> GetOperation(SnmpVersion version, string hostName, string octetString, Oid oid);
 
-        IEnumerable<Variable> GetNextOperation(SnmpVersion version, IPAddress ipAddress, string octetString);
+        IEnumerable<SnmpResult> GetOperation(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid);
 
-        IEnumerable<Variable> GetBulkOperation(SnmpVersion version, IPAddress ipAddress, string octetString);
+        IEnumerable<SnmpResult> GetNextOperation(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid);
+
+        IEnumerable<SnmpResult> GetBulkOperation(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid);
 
         IEnumerable<SnmpResult> WalkOperation(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode);
 
-        IEnumerable<SnmpResult> WalkOperation(SnmpVersion version,string hostName, string octetString, Oid oid, WalkingMode walkMode);
+        IEnumerable<SnmpResult> WalkOperation(SnmpVersion version, string hostName, string octetString, Oid oid, WalkingMode walkMode);
 
         IEnumerable<SnmpResult> WalkBulkOperation(SnmpVersion version, IPAddress ipAddress, int maxBulkRepetiotions, string octetString, Oid oid, WalkingMode walkMode);
     }
