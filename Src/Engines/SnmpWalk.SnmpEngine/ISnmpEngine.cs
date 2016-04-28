@@ -1,5 +1,4 @@
-﻿using Lextm.SharpSnmpLib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using SnmpWalk.Common.DataModel.Enums;
 using SnmpWalk.Common.DataModel.Snmp;
@@ -11,18 +10,14 @@ namespace SnmpWalk.Engines.SnmpEngine
     {
         int TimeOut { get; set; }
 
-        IEnumerable<SnmpResult> GetOperation(SnmpVersion version, string hostName, string octetString, Oid oid);
+        IEnumerable<SnmpResult> Get(SnmpVersion version, string octetString, Oid oid, IPAddress ipAddress = null, string hostname = null);
 
-        IEnumerable<SnmpResult> GetOperation(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid);
+        IEnumerable<SnmpResult> GetNext(SnmpVersion version, string octetString, Oid oid, IPAddress ipAddress = null, string hostname = null);
 
-        IEnumerable<SnmpResult> GetNextOperation(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid);
+        IEnumerable<SnmpResult> GetBulk(SnmpVersion version, int maxBulkRepetiotions, string octetString, Oid oid, IPAddress ipAddress = null, string hostname = null);
 
-        IEnumerable<SnmpResult> GetBulkOperation(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid);
+        IEnumerable<SnmpResult> Walk(SnmpVersion version, string octetString, Oid oid, WalkingMode walkMode, IPAddress ipAddress = null, string hostname = null);
 
-        IEnumerable<SnmpResult> WalkOperation(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode);
-
-        IEnumerable<SnmpResult> WalkOperation(SnmpVersion version, string hostName, string octetString, Oid oid, WalkingMode walkMode);
-
-        IEnumerable<SnmpResult> WalkBulkOperation(SnmpVersion version, IPAddress ipAddress, int maxBulkRepetiotions, string octetString, Oid oid, WalkingMode walkMode);
+        IEnumerable<SnmpResult> WalkBulk(SnmpVersion version, int maxBulkRepetiotions, string octetString, Oid oid, WalkingMode walkMode, IPAddress ipAddress = null, string hostname = null);
     }
 }

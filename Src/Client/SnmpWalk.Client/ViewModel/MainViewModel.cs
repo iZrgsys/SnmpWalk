@@ -38,6 +38,7 @@ namespace SnmpWalk.Client.ViewModel
         private List<SnmpResult> _snmpResults;
 
         private string _ipAddress;
+        private string _hostName;
         private string _readCommunity = "public";
         private string _writeCommunity = "public";
         private bool _performActionEnabled = true;
@@ -118,7 +119,7 @@ namespace SnmpWalk.Client.ViewModel
                 _snmpResults = value;
                 RaisePropertyChanged();
             }
-        } 
+        }
 
         public object CurrertSnmpOperation
         {
@@ -204,11 +205,35 @@ namespace SnmpWalk.Client.ViewModel
                 }
             }
 
+            if (_currertSnmpOperation == SnmpOperationType.GetNext)
+            {
+                try
+                {
+                    SnmpResults = await GetNextAsync();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+
             if (_currertSnmpOperation == SnmpOperationType.WalkBulk && (_currentSnmpVersion == SnmpVersion.V2 || _currentSnmpVersion == SnmpVersion.V3))
             {
                 try
                 {
                     SnmpResults = await WalkBulkAsync();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+
+            if (_currertSnmpOperation == SnmpOperationType.GetBulk && (_currentSnmpVersion == SnmpVersion.V2 || _currentSnmpVersion == SnmpVersion.V3))
+            {
+                try
+                {
+                    SnmpResults = await GetBulkAsync();
                 }
                 catch (Exception e)
                 {
@@ -233,24 +258,46 @@ namespace SnmpWalk.Client.ViewModel
         private Task<List<SnmpResult>> GetAsync()
         {
             return Task.Run(() => Get());
-        } 
+        }
+
+        private Task<List<SnmpResult>> GetNextAsync()
+        {
+            return Task.Run(() => GetNext());
+        }
+
+        private Task<List<SnmpResult>> GetBulkAsync()
+        {
+            return Task.Run(() => GetBulk());
+        }
 
         private List<SnmpResult> WalkBulk()
         {
             Log.Info("Client:Walk operation started!...");
-            return _snmpEngine.WalkBulkOperation(ConvertToCommonVersion(_currentSnmpVersion), IPAddress.Parse(_ipAddress),_maxBulkReps ,_readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree).ToList();
+            return _snmpEngine.WalkBulk(ConvertToCommonVersion(_currentSnmpVersion), _maxBulkReps, _readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree, IPAddress.Parse(_ipAddress), _hostName).ToList();
+        }
+
+        private List<SnmpResult> GetBulk()
+        {
+            Log.Info("Client:GetBulk operation started!...");
+            return _snmpEngine.GetBulk(ConvertToCommonVersion(_currentSnmpVersion), _maxBulkReps, _readCommunity, _oidTreeViewModel.OidSelected, IPAddress.Parse(_ipAddress), _hostName).ToList();
         }
 
         private List<SnmpResult> Walk()
         {
             Log.Info("Client:Walk operation started!...");
-            return _snmpEngine.WalkOperation(ConvertToCommonVersion(_currentSnmpVersion), IPAddress.Parse(_ipAddress), _readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree).ToList();
+            return _snmpEngine.Walk(ConvertToCommonVersion(_currentSnmpVersion), _readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree, IPAddress.Parse(_ipAddress), _hostName).ToList();
         }
 
         private List<SnmpResult> Get()
         {
             Log.Info("Client:Get operation started!...");
-            return _snmpEngine.GetOperation(ConvertToCommonVersion(_currentSnmpVersion), IPAddress.Parse(_ipAddress), _readCommunity, _oidTreeViewModel.OidSelected).ToList();
+            return _snmpEngine.Get(ConvertToCommonVersion(_currentSnmpVersion), _readCommunity, _oidTreeViewModel.OidSelected, IPAddress.Parse(_ipAddress), _hostName).ToList();
+        }
+
+        private List<SnmpResult> GetNext()
+        {
+            Log.Info("Client:GetNext operation started!...");
+            return _snmpEngine.GetNext(ConvertToCommonVersion(_currentSnmpVersion), _readCommunity, _oidTreeViewModel.OidSelected, IPAddress.Parse(_ipAddress), _hostName).ToList();
         }
 
         private Common.DataModel.Snmp.SnmpVersion ConvertToCommonVersion(SnmpVersion snmpVersion)
