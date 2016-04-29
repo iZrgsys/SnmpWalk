@@ -88,7 +88,8 @@
                         <Button Name="NavStartbtn"
                             ToolTip="{x:Static resx:StringResources.tool_btn_start}"
                             Command="{Binding PerformActionCommand}"
-                            IsEnabled="{Binding PerformActionEnabled}">
+                            IsEnabled="{Binding PerformActionEnabled}"
+                            IsDefault="True">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="../Resources/Images/start.png" />
                             <TextBlock Margin="3,0,0,0" Text="{x:Static resx:StringResources.tool_btn_start}"/>
