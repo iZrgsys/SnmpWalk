@@ -84,7 +84,8 @@
                     <TextBox Width="30"
                              Margin="5,0,5,0"
                              ToolTip="Max Bulk Repetitions"
-                             Text="{Binding MaxBulkRept, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding MaxBulkRept, UpdateSourceTrigger=PropertyChanged}"
+                             IsEnabled="{Binding IsMaxBulkReptEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                         <Button Name="NavStartbtn"
                             ToolTip="{x:Static resx:StringResources.tool_btn_start}"
                             Command="{Binding PerformActionCommand}"
@@ -127,7 +128,10 @@
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Content="{x:Static resx:StringResources.label_target_address_ip_v4}" Margin="5,10,0,0"/>
                         <TextBox Grid.Row="1"
-                                 Text="{Binding IpAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding IpAddress, Mode=TwoWay,
+                                 ValidatesOnDataErrors=True,
+                                 NotifyOnValidationError=True,
+                                 UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource WorkingGridTxtBoxStyle}"
                                  IsEnabled="{Binding PerformActionEnabled}"/>
                         <Button Content="{x:Static resx:StringResources.check_btn}" 

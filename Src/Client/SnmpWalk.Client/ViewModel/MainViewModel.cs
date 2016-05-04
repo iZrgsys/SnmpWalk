@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace SnmpWalk.Client.ViewModel
     /// </para>
     /// You can also use Blend to data bind with the tool's support.
     /// </summary>
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : ViewModelBase, IDataErrorInfo
     {
         private readonly OidTreeViewModel _oidTreeViewModel;
         private readonly ISnmpEngine _snmpEngine;
@@ -44,6 +45,7 @@ namespace SnmpWalk.Client.ViewModel
         private bool _performActionEnabled = true;
         private bool _isLoading;
         private int _maxBulkReps;
+        private bool _isMaxBulkReptEnabled = false;
 
         public RelayCommand IfDeviceAvaliableCommand { get; private set; }
         public RelayCommand PerformActionCommand { get; private set; }
@@ -67,6 +69,16 @@ namespace SnmpWalk.Client.ViewModel
             set
             {
                 _maxBulkReps = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsMaxBulkReptEnabled
+        {
+            get { return _isMaxBulkReptEnabled; }
+            set
+            {
+                _isMaxBulkReptEnabled = value; 
                 RaisePropertyChanged();
             }
         }
@@ -130,6 +142,11 @@ namespace SnmpWalk.Client.ViewModel
                 if (val != null)
                 {
                     _currertSnmpOperation = (SnmpOperationType)val.Value;
+
+                    if (_currertSnmpOperation == SnmpOperationType.GetBulk || _currertSnmpOperation == SnmpOperationType.WalkBulk)
+                    {
+                        IsMaxBulkReptEnabled = true;
+                    }
                 }
                 RaisePropertyChanged();
             }
@@ -326,6 +343,7 @@ namespace SnmpWalk.Client.ViewModel
             PerformActionCommand = new RelayCommand(PerformActionAsync, CanPerformAction);
             _snmpEngine = new SnmpEngineService();
             _discoveryEngine = DiscoveryEngineService.Instance;
+
             ////if (IsInDesignMode)
             ////{
             ////    // Code runs in Blend --> create design time data.
@@ -334,6 +352,37 @@ namespace SnmpWalk.Client.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = null;
+
+                if (columnName == "IpAddress" && _ipAddress != null)
+                {
+                    if (!Common.CommonHelper.IpRegex.IsMatch(_ipAddress) || !Common.CommonHelper.HostNameRegex.IsMatch(_ipAddress))
+                    {
+                        result = "IP Field contained invalid IP address or hostname.";
+                    }
+                }
+
+                if (columnName == "MaxBulkRept" && (_currertSnmpOperation == SnmpOperationType.GetBulk || _currertSnmpOperation == SnmpOperationType.WalkBulk))
+                {
+                    if (_maxBulkReps < 0 || _maxBulkReps > 20)
+                    {
+                        result = "Max Bulk Repetitions can't be less then 0.";
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        public string Error
+        {
+            get { return null; }
         }
     }
 }
