@@ -6,7 +6,7 @@ using SnmpWalk.Engines.SnmpEngine.Types;
 
 namespace SnmpWalk.Engines.SnmpEngine
 {
-    public interface ISnmpEngine
+    public interface ISnmpService
     {
         int TimeOut { get; set; }
 

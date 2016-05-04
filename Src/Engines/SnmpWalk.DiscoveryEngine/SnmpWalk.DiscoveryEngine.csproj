@@ -44,9 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service\DiscoveryEngineService.cs" />
+    <Compile Include="Service\DiscoveryServiceService.cs" />
     <Compile Include="Exceptions\DiscoveryEngineException.cs" />
-    <Compile Include="IDiscoveryEngine.cs" />
+    <Compile Include="IDiscoveryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

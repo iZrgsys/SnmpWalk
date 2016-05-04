@@ -16,7 +16,7 @@ using TimeoutException = Lextm.SharpSnmpLib.Messaging.TimeoutException;
 
 namespace SnmpWalk.Engines.SnmpEngine.Service
 {
-    public class SnmpEngineService : ISnmpEngine
+    public class SnmpServiceService : ISnmpService
     {
         private static readonly ILog Log = LogManager.GetLogger("application.log");
         private readonly SnmpEngineConverter _converter = new SnmpEngineConverter();

@@ -3,7 +3,7 @@ using System.Net;
 
 namespace SnmpWalk.Engines.DiscoveryEngine
 {
-    public interface IDiscoveryEngine
+    public interface IDiscoveryService
     {
         List<IPAddress> PerformDiscovery(params string[] ipAddresses);
 

@@ -111,6 +111,10 @@
     <Compile Include="Assets\HelperClasses\CommandManagerHelper.cs" />
     <Compile Include="Assets\HelperClasses\DelegateCommand.cs" />
     <Compile Include="Assets\VisualTreeExtensions.cs" />
+    <Compile Include="ViewModel\DeviceManagmentViewModel.cs" />
+    <Compile Include="Views\DeviceManagentWindow.xaml.cs">
+      <DependentUpon>DeviceManagentWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OidsWindow.xaml.cs">
       <DependentUpon>OidsWindow.xaml</DependentUpon>
     </Compile>
@@ -123,6 +127,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Styles\WindowStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeviceManagentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -143,7 +151,6 @@
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\OidTreeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -188,10 +195,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Convertors\" />
-    <Folder Include="Assets\Validators\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Common\SnmpWalk.Common\SnmpWalk.Common.csproj">
       <Project>{45c70660-b3a5-48cb-9243-781c8da159d3}</Project>

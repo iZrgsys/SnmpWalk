@@ -129,3 +129,5 @@ D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Assets\Controls\Loadin
 D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.g.resources
 D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.exe
 D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\SnmpWalk.pdb
+D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Views\DeviceManagentWindow.g.cs
+D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Views\DeviceManagentWindow.baml

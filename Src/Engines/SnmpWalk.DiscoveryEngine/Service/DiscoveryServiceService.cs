@@ -8,15 +8,15 @@ using SnmpWalk.Engines.DiscoveryEngine.Exceptions;
 
 namespace SnmpWalk.Engines.DiscoveryEngine.Service
 {
-    public class DiscoveryEngineService : IDiscoveryEngine
+    public class DiscoveryServiceService : IDiscoveryService
     {
         private static ILog _log = LogManager.GetLogger("snmpWalk.log");
         private readonly List<IPAddress> _ipAddresses;
         private readonly Ping _pingSender;
-        private static readonly Lazy<DiscoveryEngineService> EngineInstance = new Lazy<DiscoveryEngineService>(() => new DiscoveryEngineService());
+        private static readonly Lazy<DiscoveryServiceService> EngineInstance = new Lazy<DiscoveryServiceService>(() => new DiscoveryServiceService());
 
 
-        public static IDiscoveryEngine Instance
+        public static IDiscoveryService Instance
         {
             get
             {
@@ -32,7 +32,7 @@ namespace SnmpWalk.Engines.DiscoveryEngine.Service
 
         public List<IPAddress> PerformPinging(params string[] ipAddresses)
         {
-            _log.Debug("DiscoveryEngineService: DiscoveryEngineService.PerformPinging() - Started");
+            _log.Debug("DiscoveryServiceService: DiscoveryServiceService.PerformPinging() - Started");
             try
             {
                 Parallel.ForEach(ipAddresses, address =>
@@ -48,18 +48,18 @@ namespace SnmpWalk.Engines.DiscoveryEngine.Service
             }
             catch (Exception e)
             {
-                _log.Error(string.Concat("DiscoveryEngineService: DiscoveryEngineService.PerformPinging(): exception caught - ", e));
+                _log.Error(string.Concat("DiscoveryServiceService: DiscoveryServiceService.PerformPinging(): exception caught - ", e));
                 throw new DiscoveryEngineException(e.Message);
             }
             finally
             {
-                _log.Debug("DiscoveryEngineService: DiscoveryEngineService.PerformPinging() - Finished");
+                _log.Debug("DiscoveryServiceService: DiscoveryServiceService.PerformPinging() - Finished");
             }
 
             return _ipAddresses;
         }
 
-        private DiscoveryEngineService()
+        private DiscoveryServiceService()
         {
             _ipAddresses = new List<IPAddress>();
             _pingSender = new Ping();

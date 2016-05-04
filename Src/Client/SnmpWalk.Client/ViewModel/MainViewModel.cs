@@ -10,6 +10,7 @@ using log4net;
 using SnmpWalk.Client.Assets;
 using SnmpWalk.Client.Assets.Enums;
 using SnmpWalk.Common.DataModel.Enums;
+using SnmpWalk.Common.DataModel.Snmp;
 using SnmpWalk.Engines.DiscoveryEngine;
 using SnmpWalk.Engines.DiscoveryEngine.Service;
 using SnmpWalk.Engines.SnmpEngine;
@@ -30,8 +31,8 @@ namespace SnmpWalk.Client.ViewModel
     public class MainViewModel : ViewModelBase, IDataErrorInfo
     {
         private readonly OidTreeViewModel _oidTreeViewModel;
-        private readonly ISnmpEngine _snmpEngine;
-        private readonly IDiscoveryEngine _discoveryEngine;
+        private readonly ISnmpService _snmpService;
+        private readonly IDiscoveryService _discoveryService;
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private SnmpOperationType _currertSnmpOperation = SnmpOperationType.Get;
@@ -45,18 +46,29 @@ namespace SnmpWalk.Client.ViewModel
         private bool _performActionEnabled = true;
         private bool _isLoading;
         private int _maxBulkReps;
-        private bool _isMaxBulkReptEnabled = false;
+        private bool _isMaxBulkReptEnabled;
 
         public RelayCommand IfDeviceAvaliableCommand { get; private set; }
         public RelayCommand PerformActionCommand { get; private set; }
         //public RelayCommand CancelActionCommand { get; private set; }
 
-        public string IpAddress
+        public string IpAddressOrHostName
         {
-            get { return _ipAddress; }
+            get { return _ipAddress ?? _hostName; }
             set
             {
-                _ipAddress = value;
+                if (Common.CommonHelper.IpRegex.IsMatch(value))
+                {
+                    _ipAddress = value;
+                    _hostName = null;
+                }
+
+                //if (Common.CommonHelper.HostNameRegex.IsMatch(value))
+                //{
+                //    _ipAddress = null;
+                //    _hostName = value;
+                //}
+
                 RaisePropertyChanged();
                 IfDeviceAvaliableCommand.RaiseCanExecuteChanged();
             }
@@ -147,6 +159,10 @@ namespace SnmpWalk.Client.ViewModel
                     {
                         IsMaxBulkReptEnabled = true;
                     }
+                    else
+                    {
+                        IsMaxBulkReptEnabled = false;
+                    }
                 }
                 RaisePropertyChanged();
             }
@@ -173,12 +189,12 @@ namespace SnmpWalk.Client.ViewModel
 
         public bool CanCheckDevice()
         {
-            return !string.IsNullOrEmpty(IpAddress);
+            return !string.IsNullOrEmpty(IpAddressOrHostName);
         }
 
         public void CheckDevice()
         {
-            var devices = _discoveryEngine.PerformPinging(_ipAddress);
+            var devices = _discoveryService.PerformPinging(_ipAddress);
 
             if (devices.Any())
             {
@@ -290,31 +306,31 @@ namespace SnmpWalk.Client.ViewModel
         private List<SnmpResult> WalkBulk()
         {
             Log.Info("Client:Walk operation started!...");
-            return _snmpEngine.WalkBulk(ConvertToCommonVersion(_currentSnmpVersion), _maxBulkReps, _readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree, IPAddress.Parse(_ipAddress), _hostName).ToList();
+            return _snmpService.WalkBulk(ConvertToCommonVersion(_currentSnmpVersion), _maxBulkReps, _readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree, IPAddress.Parse(_ipAddress), _hostName).ToList();
         }
 
         private List<SnmpResult> GetBulk()
         {
             Log.Info("Client:GetBulk operation started!...");
-            return _snmpEngine.GetBulk(ConvertToCommonVersion(_currentSnmpVersion), _maxBulkReps, _readCommunity, _oidTreeViewModel.OidSelected, IPAddress.Parse(_ipAddress), _hostName).ToList();
+            return _snmpService.GetBulk(ConvertToCommonVersion(_currentSnmpVersion), _maxBulkReps, _readCommunity, _oidTreeViewModel.OidSelected, IPAddress.Parse(_ipAddress), _hostName).ToList();
         }
 
         private List<SnmpResult> Walk()
         {
             Log.Info("Client:Walk operation started!...");
-            return _snmpEngine.Walk(ConvertToCommonVersion(_currentSnmpVersion), _readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree, IPAddress.Parse(_ipAddress), _hostName).ToList();
+            return _snmpService.Walk(ConvertToCommonVersion(_currentSnmpVersion), _readCommunity, _oidTreeViewModel.OidSelected, WalkingMode.WithinSubtree, IPAddress.Parse(_ipAddress), _hostName).ToList();
         }
 
         private List<SnmpResult> Get()
         {
             Log.Info("Client:Get operation started!...");
-            return _snmpEngine.Get(ConvertToCommonVersion(_currentSnmpVersion), _readCommunity, _oidTreeViewModel.OidSelected, IPAddress.Parse(_ipAddress), _hostName).ToList();
+            return _snmpService.Get(ConvertToCommonVersion(_currentSnmpVersion), _readCommunity, _oidTreeViewModel.OidSelected, IPAddress.Parse(_ipAddress), _hostName).ToList();
         }
 
         private List<SnmpResult> GetNext()
         {
             Log.Info("Client:GetNext operation started!...");
-            return _snmpEngine.GetNext(ConvertToCommonVersion(_currentSnmpVersion), _readCommunity, _oidTreeViewModel.OidSelected, IPAddress.Parse(_ipAddress), _hostName).ToList();
+            return _snmpService.GetNext(ConvertToCommonVersion(_currentSnmpVersion), _readCommunity, _oidTreeViewModel.OidSelected, IPAddress.Parse(_ipAddress), _hostName).ToList();
         }
 
         private Common.DataModel.Snmp.SnmpVersion ConvertToCommonVersion(SnmpVersion snmpVersion)
@@ -341,8 +357,8 @@ namespace SnmpWalk.Client.ViewModel
             _oidTreeViewModel = new OidTreeViewModel();
             IfDeviceAvaliableCommand = new RelayCommand(CheckDevice, CanCheckDevice);
             PerformActionCommand = new RelayCommand(PerformActionAsync, CanPerformAction);
-            _snmpEngine = new SnmpEngineService();
-            _discoveryEngine = DiscoveryEngineService.Instance;
+            _snmpService = new SnmpServiceService();
+            _discoveryService = DiscoveryServiceService.Instance;
 
             ////if (IsInDesignMode)
             ////{
@@ -360,7 +376,7 @@ namespace SnmpWalk.Client.ViewModel
             {
                 string result = null;
 
-                if (columnName == "IpAddress" && _ipAddress != null)
+                if (columnName == "IpAddressOrHostName" && _ipAddress != null)
                 {
                     if (!Common.CommonHelper.IpRegex.IsMatch(_ipAddress) || !Common.CommonHelper.HostNameRegex.IsMatch(_ipAddress))
                     {
@@ -383,6 +399,79 @@ namespace SnmpWalk.Client.ViewModel
         public string Error
         {
             get { return null; }
+        }
+    }
+
+    public class OidTreeViewModel : ViewModelBase
+    {
+        private static readonly List<Oid> _oids;
+        private Oid _oidCurrent = new Oid();
+        private bool _showMode;
+
+        public bool ShowMode
+        {
+            get { return _showMode; }
+            set { _showMode = value; }
+        }
+
+        public Oid OidSelected
+        {
+            get { return _oidCurrent; }
+            set
+            {
+                var oid = value as Oid;
+                if (oid != null)
+                {
+                    _oidCurrent = oid;
+                    OidCurrent = oid.Value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public string OidCurrent
+        {
+            get
+            {
+                if (ShowMode)
+                {
+                    return _oidCurrent.FullName ?? _oidCurrent.Value;
+                }
+                return _oidCurrent.Value;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    return;
+                }
+
+                _oidCurrent.Value = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        static OidTreeViewModel()
+        {
+            _oids = SnmpServiceService.InitializeOids;
+        }
+
+        private void ChangeSelection(object context)
+        {
+            if (context is Oid)
+            {
+                _oidCurrent = (Oid)context;
+            }
+        }
+
+        public List<Oid> Oids
+        {
+            get { return _oids; }
+        }
+
+        public OidTreeViewModel()
+        {
+
         }
     }
 }
