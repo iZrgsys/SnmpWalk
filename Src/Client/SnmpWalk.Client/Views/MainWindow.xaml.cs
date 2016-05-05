@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace SnmpWalk.Client.Views
 {
@@ -10,6 +11,17 @@ namespace SnmpWalk.Client.Views
         public MainWindow()
         {
             InitializeComponent();
+            Messenger.Default.Register<NotificationMessage>(this, NotificationMessageReceived);
+        }
+
+
+        private void NotificationMessageReceived(NotificationMessage msg)
+        {
+            if (msg.Notification == "ShowDeviceManagementWindow")
+            {
+                var managentWindow = new DeviceManagentWindow {Owner = this};
+                managentWindow.ShowDialog();
+            }
         }
     }
 }

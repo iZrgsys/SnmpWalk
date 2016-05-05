@@ -86,7 +86,7 @@
                              ToolTip="Max Bulk Repetitions"
                              Text="{Binding MaxBulkRept, UpdateSourceTrigger=PropertyChanged}"
                              IsEnabled="{Binding IsMaxBulkReptEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button Name="NavStartbtn"
+                    <Button Name="NavStartbtn"
                             ToolTip="{x:Static resx:StringResources.tool_btn_start}"
                             Command="{Binding PerformActionCommand}"
                             IsEnabled="{Binding PerformActionEnabled}"
@@ -96,6 +96,10 @@
                             <TextBlock Margin="3,0,0,0" Text="{x:Static resx:StringResources.tool_btn_start}"/>
                         </StackPanel>
                     </Button>
+                </ToolBar>
+                <ToolBar
+                    Visibility="{Binding StopCancelToolBarVisibility, UpdateSourceTrigger=PropertyChanged}">
+                    
                 </ToolBar>
             </ToolBarTray>
             <!--Toolbar-->
@@ -208,7 +212,8 @@
                                  IsEnabled="{Binding PerformActionEnabled}"/>
                         <Button Content="Add OID" 
                                 Grid.Row="2" 
-                                Margin="10,10"/>
+                                Margin="10,10"
+                                IsEnabled="False"/>
                     </Grid>
                     <Label Grid.Row="1" 
                            Grid.Column="1" 

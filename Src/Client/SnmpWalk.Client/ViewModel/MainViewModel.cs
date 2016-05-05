@@ -6,13 +6,12 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 using log4net;
 using SnmpWalk.Client.Assets;
 using SnmpWalk.Client.Assets.Enums;
 using SnmpWalk.Common.DataModel.Enums;
 using SnmpWalk.Common.DataModel.Snmp;
-using SnmpWalk.Engines.DiscoveryEngine;
-using SnmpWalk.Engines.DiscoveryEngine.Service;
 using SnmpWalk.Engines.SnmpEngine;
 using SnmpWalk.Engines.SnmpEngine.Service;
 using SnmpWalk.Engines.SnmpEngine.Types;
@@ -32,12 +31,12 @@ namespace SnmpWalk.Client.ViewModel
     {
         private readonly OidTreeViewModel _oidTreeViewModel;
         private readonly ISnmpService _snmpService;
-        private readonly IDiscoveryService _discoveryService;
         private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private SnmpOperationType _currertSnmpOperation = SnmpOperationType.Get;
         private SnmpVersion _currentSnmpVersion = SnmpVersion.V1;
         private List<SnmpResult> _snmpResults;
+        private Visibility __stopCancelToolBarVisibility = Visibility.Collapsed;
 
         private string _ipAddress;
         private string _hostName;
@@ -70,6 +69,16 @@ namespace SnmpWalk.Client.ViewModel
                 IfDeviceAvaliableCommand.RaiseCanExecuteChanged();
             }
 
+        }
+
+        public Visibility StopCancelToolBarVisibility
+        {
+            get { return __stopCancelToolBarVisibility; }
+            set
+            {
+                __stopCancelToolBarVisibility = value;
+                RaisePropertyChanged();
+            }
         }
 
         public int MaxBulkRept
@@ -186,18 +195,12 @@ namespace SnmpWalk.Client.ViewModel
 
         public bool CanCheckDevice()
         {
-            return !string.IsNullOrEmpty(IpAddress);
+            return !string.IsNullOrEmpty(IpAddress) && Common.CommonHelper.IpRegex.IsMatch(IpAddress);
         }
 
         public void CheckDevice()
         {
-            var devices = _discoveryService.PerformPinging(_ipAddress);
-
-            if (devices.Any())
-            {
-
-            }
-
+            Messenger.Default.Send(new NotificationMessage("ShowDeviceManagementWindow"));
         }
 
         public bool CanPerformAction()
@@ -355,7 +358,6 @@ namespace SnmpWalk.Client.ViewModel
             IfDeviceAvaliableCommand = new RelayCommand(CheckDevice, CanCheckDevice);
             PerformActionCommand = new RelayCommand(PerformActionAsync, CanPerformAction);
             _snmpService = new SnmpServiceService();
-            _discoveryService = DiscoveryService.Instance;
 
             ////if (IsInDesignMode)
             ////{

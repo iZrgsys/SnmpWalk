@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SnmpWalk.Client.Views"
         mc:Ignorable="d"
-        Title="Device Managent" Height="300" Width="300"
-        DataContext="{Binding DeviceManagment,Source={StaticResource ViewModelLocator}}">
+        Title="Device Managent"
+        Height="300" Width="300"
+        MinHeight="300" MinWidth="400"
+        DataContext="{Binding DeviceManagment,Source={StaticResource ViewModelLocator}}"
+        WindowStartupLocation="CenterOwner"
+        Icon="../Resources/Images/sw_ShareIt_ico.ico">
     <Grid>
         
     </Grid>
