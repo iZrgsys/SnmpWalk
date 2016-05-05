@@ -43,6 +43,7 @@ namespace SnmpWalk.Client.ViewModel
         private string _hostName;
         private string _readCommunity = "public";
         private string _writeCommunity = "public";
+        private string _loadingMsg;
         private bool _performActionEnabled = true;
         private bool _isLoading;
         private int _maxBulkReps;
@@ -52,16 +53,12 @@ namespace SnmpWalk.Client.ViewModel
         public RelayCommand PerformActionCommand { get; private set; }
         //public RelayCommand CancelActionCommand { get; private set; }
 
-        public string IpAddressOrHostName
+        public string IpAddress
         {
-            get { return _ipAddress ?? _hostName; }
+            get { return _ipAddress; }
             set
             {
-                if (Common.CommonHelper.IpRegex.IsMatch(value))
-                {
-                    _ipAddress = value;
-                    _hostName = null;
-                }
+                _ipAddress = value;
 
                 //if (Common.CommonHelper.HostNameRegex.IsMatch(value))
                 //{
@@ -189,7 +186,7 @@ namespace SnmpWalk.Client.ViewModel
 
         public bool CanCheckDevice()
         {
-            return !string.IsNullOrEmpty(IpAddressOrHostName);
+            return !string.IsNullOrEmpty(IpAddress);
         }
 
         public void CheckDevice()
@@ -358,7 +355,7 @@ namespace SnmpWalk.Client.ViewModel
             IfDeviceAvaliableCommand = new RelayCommand(CheckDevice, CanCheckDevice);
             PerformActionCommand = new RelayCommand(PerformActionAsync, CanPerformAction);
             _snmpService = new SnmpServiceService();
-            _discoveryService = DiscoveryServiceService.Instance;
+            _discoveryService = DiscoveryService.Instance;
 
             ////if (IsInDesignMode)
             ////{
@@ -376,7 +373,7 @@ namespace SnmpWalk.Client.ViewModel
             {
                 string result = null;
 
-                if (columnName == "IpAddressOrHostName" && _ipAddress != null)
+                if (columnName == "IpAddress" && _ipAddress != null)
                 {
                     if (!Common.CommonHelper.IpRegex.IsMatch(_ipAddress) || !Common.CommonHelper.HostNameRegex.IsMatch(_ipAddress))
                     {

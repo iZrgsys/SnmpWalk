@@ -8,12 +8,19 @@ namespace SnmpWalk.Common.DataModel
     {
         private IPAddress _ipAddress;
         private string _macAddress;
+        private string _hostName;
         private List<Oid> _oids;
 
         public IPAddress IpAddress
         {
             get { return _ipAddress; }
             set { _ipAddress = value; }
+        }
+
+        public string HostName
+        {
+            get { return _hostName; }
+            set { _hostName = value; }
         }
 
         public string MacAddress
@@ -26,6 +33,25 @@ namespace SnmpWalk.Common.DataModel
         {
             get { return _oids; }
             set { _oids = value; }
+        }
+
+        public Device()
+        {
+            
+        }
+
+        public Device(IPAddress ipAddress, string macAddress, string hostName)
+        {
+            _ipAddress = ipAddress;
+            _macAddress = macAddress;
+            _hostName = hostName;
+        }
+
+        public Device(IPAddress ipAddress, string macAddress, List<Oid> oids)
+        {
+            _ipAddress = ipAddress;
+            _macAddress = macAddress;
+            _oids = oids;
         } 
     }
 }

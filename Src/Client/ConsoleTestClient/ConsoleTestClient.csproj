@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FCA8DFFF-C5CA-4D70-8FA8-EC27936E7CC6}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{FB104039-6A1F-4707-9153-103A3D319EF7}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SnmpWalk.Engines.DiscoveryEngine</RootNamespace>
-    <AssemblyName>SnmpWalk.DiscoveryEngine</AssemblyName>
+    <RootNamespace>ConsoleTestClient</RootNamespace>
+    <AssemblyName>ConsoleTestClient</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Lib\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,15 +42,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service\DiscoveryService.cs" />
-    <Compile Include="Exceptions\DiscoveryEngineException.cs" />
-    <Compile Include="IDiscoveryService.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\Common\SnmpWalk.Common\SnmpWalk.Common.csproj">
-      <Project>{45C70660-B3A5-48CB-9243-781C8DA159D3}</Project>
+      <Project>{45c70660-b3a5-48cb-9243-781c8da159d3}</Project>
       <Name>SnmpWalk.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Engines\SnmpWalk.DiscoveryEngine\SnmpWalk.DiscoveryEngine.csproj">
+      <Project>{FCA8DFFF-C5CA-4D70-8FA8-EC27936E7CC6}</Project>
+      <Name>SnmpWalk.DiscoveryEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
