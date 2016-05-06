@@ -133,3 +133,7 @@ D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Views\DeviceMana
 D:\MyFiles\MyProj\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Views\DeviceManagentWindow.baml
 D:\MyFiles\MyProj\SnmpWalk\Build\Debug\conf\codes\codes_system.xml
 D:\MyFiles\MyProj\SnmpWalk\Build\Debug\conf\dev_models.xml
+D:\Projects\SnmpWalk\Build\Debug\conf\codes\codes_system.xml
+D:\Projects\SnmpWalk\Build\Debug\conf\dev_models.xml
+D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Views\DeviceManagentWindow.g.cs
+D:\Projects\SnmpWalk\Src\Client\SnmpWalk.Client\obj\Debug\Views\DeviceManagentWindow.baml

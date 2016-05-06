@@ -9,6 +9,9 @@ namespace SnmpWalk.Engines.SnmpEngine.Opeartors
 {
     internal class BrandNameOperator
     {
+        private const char Dot = '.';
+        private const int brIndex = 0;
+
         private ILog _log;
         private ISnmpService _snmpService;
 
@@ -21,20 +24,13 @@ namespace SnmpWalk.Engines.SnmpEngine.Opeartors
                 _log.Info("BrandNameOperator.GetProperty(): Started");
 
                 var mibres = _snmpService.GetNext(SnmpVersion.V1, SnmpHelper.DefaultOctetString, new Oid(SnmpHelper.HrDevice),ipAddress);
+                var mib = mibres.First().Data.ToString();
+                mib = mib.Remove(0, SnmpHelper.Enterprise.Length + 1);
+                var mibParts = mib.Split(Dot);
 
-                var mib = mibres.First().OidValue;
-
-                var brandNameHash = XmlCommonLoader.Instance.BrandNameTable;
-
-                foreach (var key in brandNameHash.Keys)
-                {
-                    if (mib.Contains(key.ToString()))
-                    {
-                        result = brandNameHash[key].ToString();
-                    }
-                }
-
-
+                var indexMib = mibParts[brIndex];
+                var brandNameTable = XmlCommonLoader.Instance.BrandNameTable;
+                result = brandNameTable[int.Parse(indexMib)].ToString();
             }
             catch (Exception e)
             {

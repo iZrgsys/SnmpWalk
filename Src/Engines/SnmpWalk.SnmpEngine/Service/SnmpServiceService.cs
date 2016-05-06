@@ -94,7 +94,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
         {
             if (ipAddress != null)
             {
-                return WalkBulkOperation(version, ipAddress,maxBulkRepetiotions, octetString, oid, walkMode);
+                return WalkBulkOperation(version, ipAddress, maxBulkRepetiotions, octetString, oid, walkMode);
             }
             else if (!string.IsNullOrEmpty(hostname))
             {
@@ -145,6 +145,11 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             _log.Info("SnmpEngine.WalkBulkSingle(): Started oid: " + oid.Value);
             var list = new List<Variable>();
 
+            if (oid.HasAdditionalCodes)
+            {
+                return WalkBulkWithAdditionalCodes(version, ipAddress, maxBulkRepetitions, octetString, oid, walkMode).Result;
+            }
+
             try
             {
                 Messenger.BulkWalk(_converter.ToVersionCodeConverter(version),
@@ -168,6 +173,60 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             return list.Select(var => new SnmpResult(new Oid(var.Id.ToString()), var.Data, _converter.ToSnmpDataType(var.Data.TypeCode)));
         }
 
+        private async Task<List<SnmpResult>> WalkBulkWithAdditionalCodes(SnmpVersion version, IPAddress ipAddress, int maxBulkRepetitions, string octetString, Oid oid, WalkingMode walkMode)
+        {
+            _log.Info("SnmpEngine.WalkWithAdditionalCodes(): Started oid: " + oid.Value);
+            var list = new List<Variable>();
+            var results = new List<SnmpResult>();
+            var codesTable = XmlLoader.AdditionalCodeTable;
+            var codes = (Codes)codesTable[oid.Name];
+            var brandNameOp = new BrandNameOperator(_log, this);
+            var brandName = brandNameOp.GetProperty(ipAddress);
+
+            if (codes != null)
+            {
+                await Task.Run(() =>
+                {
+                    foreach (var code in codes.Code)
+                    {
+                        try
+                        {
+                            if (code.Name.ToLower().Contains(brandName.ToLower()))
+                            {
+                                Messenger.BulkWalk(_converter.ToVersionCodeConverter(version),
+                                 new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort),
+                                 new OctetString(octetString),
+                                 new ObjectIdentifier(string.Concat(oid.Value, ".", code.Decimal)),
+                                 list,
+                                 _timeOut,
+                                 maxBulkRepetitions,
+                                _converter.ToWalkModeConverter(walkMode),
+                                null,
+                                null);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            _log.Error("SnmpEngine.WalkWithAdditionalCodes(): Exception caught:", e);
+                            _log.Error("SnmpEngine.WalkWithAdditionalCodes(): Exception oid: " + string.Concat(oid.Value, ".", code.Decimal));
+                        }
+
+                        if (list.Any())
+                        {
+                            _log.Info("SnmpEngine.WalkWithAdditionalCodes(): sucess oid: " + string.Concat(oid.Value, ".", code.Decimal));
+                            _log.Info("SnmpEngine.WalkWithAdditionalCodes(): request result oids: " + list.Count);
+                            results.AddRange(list.Select(var => new SnmpResult(new Oid(string.Concat(oid.Value, ".", code.Decimal),
+                                code.Name, string.Concat(oid.FullName, ".", code.Name)),
+                                var.Data, _converter.ToSnmpDataType(var.Data.TypeCode))));
+                        }
+                    }
+                });
+            }
+
+            _log.Info("SnmpEngine.WalkWithAdditionalCodes(): Finished");
+            return results;
+        }
+
         private IEnumerable<SnmpResult> WalkSingle(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
         {
             _log.Info("SnmpEngine.WalkSingle(): Started oid: " + oid.Value);
@@ -175,7 +234,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
 
             if (oid.HasAdditionalCodes)
             {
-                return WalkWithAdditionalCodes(version, ipAddress, octetString, oid, walkMode).Result;
+                return WalkWithAdditionalCodesTask(version, ipAddress, octetString, oid, walkMode).Result;
             }
 
             try
@@ -200,7 +259,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             return list.Select(var => new SnmpResult(new Oid(var.Id.ToString()), var.Data, _converter.ToSnmpDataType(var.Data.TypeCode)));
         }
 
-        private async Task<List<SnmpResult>> WalkWithAdditionalCodes(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
+        private async Task<List<SnmpResult>> WalkWithAdditionalCodesTask(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
         {
             _log.Info("SnmpEngine.WalkWithAdditionalCodes(): Started oid: " + oid.Value);
             var list = new List<Variable>();
@@ -218,10 +277,13 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
                     {
                         try
                         {
-                            Messenger.Walk(_converter.ToVersionCodeConverter(version),
+                            if (code.Name.ToLower().Contains(brandName.ToLower()))
+                            {
+                                Messenger.Walk(_converter.ToVersionCodeConverter(version),
                                 new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort), new OctetString(octetString),
                                 new ObjectIdentifier(string.Concat(oid.Value, ".", code.Decimal)), list, _timeOut,
                                 _converter.ToWalkModeConverter(walkMode));
+                            }
                         }
                         catch (Exception e)
                         {
