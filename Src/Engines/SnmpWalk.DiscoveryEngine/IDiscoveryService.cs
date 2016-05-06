@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
-using SnmpWalk.Common.DataModel;
 
 namespace SnmpWalk.Engines.DiscoveryEngine
 {
     public interface IDiscoveryService
     {
-        List<Device> PerformDiscovery(params string[] ipAddresses);
+        Hashtable PerformDiscovery(params string[] ipAddresses);
 
         List<IPAddress> PerformPinging(params string[] ipAddresses);
     }

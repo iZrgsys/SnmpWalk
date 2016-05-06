@@ -16,6 +16,11 @@
         Icon="../Resources/Images/sw_ShareIt.png"
         DataContext="{Binding Main, Source={StaticResource ViewModelLocator}}"
         WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding Path=CopyToClipboardCommand}" 
+                Key="C" 
+                Modifiers="Control"/>
+    </Window.InputBindings>
     <DockPanel>
         <!--Main menu-->
         <WrapPanel DockPanel.Dock="Top" Background="{StaticResource WrapPanelFill}">
@@ -56,15 +61,20 @@
                         <Image Source="../Resources/Images/circle-arrow-right.png" />
                     </Button>
                     <Separator/>-->
+                    
+                    <Button ToolTip="{x:Static resx:StringResources.copy_btn_tooltip}"
+                            Command="{Binding CopyToClipboardCommand}">
+                        <Image Source="../Resources/Images/copy.png"/>
+                    </Button>
 
-                    <Button Name="NavSavebtn"
+                    <!--<Button Name="NavSavebtn"
                             ToolTip="{x:Static resx:StringResources.tool_bar_save}">
                         <Image Source="../Resources/Images/save.png" />
                     </Button>
                     <Button Name="NavSaveAsbtn"
                             ToolTip="{x:Static resx:StringResources.tool_bar_save_all}">
                         <Image Source="../Resources/Images/save_all.png" />
-                    </Button>
+                    </Button>-->
                     <Separator/>
                     <ComboBox Style="{StaticResource CbxVersionStyle}"
                               ItemsSource="{Binding Source={assets:Enumeration {x:Type enums:SnmpVersion}}}"
@@ -210,7 +220,7 @@
                                  Text="{Binding OidTree.OidCurrent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                 
                                  Style="{StaticResource WorkingGridTxtBoxStyle}"
                                  IsEnabled="{Binding PerformActionEnabled}"/>
-                        <Button Content="Add OID" 
+                        <Button Content="{x:Static resx:StringResources.add_oid_btn}" 
                                 Grid.Row="2" 
                                 Margin="10,10"
                                 IsEnabled="False"/>
@@ -241,7 +251,7 @@
                                 <RowDefinition  Height="25"/>
                                 <RowDefinition Height="20"/>
                             </Grid.RowDefinitions>
-                            <Label Content="Read Community" Grid.Row="0" Margin="5,0,0,0"/>
+                            <Label Content="{x:Static resx:StringResources.read_cmm_lbl}" Grid.Row="0" Margin="5,0,0,0"/>
                             <TextBox Margin="10,0,10,0" Grid.Row="1"
                                      Text="{Binding ReadCommunity, UpdateSourceTrigger=PropertyChanged}"
                                      IsEnabled="{Binding PerformActionEnabled}"/>
@@ -251,7 +261,7 @@
                                 <RowDefinition Height="25"/>
                                 <RowDefinition Height="20"/>
                             </Grid.RowDefinitions>
-                            <Label Content="Write Community" Grid.Row="0" Margin="5,0,0,0"/>
+                            <Label Content="{x:Static resx:StringResources.write_cmm_lb}" Grid.Row="0" Margin="5,0,0,0"/>
                             <TextBox Margin="10,0,10,0" Grid.Row="1"
                                      Text="{Binding WriteCommunity, UpdateSourceTrigger=PropertyChanged}"
                                      IsEnabled="{Binding PerformActionEnabled}"/>
@@ -272,13 +282,13 @@
                                       MaxWidth="200"
                                       IsLoading="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged}"/>
                     <DataGrid Canvas.ZIndex ="1"  
-                              ItemsSource="{Binding SnmpResults, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding SnmpResults,Mode = OneWay, UpdateSourceTrigger=PropertyChanged}"
                               AutoGenerateColumns="False"
                               Style="{StaticResource DataGridStyle}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Oid" Binding="{Binding Path=OidValue}" MinWidth="150"/>
-                            <DataGridTextColumn Header="Data Type" Binding="{Binding Path=DataType}" MinWidth="100"/>
-                            <DataGridTextColumn Header="Data" Binding="{Binding Path=Data}" MinWidth="250"/>
+                            <DataGridTextColumn Header="Oid" Binding="{Binding Path=OidValue, Mode = OneWay}" MinWidth="150"/>
+                            <DataGridTextColumn Header="Data Type" Binding="{Binding Path=DataType, Mode = OneWay}" MinWidth="100"/>
+                            <DataGridTextColumn Header="Data" Binding="{Binding Path=Data, Mode = OneWay}" MinWidth="250"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

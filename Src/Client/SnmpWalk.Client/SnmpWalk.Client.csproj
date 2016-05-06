@@ -195,7 +195,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\copy.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\SnmpWalk.Common\SnmpWalk.Common.csproj">
       <Project>{45c70660-b3a5-48cb-9243-781c8da159d3}</Project>

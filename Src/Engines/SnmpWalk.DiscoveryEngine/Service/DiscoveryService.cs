@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -14,7 +15,7 @@ namespace SnmpWalk.Engines.DiscoveryEngine.Service
     {
         private static ILog _log = LogManager.GetLogger("snmpWalk.log");
         private readonly List<IPAddress> _ipAddresses;
-        private readonly List<Device> _devices; 
+        private readonly Hashtable _devices;
         private readonly Ping _pingSender;
         private static readonly Lazy<DiscoveryService> EngineInstance = new Lazy<DiscoveryService>(() => new DiscoveryService());
 
@@ -28,7 +29,7 @@ namespace SnmpWalk.Engines.DiscoveryEngine.Service
         }
 
 
-        public List<Device> PerformDiscovery(params string[] ipAddresses)
+        public Hashtable PerformDiscovery(params string[] ipAddresses)
         {
             _log.Debug("DiscoveryService: DiscoveryService.PerformDiscovery() - Started");
             try
@@ -39,7 +40,7 @@ namespace SnmpWalk.Engines.DiscoveryEngine.Service
                 {
                     foreach (var adress in checkedAdresses)
                     {
-                        _devices.Add(new Device(adress, GetMacUsingARP(adress), GetMachineNameFromIp(adress.ToString())));
+                        _devices.Add(adress,new Device(adress, GetMacUsingARP(adress), GetMachineNameFromIp(adress.ToString())));
                     }
                 }
             }
@@ -61,6 +62,7 @@ namespace SnmpWalk.Engines.DiscoveryEngine.Service
             _log.Debug("DiscoveryService: DiscoveryService.PerformPinging() - Started");
             try
             {
+                _ipAddresses.Clear();
                 Parallel.ForEach(ipAddresses, address =>
                 {
                     var ipAddr = IPAddress.Parse(address);
@@ -94,13 +96,17 @@ namespace SnmpWalk.Engines.DiscoveryEngine.Service
             return machineName;
         }
 
-        private string GetMacUsingARP(IPAddress IP)
+        private string GetMacUsingARP(IPAddress ip)
         {
             byte[] macAddr = new byte[6];
             uint macAddrLen = (uint)macAddr.Length;
 
-            if (Iphlpapi.SendARP((int)IP.Address, 0, macAddr, ref macAddrLen) != 0)
-                throw new Exception("ARP command failed");
+            if (Iphlpapi.SendARP((int) ip.Address, 0, macAddr, ref macAddrLen) != 0)
+            {
+                _log.Error("DiscoveryService: DiscoveryService.GetMacUsingARP(): ARP command failed!");
+                throw new DiscoveryEngineException("ARP command failed");
+            }
+               
 
             string[] str = new string[(int)macAddrLen];
             for (int i = 0; i < macAddrLen; i++)
@@ -112,7 +118,7 @@ namespace SnmpWalk.Engines.DiscoveryEngine.Service
         private DiscoveryService()
         {
             _ipAddresses = new List<IPAddress>();
-            _devices = new List<Device>();
+            _devices = new Hashtable();
             _pingSender = new Ping();
         }
     }

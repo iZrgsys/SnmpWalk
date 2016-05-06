@@ -11,7 +11,12 @@
         DataContext="{Binding DeviceManagment,Source={StaticResource ViewModelLocator}}"
         WindowStartupLocation="CenterOwner"
         Icon="../Resources/Images/sw_ShareIt_ico.ico">
-    <Grid>
-        
-    </Grid>
+    <DockPanel>
+        <ToolBarTray Height="25" DockPanel.Dock="Top">
+            
+        </ToolBarTray>
+        <DataGrid>
+            
+        </DataGrid>
+    </DockPanel>
 </Window>

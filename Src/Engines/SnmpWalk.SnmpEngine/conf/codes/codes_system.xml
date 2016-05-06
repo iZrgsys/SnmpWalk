@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<codes>
+  <code>
+    <Decimal>0</Decimal>
+    <Name>Reserved</Name>
+    <Description>Reserved</Description>
+  </code>
+  <code>
+    <Decimal>1</Decimal>
+    <Name>sysDescr</Name>
+    <Description>sysDescr</Description>
+  </code>
+  <code>
+    <Decimal>2</Decimal>
+    <Name>sysObjectID</Name>
+    <Description>sysObjectID</Description>
+  </code>
+  <code>
+    <Decimal>3</Decimal>
+    <Name>sysUpTime</Name>
+    <Description>sysUpTime</Description>
+  </code>
+  <code>
+    <Decimal>4</Decimal>
+    <Name>sysContact</Name>
+    <Description>sysContact</Description>
+  </code>
+  <code>
+    <Decimal>5</Decimal>
+    <Name>sysName</Name>
+    <Description>sysName</Description>
+  </code>
+  <code>
+    <Decimal>6</Decimal>
+    <Name>sysLocation</Name>
+    <Description>sysLocation</Description>
+  </code>
+  <code>
+    <Decimal>7</Decimal>
+    <Name>sysServices</Name>
+    <Description>sysServices</Description>
+  </code>
+</codes> 

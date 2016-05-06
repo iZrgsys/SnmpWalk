@@ -57,6 +57,7 @@
     <Compile Include="Exceptions\SnmpEngineConvertorException.cs" />
     <Compile Include="Exceptions\SnmpEngineException.cs" />
     <Compile Include="Exceptions\SnmpTimeOutException.cs" />
+    <Compile Include="Opeartors\BrandNameOperator.cs" />
     <Compile Include="SnmpHelper.cs" />
     <Compile Include="Service\SnmpServiceService.cs" />
     <Compile Include="ISnmpService.cs" />
@@ -81,6 +82,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="conf\codes\codes_private.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="conf\codes\codes_system.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="conf\dev_models.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="conf\oids_common.xml">

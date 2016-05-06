@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight;
@@ -50,6 +51,7 @@ namespace SnmpWalk.Client.ViewModel
 
         public RelayCommand IfDeviceAvaliableCommand { get; private set; }
         public RelayCommand PerformActionCommand { get; private set; }
+        public RelayCommand CopyToClipboardCommand { get; private set; }
         //public RelayCommand CancelActionCommand { get; private set; }
 
         public string IpAddress
@@ -69,6 +71,37 @@ namespace SnmpWalk.Client.ViewModel
                 IfDeviceAvaliableCommand.RaiseCanExecuteChanged();
             }
 
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = null;
+
+                if (columnName == "IpAddress" && _ipAddress != null)
+                {
+                    if (!Common.CommonHelper.IpRegex.IsMatch(_ipAddress) || !Common.CommonHelper.HostNameRegex.IsMatch(_ipAddress))
+                    {
+                        result = "IP Field contained invalid IP address or hostname.";
+                    }
+                }
+
+                if (columnName == "MaxBulkRept" && (_currertSnmpOperation == SnmpOperationType.GetBulk || _currertSnmpOperation == SnmpOperationType.WalkBulk))
+                {
+                    if (_maxBulkReps < 0 || _maxBulkReps > 20)
+                    {
+                        result = "Max Bulk Repetitions can't be less then 0.";
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        public string Error
+        {
+            get { return null; }
         }
 
         public Visibility StopCancelToolBarVisibility
@@ -201,6 +234,23 @@ namespace SnmpWalk.Client.ViewModel
         public void CheckDevice()
         {
             Messenger.Default.Send(new NotificationMessage("ShowDeviceManagementWindow"));
+        }
+
+        public bool CanCopy()
+        {
+            return true;
+        }
+
+        public void CopyToClipboard()
+        {
+            var result = new StringBuilder().AppendLine(string.Format("Device ip address: {0}", _ipAddress))
+                .AppendLine(string.Format("Last Operation: {0}", _currertSnmpOperation))
+                .AppendLine(string.Format("Snmp version: {0}", _currentSnmpVersion))
+                .AppendLine(new string('=', 50)).ToString();
+
+            result += string.Join(Environment.NewLine, _snmpResults);
+
+            Clipboard.SetText(result);
         }
 
         public bool CanPerformAction()
@@ -357,7 +407,8 @@ namespace SnmpWalk.Client.ViewModel
             _oidTreeViewModel = new OidTreeViewModel();
             IfDeviceAvaliableCommand = new RelayCommand(CheckDevice, CanCheckDevice);
             PerformActionCommand = new RelayCommand(PerformActionAsync, CanPerformAction);
-            _snmpService = new SnmpServiceService();
+            CopyToClipboardCommand = new RelayCommand(CopyToClipboard, CanCopy);
+            _snmpService = new SnmpServiceService(Log);
 
             ////if (IsInDesignMode)
             ////{
@@ -369,36 +420,7 @@ namespace SnmpWalk.Client.ViewModel
             ////}
         }
 
-        public string this[string columnName]
-        {
-            get
-            {
-                string result = null;
 
-                if (columnName == "IpAddress" && _ipAddress != null)
-                {
-                    if (!Common.CommonHelper.IpRegex.IsMatch(_ipAddress) || !Common.CommonHelper.HostNameRegex.IsMatch(_ipAddress))
-                    {
-                        result = "IP Field contained invalid IP address or hostname.";
-                    }
-                }
-
-                if (columnName == "MaxBulkRept" && (_currertSnmpOperation == SnmpOperationType.GetBulk || _currertSnmpOperation == SnmpOperationType.WalkBulk))
-                {
-                    if (_maxBulkReps < 0 || _maxBulkReps > 20)
-                    {
-                        result = "Max Bulk Repetitions can't be less then 0.";
-                    }
-                }
-
-                return result;
-            }
-        }
-
-        public string Error
-        {
-            get { return null; }
-        }
     }
 
     public class OidTreeViewModel : ViewModelBase
@@ -421,8 +443,17 @@ namespace SnmpWalk.Client.ViewModel
                 var oid = value as Oid;
                 if (oid != null)
                 {
-                    _oidCurrent = oid;
-                    OidCurrent = oid.Value;
+                    if (oid.FullName.Equals(_oidCurrent.FullName) && !oid.Value.Equals(_oidCurrent.Value))
+                    {
+                        _oidCurrent = new Oid();
+                        OidCurrent = oid.Value;
+                    }
+                    else
+                    {
+                        _oidCurrent = oid;
+                        OidCurrent = oid.Value;
+                    }
+                                       
                     RaisePropertyChanged();
                 }
             }

@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 using GalaSoft.MvvmLight;
-using SnmpWalk.Common.DataModel;
 
 namespace SnmpWalk.Client.ViewModel
 {
     public class DeviceManagmentViewModel : ViewModelBase
     {
-        private List<Device> _devices;
+        private Hashtable _devices;
+
+        public DeviceManagmentViewModel()
+        {
+            
+        }
     }
 }

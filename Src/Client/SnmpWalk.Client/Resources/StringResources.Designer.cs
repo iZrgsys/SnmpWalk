@@ -61,6 +61,15 @@ namespace SnmpWalk.Client.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add OID.
+        /// </summary>
+        public static string add_oid_btn {
+            get {
+                return ResourceManager.GetString("add_oid_btn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SnmpWalk.
         /// </summary>
         public static string app_name {
@@ -75,6 +84,15 @@ namespace SnmpWalk.Client.Resources {
         public static string check_btn {
             get {
                 return ResourceManager.GetString("check_btn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy to clipboard (Ctrl+C).
+        /// </summary>
+        public static string copy_btn_tooltip {
+            get {
+                return ResourceManager.GetString("copy_btn_tooltip", resourceCulture);
             }
         }
         
@@ -214,6 +232,15 @@ namespace SnmpWalk.Client.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Read Community.
+        /// </summary>
+        public static string read_cmm_lbl {
+            get {
+                return ResourceManager.GetString("read_cmm_lbl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set.
         /// </summary>
         public static string set_operation {
@@ -345,6 +372,15 @@ namespace SnmpWalk.Client.Resources {
         public static string walk_operation {
             get {
                 return ResourceManager.GetString("walk_operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write Community.
+        /// </summary>
+        public static string write_cmm_lb {
+            get {
+                return ResourceManager.GetString("write_cmm_lb", resourceCulture);
             }
         }
     }

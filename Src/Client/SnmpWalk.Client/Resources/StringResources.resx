@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="add_oid_btn" xml:space="preserve">
+    <value>Add OID</value>
+  </data>
   <data name="app_name" xml:space="preserve">
     <value>SnmpWalk</value>
   </data>
   <data name="check_btn" xml:space="preserve">
     <value>Check if device avaliable</value>
+  </data>
+  <data name="copy_btn_tooltip" xml:space="preserve">
+    <value>Copy to clipboard (Ctrl+C)</value>
   </data>
   <data name="dots" xml:space="preserve">
     <value>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</value>
@@ -168,6 +174,9 @@
   <data name="menu_item_open" xml:space="preserve">
     <value>_Open</value>
   </data>
+  <data name="read_cmm_lbl" xml:space="preserve">
+    <value>Read Community</value>
+  </data>
   <data name="set_operation" xml:space="preserve">
     <value>Set</value>
   </data>
@@ -212,5 +221,8 @@
   </data>
   <data name="walk_operation" xml:space="preserve">
     <value>Walk</value>
+  </data>
+  <data name="write_cmm_lb" xml:space="preserve">
+    <value>Write Community</value>
   </data>
 </root>

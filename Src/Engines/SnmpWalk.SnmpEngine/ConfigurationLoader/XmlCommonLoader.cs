@@ -19,6 +19,7 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
         private const string OidAttr = "oid";
         private const string RootNodename = "oid-tree";
         private const string DecimalAttr = "Decimal";
+        private const string DeviceModelFileName = "dev_models";
         private const string NameAttr = "Name";
         private const string DescAttr = "Description";
         private const string Additions = "Additional";
@@ -30,12 +31,12 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
         private static readonly Lazy<XmlCommonLoader> CommonInstance = new Lazy<XmlCommonLoader>(() => new XmlCommonLoader());
         private static readonly List<Oid> ConfOids = new List<Oid>();
         private static readonly Hashtable CodesTable = new Hashtable();
+        private static readonly Hashtable BrandHashtable = new Hashtable();
 
         public static XmlCommonLoader Instance
         {
             get
             {
-                Initialize();
                 return CommonInstance.Value;
             }
         }
@@ -48,6 +49,11 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
         public Hashtable AdditionalCodeTable
         {
             get { return CodesTable; }
+        }
+
+        public Hashtable BrandNameTable
+        {
+            get { return BrandHashtable; }
         }
 
         private static void Initialize()
@@ -87,6 +93,14 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
                 rootOid.ChildOids = InitializeCodes(childOids);
 
                 ConfOids.Add(rootOid);
+            }
+
+            var brandNameInfos = dirInfo.GetFiles("*.xml").Where(file => file.Name.Contains(DeviceModelFileName)).ToList();
+            var bnInfo = DeserializeCodes(brandNameInfos.First());
+
+            foreach (var code in bnInfo.Code)
+            {
+                BrandHashtable.Add(code.Decimal, code.Name);
             }
         }
 
@@ -191,6 +205,11 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
         private static string CreateOid(string oid, string index)
         {
             return string.Concat(oid, ".", index);
+        }
+
+        private XmlCommonLoader()
+        {
+            Initialize();
         }
     }
 }

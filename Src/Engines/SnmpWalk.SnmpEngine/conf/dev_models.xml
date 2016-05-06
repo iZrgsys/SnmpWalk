@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Additions>
+  <codes>
+    <code>
+      <Decimal>2</Decimal>
+      <Name>IBM</Name>
+      <Description>IBM</Description>
+    </code>
+    <code>
+      <Decimal>11</Decimal>
+      <Name>HP</Name>
+      <Description>HP</Description>
+    </code>
+    <code>
+      <Decimal>119</Decimal>
+      <Name>NEC</Name>
+      <Description>NEC</Description>
+    </code>
+    <code>
+      <Decimal>136</Decimal>
+      <Name>Toshiba</Name>
+      <Description>Toshiba</Description>
+    </code>
+    <code>
+      <Decimal>236</Decimal>
+      <Name>Samsung</Name>
+      <Description>Samsung</Description>
+    </code>
+    <code>
+      <Decimal>253</Decimal>
+      <Name>Xerox</Name>
+      <Description>Xerox</Description>
+    </code>
+    <code>
+      <Decimal>297</Decimal>
+      <Name>Fuji Xerox</Name>
+      <Description>Fuji Xerox</Description>
+    </code>
+    <code>
+      <Decimal>345</Decimal>
+      <Name>Epson</Name>
+      <Description>Epson</Description>
+    </code>
+    <code>
+      <Decimal>367</Decimal>
+      <Name>Ricoh</Name>
+      <Description>Ricoh</Description>
+    </code>
+    <code>
+      <Decimal>480</Decimal>
+      <Name>Konica Minolta</Name>
+      <Description>Konica Minolta</Description>
+    </code>
+    <code>
+      <Decimal>641</Decimal>
+      <Name>Lexmark</Name>
+      <Description>Lexmark</Description>
+    </code>
+    <code>
+      <Decimal>674</Decimal>
+      <Name>Dell</Name>
+      <Description>Dell</Description>
+    </code>
+    <code>
+      <Decimal>1065</Decimal>
+      <Name>Canon</Name>
+      <Description>Canon</Description>
+    </code>
+    <code>
+      <Decimal>1248</Decimal>
+      <Name>Epson</Name>
+      <Description>Epson</Description>
+    </code>
+    <code>
+      <Decimal>1347</Decimal>
+      <Name>Kyocera</Name>
+      <Description>Kyocera</Description>
+    </code>
+    <code>
+      <Decimal>1602</Decimal>
+      <Name>Canon</Name>
+      <Description>Canon</Description>
+    </code>
+    <code>
+      <Decimal>2001</Decimal>
+      <Name>Oki Data</Name>
+      <Description>Oki Data</Description>
+    </code>
+    <code>
+      <Decimal>2364</Decimal>
+      <Name>Konica Minolta</Name>
+      <Description>Konica Minolta</Description>
+    </code>
+    <code>
+      <Decimal>2435</Decimal>
+      <Name>Brother</Name>
+      <Description>Brother</Description>
+    </code>
+    <code>
+      <Decimal>2590</Decimal>
+      <Name>Konica Minolta</Name>
+      <Description>Konica Minolta</Description>
+    </code>
+    <code>
+      <Decimal>12329</Decimal>
+      <Name>Panasonic</Name>
+      <Description>Panasonic</Description>
+    </code>
+    <code>
+      <Decimal>18334</Decimal>
+      <Name>Konica Minolta</Name>
+      <Description>Konica Minolta</Description>
+    </code>
+    <code>
+      <Decimal>18746</Decimal>
+      <Name>Panasonic</Name>
+      <Description>Panasonic</Description>
+    </code>
+    <code>
+      <Decimal>20442</Decimal>
+      <Name>Samsung</Name>
+      <Description>Samsung</Description>
+    </code>
+  </codes>
+</Additions>
