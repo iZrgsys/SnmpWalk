@@ -250,6 +250,7 @@ namespace SnmpWalk.Client.ViewModel
 
             result += string.Join(Environment.NewLine, _snmpResults);
 
+            Clipboard.Clear();
             Clipboard.SetText(result);
         }
 

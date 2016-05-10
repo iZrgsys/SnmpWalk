@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using log4net;
 using Lextm.SharpSnmpLib;
 using Lextm.SharpSnmpLib.Messaging;
@@ -11,7 +10,6 @@ using SnmpWalk.Common.DataModel.Snmp;
 using SnmpWalk.Engines.SnmpEngine.ConfigurationLoader;
 using SnmpWalk.Engines.SnmpEngine.Convertor;
 using SnmpWalk.Engines.SnmpEngine.Exceptions;
-using SnmpWalk.Engines.SnmpEngine.Opeartors;
 using SnmpWalk.Engines.SnmpEngine.Types;
 using TimeoutException = Lextm.SharpSnmpLib.Messaging.TimeoutException;
 
@@ -147,7 +145,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
 
             if (oid.HasAdditionalCodes)
             {
-                return WalkBulkWithAdditionalCodes(version, ipAddress, maxBulkRepetitions, octetString, oid, walkMode).Result;
+                return WalkBulkWithAdditionalCodes(version, ipAddress, maxBulkRepetitions, octetString, oid, walkMode);
             }
 
             try
@@ -173,54 +171,53 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             return list.Select(var => new SnmpResult(new Oid(var.Id.ToString()), var.Data, _converter.ToSnmpDataType(var.Data.TypeCode)));
         }
 
-        private async Task<List<SnmpResult>> WalkBulkWithAdditionalCodes(SnmpVersion version, IPAddress ipAddress, int maxBulkRepetitions, string octetString, Oid oid, WalkingMode walkMode)
+        private List<SnmpResult> WalkBulkWithAdditionalCodes(SnmpVersion version, IPAddress ipAddress, int maxBulkRepetitions, string octetString, Oid oid, WalkingMode walkMode)
         {
             _log.Info("SnmpEngine.WalkWithAdditionalCodes(): Started oid: " + oid.Value);
             var list = new List<Variable>();
             var results = new List<SnmpResult>();
             var codesTable = XmlLoader.AdditionalCodeTable;
             var codes = (Codes)codesTable[oid.Name];
-            var brandNameOp = new BrandNameOperator(_log, this);
-            var brandName = brandNameOp.GetProperty(ipAddress);
 
             if (codes != null)
             {
-                await Task.Run(() =>
-                {
-                    foreach (var code in codes.Code)
-                    {
-                        try
-                        {
-                            if (code.Name.ToLower().Contains(brandName.ToLower()))
-                            {
-                                Messenger.BulkWalk(_converter.ToVersionCodeConverter(version),
-                                 new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort),
-                                 new OctetString(octetString),
-                                 new ObjectIdentifier(string.Concat(oid.Value, ".", code.Decimal)),
-                                 list,
-                                 _timeOut,
-                                 maxBulkRepetitions,
-                                _converter.ToWalkModeConverter(walkMode),
-                                null,
-                                null);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            _log.Error("SnmpEngine.WalkWithAdditionalCodes(): Exception caught:", e);
-                            _log.Error("SnmpEngine.WalkWithAdditionalCodes(): Exception oid: " + string.Concat(oid.Value, ".", code.Decimal));
-                        }
 
-                        if (list.Any())
-                        {
-                            _log.Info("SnmpEngine.WalkWithAdditionalCodes(): sucess oid: " + string.Concat(oid.Value, ".", code.Decimal));
-                            _log.Info("SnmpEngine.WalkWithAdditionalCodes(): request result oids: " + list.Count);
-                            results.AddRange(list.Select(var => new SnmpResult(new Oid(string.Concat(oid.Value, ".", code.Decimal),
+                foreach (var code in codes.Code)
+                {
+                    try
+                    {
+
+                        Messenger.BulkWalk(_converter.ToVersionCodeConverter(version),
+                            new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort),
+                            new OctetString(octetString),
+                            new ObjectIdentifier(string.Concat(oid.Value, ".", code.Decimal)),
+                            list,
+                            _timeOut,
+                            maxBulkRepetitions,
+                            _converter.ToWalkModeConverter(walkMode),
+                            null,
+                            null);
+                    }
+                    catch (Exception e)
+                    {
+                        _log.Error("SnmpEngine.WalkWithAdditionalCodes(): Exception caught:", e);
+                        _log.Error("SnmpEngine.WalkWithAdditionalCodes(): Exception oid: " +
+                                   string.Concat(oid.Value, ".", code.Decimal));
+                    }
+
+                    if (list.Any())
+                    {
+                        _log.Info("SnmpEngine.WalkWithAdditionalCodes(): sucess oid: " +
+                                  string.Concat(oid.Value, ".", code.Decimal));
+                        _log.Info("SnmpEngine.WalkWithAdditionalCodes(): request result oids: " + list.Count);
+                        results.AddRange(
+                            list.Select(var => new SnmpResult(new Oid(string.Concat(oid.Value, ".", code.Decimal),
                                 code.Name, string.Concat(oid.FullName, ".", code.Name)),
                                 var.Data, _converter.ToSnmpDataType(var.Data.TypeCode))));
-                        }
+                        list.Clear();
                     }
-                });
+
+                }
             }
 
             _log.Info("SnmpEngine.WalkWithAdditionalCodes(): Finished");
@@ -234,7 +231,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
 
             if (oid.HasAdditionalCodes)
             {
-                return WalkWithAdditionalCodesTask(version, ipAddress, octetString, oid, walkMode).Result;
+                return WalkWithAdditionalCodes(version, ipAddress, octetString, oid, walkMode);
             }
 
             try
@@ -259,48 +256,44 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             return list.Select(var => new SnmpResult(new Oid(var.Id.ToString()), var.Data, _converter.ToSnmpDataType(var.Data.TypeCode)));
         }
 
-        private async Task<List<SnmpResult>> WalkWithAdditionalCodesTask(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
+        private List<SnmpResult> WalkWithAdditionalCodes(SnmpVersion version, IPAddress ipAddress, string octetString, Oid oid, WalkingMode walkMode)
         {
             _log.Info("SnmpEngine.WalkWithAdditionalCodes(): Started oid: " + oid.Value);
             var list = new List<Variable>();
             var results = new List<SnmpResult>();
             var codesTable = XmlLoader.AdditionalCodeTable;
             var codes = (Codes)codesTable[oid.Name];
-            var brandNameOp = new BrandNameOperator(_log, this);
-            var brandName = brandNameOp.GetProperty(ipAddress);
 
             if (codes != null)
             {
-                await Task.Run(() =>
-                {
-                    foreach (var code in codes.Code)
-                    {
-                        try
-                        {
-                            if (code.Name.ToLower().Contains(brandName.ToLower()))
-                            {
-                                Messenger.Walk(_converter.ToVersionCodeConverter(version),
-                                new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort), new OctetString(octetString),
-                                new ObjectIdentifier(string.Concat(oid.Value, ".", code.Decimal)), list, _timeOut,
-                                _converter.ToWalkModeConverter(walkMode));
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            _log.Error("SnmpEngine.WalkWithAdditionalCodes(): Exception caught:", e);
-                            _log.Error("SnmpEngine.WalkWithAdditionalCodes(): Exception oid: " + string.Concat(oid.Value, ".", code.Decimal));
-                        }
 
-                        if (list.Any())
-                        {
-                            _log.Info("SnmpEngine.WalkWithAdditionalCodes(): sucess oid: " + string.Concat(oid.Value, ".", code.Decimal));
-                            _log.Info("SnmpEngine.WalkWithAdditionalCodes(): request result oids: " + list.Count);
-                            results.AddRange(list.Select(var => new SnmpResult(new Oid(string.Concat(oid.Value, ".", code.Decimal),
-                                code.Name, string.Concat(oid.FullName, ".", code.Name)),
-                                var.Data, _converter.ToSnmpDataType(var.Data.TypeCode))));
-                        }
+
+                foreach (var code in codes.Code)
+                {
+                    try
+                    {
+
+                        Messenger.Walk(_converter.ToVersionCodeConverter(version),
+                        new IPEndPoint(ipAddress, SnmpHelper.SnmpServerPort), new OctetString(octetString),
+                        new ObjectIdentifier(string.Concat(oid.Value, ".", code.Decimal)), list, _timeOut,
+                        _converter.ToWalkModeConverter(walkMode));
                     }
-                });
+                    catch (Exception e)
+                    {
+                        _log.Error("SnmpEngine.WalkWithAdditionalCodes(): Exception caught:", e);
+                        _log.Error("SnmpEngine.WalkWithAdditionalCodes(): Exception oid: " + string.Concat(oid.Value, ".", code.Decimal));
+                    }
+
+                    if (list.Any())
+                    {
+                        _log.Info("SnmpEngine.WalkWithAdditionalCodes(): sucess oid: " + string.Concat(oid.Value, ".", code.Decimal));
+                        _log.Info("SnmpEngine.WalkWithAdditionalCodes(): request result oids: " + list.Count);
+                        results.AddRange(list.Select(var => new SnmpResult(new Oid(string.Concat(oid.Value, ".", code.Decimal),
+                            code.Name, string.Concat(oid.FullName, ".", code.Name)),
+                            var.Data, _converter.ToSnmpDataType(var.Data.TypeCode))));
+                        list.Clear();
+                    }
+                }
             }
 
             _log.Info("SnmpEngine.WalkWithAdditionalCodes(): Finished");
