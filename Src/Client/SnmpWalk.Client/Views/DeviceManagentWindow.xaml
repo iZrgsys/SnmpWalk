@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SnmpWalk.Client.Views"
         mc:Ignorable="d"
         Title="Device Managent"
-        Height="300" Width="300"
+        Height="350" Width="500"
         MinHeight="300" MinWidth="400"
         DataContext="{Binding DeviceManagment,Source={StaticResource ViewModelLocator}}"
         WindowStartupLocation="CenterOwner"
