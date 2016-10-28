@@ -37,7 +37,7 @@ namespace SnmpWalk.Client.ViewModel
         private SnmpOperationType _currertSnmpOperation = SnmpOperationType.Get;
         private SnmpVersion _currentSnmpVersion = SnmpVersion.V1;
         private List<SnmpResult> _snmpResults;
-        private Visibility __stopCancelToolBarVisibility = Visibility.Collapsed;
+        private Visibility _stopCancelToolBarVisibility = Visibility.Collapsed;
 
         private string _ipAddress;
         private string _hostName;
@@ -106,10 +106,10 @@ namespace SnmpWalk.Client.ViewModel
 
         public Visibility StopCancelToolBarVisibility
         {
-            get { return __stopCancelToolBarVisibility; }
+            get { return _stopCancelToolBarVisibility; }
             set
             {
-                __stopCancelToolBarVisibility = value;
+                _stopCancelToolBarVisibility = value;
                 RaisePropertyChanged();
             }
         }

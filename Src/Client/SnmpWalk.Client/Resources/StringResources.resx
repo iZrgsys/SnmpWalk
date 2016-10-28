@@ -168,11 +168,11 @@
   <data name="menu_item_help" xml:space="preserve">
     <value>View _Help</value>
   </data>
-  <data name="menu_item_new" xml:space="preserve">
-    <value>_New</value>
-  </data>
   <data name="menu_item_open" xml:space="preserve">
     <value>_Open</value>
+  </data>
+  <data name="menu_item_save" xml:space="preserve">
+    <value>_Save</value>
   </data>
   <data name="read_cmm_lbl" xml:space="preserve">
     <value>Read Community</value>

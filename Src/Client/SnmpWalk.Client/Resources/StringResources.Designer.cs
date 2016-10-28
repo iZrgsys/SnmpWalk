@@ -214,20 +214,20 @@ namespace SnmpWalk.Client.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to _New.
-        /// </summary>
-        public static string menu_item_new {
-            get {
-                return ResourceManager.GetString("menu_item_new", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to _Open.
         /// </summary>
         public static string menu_item_open {
             get {
                 return ResourceManager.GetString("menu_item_open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Save.
+        /// </summary>
+        public static string menu_item_save {
+            get {
+                return ResourceManager.GetString("menu_item_save", resourceCulture);
             }
         }
         
