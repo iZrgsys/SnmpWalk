@@ -30,7 +30,6 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
         private static readonly string CurrentDir = Directory.GetCurrentDirectory();
         private static readonly Lazy<XmlCommonLoader> CommonInstance = new Lazy<XmlCommonLoader>(() => new XmlCommonLoader());
         private static readonly List<Oid> ConfOids = new List<Oid>();
-        private static readonly Hashtable CodesTable = new Hashtable();
         private static readonly Hashtable BrandHashtable = new Hashtable();
 
         public static XmlCommonLoader Instance
@@ -44,11 +43,6 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
         public List<Oid> Oids
         {
             get { return ConfOids; }
-        }
-
-        public Hashtable AdditionalCodeTable
-        {
-            get { return CodesTable; }
         }
 
         public Hashtable BrandNameTable
@@ -114,20 +108,27 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
             return rootNode.Name.LocalName.Equals(CodesDir);
         }
 
+        public Hashtable InitAdditionalCodes(Oid oid)
+        {
+            if (!_codesInfo.Any(file => file.Name.Contains(oid.Name + Additions))) return null;
+
+            var codesTable = new Hashtable();
+            var value = DeserializeCodes(_codesInfo.First(file => file.Name.Contains(oid.Name + Additions)));
+            codesTable.Add(oid.Name, value);
+            return codesTable;
+        }
+
         private static List<Oid> InitializeCodes(List<Oid> oids)
         {
             for (var i = 0; i < oids.Count; i++)
             {
-                if (_codesInfo.Any(file => file.Name.Contains(oids[i].Name)) && !_codesInfo.Any(file => file.Name.Contains(oids[i].Name+Additions)))
+                if (_codesInfo.Any(file => file.Name.Contains(oids[i].Name)) && !_codesInfo.Any(file => file.Name.Contains(oids[i].Name + Additions)))
                 {
                     oids[i] = InitializeCode(oids[i], _codesInfo.First(file => file.Name.Contains(oids[i].Name)));
                 }
 
                 if (_codesInfo.Any(file => file.Name.Contains(oids[i].Name + Additions)))
                 {
-                    if (CodesTable.ContainsKey(oids[i].Name)) continue;
-                    var value = DeserializeCodes(_codesInfo.First(file => file.Name.Contains(oids[i].Name + Additions)));
-                    CodesTable.Add(oids[i].Name, value);
                     oids[i].HasAdditionalCodes = true;
                 }
             }
@@ -143,7 +144,7 @@ namespace SnmpWalk.Engines.SnmpEngine.ConfigurationLoader
 
             using (var reader = new StreamReader(fileInfo.OpenRead()))
             {
-                codes = (Codes) serializer.Deserialize(reader);
+                codes = (Codes)serializer.Deserialize(reader);
             }
 
             return codes;

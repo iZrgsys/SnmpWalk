@@ -28,7 +28,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             set { _timeOut = value; }
         }
 
-        public IEnumerable<SnmpResult> Get(SnmpVersion version, string octetString, Oid oid, IPAddress ipAddress = null, string hostname = null)
+        public IEnumerable<SnmpResult> Get(SnmpVersion version, string octetString, Oid oid, IPAddress ipAddress = null, string hostname = null, string userLoginV3 = null, string passwordV3 = null)
         {
 
             if (ipAddress != null)
@@ -43,7 +43,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             return null;
         }
 
-        public IEnumerable<SnmpResult> GetNext(SnmpVersion version, string octetString, Oid oid, IPAddress ipAddress = null, string hostname = null)
+        public IEnumerable<SnmpResult> GetNext(SnmpVersion version, string octetString, Oid oid, IPAddress ipAddress = null, string hostname = null, string userLoginV3 = null, string passwordV3 = null)
         {
             if (ipAddress != null)
             {
@@ -57,8 +57,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             return null;
         }
 
-        public IEnumerable<SnmpResult> GetBulk(SnmpVersion version, int maxBulkRepetiotions, string octetString, Oid oid,
-            IPAddress ipAddress = null, string hostname = null)
+        public IEnumerable<SnmpResult> GetBulk(SnmpVersion version, int maxBulkRepetiotions, string octetString, Oid oid, IPAddress ipAddress = null, string hostname = null, string userLoginV3 = null, string passwordV3 = null)
         {
             if (ipAddress != null)
             {
@@ -72,8 +71,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             return null;
         }
 
-        public IEnumerable<SnmpResult> Walk(SnmpVersion version, string octetString, Oid oid, WalkingMode walkMode, IPAddress ipAddress = null,
-            string hostname = null)
+        public IEnumerable<SnmpResult> Walk(SnmpVersion version, string octetString, Oid oid, WalkingMode walkMode, IPAddress ipAddress = null, string hostname = null, string userLoginV3 = null, string passwordV3 = null)
         {
             if (ipAddress != null)
             {
@@ -87,8 +85,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             return null;
         }
 
-        public IEnumerable<SnmpResult> WalkBulk(SnmpVersion version, int maxBulkRepetiotions, string octetString, Oid oid, WalkingMode walkMode,
-            IPAddress ipAddress = null, string hostname = null)
+        public IEnumerable<SnmpResult> WalkBulk(SnmpVersion version, int maxBulkRepetiotions, string octetString, Oid oid, WalkingMode walkMode, IPAddress ipAddress = null, string hostname = null, string userLoginV3 = null, string passwordV3 = null)
         {
             if (ipAddress != null)
             {
@@ -176,7 +173,7 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             _log.Info("SnmpEngine.WalkWithAdditionalCodes(): Started oid: " + oid.Value);
             var list = new List<Variable>();
             var results = new List<SnmpResult>();
-            var codesTable = XmlLoader.AdditionalCodeTable;
+            var codesTable = XmlLoader.InitAdditionalCodes(oid);
             var codes = (Codes)codesTable[oid.Name];
 
             if (codes != null)
@@ -220,6 +217,8 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
                 }
             }
 
+            codesTable.Clear();
+
             _log.Info("SnmpEngine.WalkWithAdditionalCodes(): Finished");
             return results;
         }
@@ -261,7 +260,8 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
             _log.Info("SnmpEngine.WalkWithAdditionalCodes(): Started oid: " + oid.Value);
             var list = new List<Variable>();
             var results = new List<SnmpResult>();
-            var codesTable = XmlLoader.AdditionalCodeTable;
+            
+            var codesTable = XmlLoader.InitAdditionalCodes(oid);
             var codes = (Codes)codesTable[oid.Name];
 
             if (codes != null)
@@ -295,6 +295,8 @@ namespace SnmpWalk.Engines.SnmpEngine.Service
                     }
                 }
             }
+
+            codesTable.Clear();
 
             _log.Info("SnmpEngine.WalkWithAdditionalCodes(): Finished");
             return results;
